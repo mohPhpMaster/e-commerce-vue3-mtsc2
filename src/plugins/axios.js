@@ -1,4 +1,4 @@
-import * as a from 'axios';
+import a from 'axios';
 import swal from "sweetalert";
 
 const JSON_MODE = true;
