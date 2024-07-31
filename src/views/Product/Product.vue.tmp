@@ -1,0 +1,103 @@
+<template>
+    <div class="container">
+        <div class="row pt-5">
+            <!--            Leave some empty space in left-->
+            <div class="col-md-1">
+            </div>
+	        <!--                Display the image in left side-->
+            <div class="col-md-4 col-12">
+                <img :alt="product?.name" :src="parseImageUrl(product?.imageUrl,'')" class="img-fluid">
+            </div>
+	        <!-- Display product name category name and product description-->
+            <div class="col-md-6 col-12 pt-3 pt-md-0">
+                <h4>{{ product?.name }}</h4>
+
+                <h6 class="category font-italic">{{ product?.name }}</h6>
+
+                <p><span class="font-weight-bold">Description: -</span> <br>{{ product?.description }}</p>
+
+                <div class="d-flex flex-row justify-content-between">
+                    <div class="input-group col-md-3 col-4 p-0">
+                        <div class="input-group-prepend">
+                            <span id="basic-addon1" class="input-group-text">Quantity</span>
+                        </div>
+                        <input v-model="quantity" class="form-control" type="number" />
+                    </div>
+	                <!-- wishlist button -->
+                    <button
+		                    id="wishlist-button" class="btn mr-3 p-1 py-0" style="background-color: #b3a594"
+		                    @click="addToWishList(this.id)"
+                    >
+                        Add to wishlist
+                    </button>
+
+	                <!-- Add to cart button-->
+                    <button id="add-to-cart-button" class="btn" type="button" @click="addToCart(this.id)">
+                        Add to Cart
+                        <ion-icon v-pre name="cart-outline"></ion-icon>
+                    </button>
+                </div>
+
+	            <!-- Dummy placeholder features -->
+                <div class="features pt-3 d-none">
+                    <h5><strong>Features</strong></h5>
+                    <ul>
+                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
+                        <li>Officia quas, officiis eius magni error magnam voluptatem</li>
+                        <li>nesciunt quod! Earum voluptatibus quaerat dolorem doloribus</li>
+                        <li>molestias ipsum ab, ipsa consectetur laboriosam soluta et</li>
+                        <li>ut doloremque dolore corrupti, architecto iusto beatae.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import ProductBox from '../../components/Product/ProductBox';
+import {mapGetters} from "vuex";
+import parseImageUrl from "@/utils/parseImageUrl";
+
+export default {
+  name: 'Product',
+	methods: {
+		parseImageUrl,
+
+		async loadProduct() {
+			if (!this.product || String(this.product.id).trim() !== this.id) {
+				await this.$store.dispatch('fetchProduct', this.id);
+			}
+		},
+	},
+  components : {ProductBox},
+	computed : {
+		...mapGetters(["product"]),
+		id() {
+			return String(this.$route.params.id).trim()
+		}
+	},
+  mounted(){
+	  this.loadProduct()
+  }
+}
+</script>
+
+<style scoped>
+
+.card{
+  width : 20rem;
+  height : 24rem;
+}
+
+h4 {
+  font-family: 'Roboto', sans-serif;
+  color: #484848;
+  font-weight: 700;
+}
+
+#add-product {
+  float: right;
+  font-weight: 500;
+}
+</style>

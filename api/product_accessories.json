@@ -1,0 +1,46 @@
+{
+  "data": [
+    {
+      "id": "20",
+      "name": "Accessory 20",
+      "imageUrl": "http://ecommerce.mtsc.tech/public/uploads/products/images/15_4.jpg",
+      "group": "group 1",
+      "group_id": 1,
+      "is_required": "1",
+      "price": "20.0",
+      "qty": "1"
+    },
+    {
+      "id": "21",
+      "name": "Accessory 21",
+      "imageUrl": "http://ecommerce.local:8080/img/02.jpg",
+      "group": "group 1",
+      "group_id": 1,
+      "is_required": "1",
+      "price": "1.0",
+      "qty": "5"
+    },
+    {
+      "id": "22",
+      "name": "Accessory 22",
+      "imageUrl": "http://ecommerce.local:8080/img/05.jpg",
+      "group": "group 1",
+      "group_id": 1,
+      "is_required": "1",
+      "price": "22.0",
+      "qty": "2"
+    },
+    {
+      "id": "23",
+      "name": "Accessory 23",
+      "imageUrl": "http://ecommerce.local:8080/img/07.jpg",
+      "group": "group 1",
+      "group_id": 1,
+      "is_required": "1",
+      "price": "33.0",
+      "qty": "3"
+    }
+  ],
+  "status": "success",
+  "message": "product accessories retrieved successfully"
+}

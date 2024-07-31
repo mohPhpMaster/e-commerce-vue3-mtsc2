@@ -1,0 +1,199 @@
+<template>
+        <div class="table-responsive overflow-auto text-wrap">
+        <div class="d-flex justify-content-start">
+            <div
+		            v-for="(product_different,index) in product_differents || []"
+		            :key="index"
+		            class="col col-12 col-lg-4 col-md-4 col-sm-10 py-3"
+		            @click.prevent="productCardClicked($event,product_different)"
+		            @mousemove="productCardHover($event,product_different)"
+		            @mouseenter="productCardHover($event,product_different)"
+		            @mouseleave="productCardLeave($event,product_different)"
+            >
+						  <div
+								  class="card h-100 pointer block-select-product my-2"
+								  :class="{
+								'product-box-selected product-box': isProductSelected(product_different)
+							}"
+						  >
+							  <div v-if="product_different?.name" class="ribbon"><span>{{ product_different?.name }}</span></div>
+							  <div class="embed-responsive embed-responsive-16by9">
+							    <img
+									    :src="parseImageUrl(product_different.imageUrl)"
+									    alt="Product Image"
+									    class="card-img-top embed-responsive-item"
+							    >
+							  </div>
+							  <div class="card-body">
+							    <div class="item-wrapper">
+							      <div class="item-price pull-left">
+							        <h6 class="item-price"><sup>{{ siteCurrency }}</sup>{{ product_different.price }}</h6>
+							      </div>
+							    </div>
+							    <h5 class="card-title">{{ parseProductName(product_different) }}</h5>
+							    <div class="card-text font-italic">
+							      <p>{{ parseProductDescription(product_different?.description) }}</p>
+							    </div>
+
+									<div class="card-footer item-options p-0 d-flex">
+										<span
+												:class="{
+														'btn-dark': isHovered[product_different?.id] || isProductSelected(product_different) || false,
+														'btn-outline-dark': !(isHovered[product_different?.id] || isProductSelected(product_different) || false),
+													}" class="btn btn-select-product w-100" title="اختر"
+										>اختر</span>
+									</div>
+							  </div>
+						  </div>
+
+		        </div>
+        </div>
+        </div>
+</template>
+
+<script>
+import {mapGetters} from 'vuex';
+import productParser from "@/utils/productParser";
+import ProductBox from "@/components/Product/ProductBox.vue";
+
+export default {
+	name: "AddProductDifferents",
+	mixins: [productParser],
+	components: {ProductBox},
+	props: {
+		productsCount: {
+			type: Number,
+			default: () => 4
+		},
+		select: {
+			type: [Object, Number, null],
+			default: () => null
+		}
+	},
+	data() {
+		return {
+			selectedProduct: null,
+			isHovered: {}
+		}
+	},
+	methods: {
+		productCardClicked(event, product_different) {
+			this.selectedProduct = product_different;
+			this.$emit('updated', product_different);
+			this.productCardHover(event,product_different);
+		},
+		async loadProductDifferents() {
+			await this.$nextTick(async () => {
+				await this.$store.dispatch('fetchProductDifferents', this?.product?.id);
+
+				this.selectedProduct = this.selectedProduct || this?.product_differents?.[0] || null;
+			});
+		},
+		productCardHover($event,product) {
+			// if (!this.isProductSelected(product)) {
+			// 	return
+			// }
+
+			this.isHovered[product?.id] = true;
+		},
+		productCardLeave($event, product) {
+			// if (!this.isProductSelected(product)) {
+			// 	return
+			// }
+
+			this.isHovered[product?.id] = false;
+		},
+		isProductSelected(product) {
+			let is_selected = String(this.selectedProduct?.id).trim() === String(product?.id).trim();
+			return is_selected;
+		}
+	},
+	mounted() {
+		this.loadProductDifferents();
+	},
+	computed: {
+		...mapGetters(['siteCurrency', "product_differents",'product']),
+	},
+	watch: {
+		select(n, o) {
+			if (!n && this.selectedProduct?.id) {
+				this.selectedProduct = null;
+			} else if (!this.selectedProduct?.id) {
+				this.loadProductDifferents();
+			}
+		}
+	}
+}
+</script>
+
+<style scoped>
+.overflow-auto {
+	overflow: auto;
+}
+.overflow-hidden {
+	overflow: hidden;
+}
+.overflow-visible {
+	overflow: visible;
+}
+.overflow-scroll {
+	overflow: scroll;
+}
+.embed-responsive .card-img-top {
+	object-fit: cover;
+}
+
+.product-box-selected {
+	-webkit-transform: translateY(-5px);
+	-ms-transform: translateY(-5px);
+	transform: translateY(-5px);
+	box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.25);
+}
+
+.product-box:not(.product-box-selected):hover {
+	-webkit-transform: none;
+	-ms-transform: none;
+	transform: none;
+	box-shadow: none;
+}
+
+/*
+
+.block-select-product {
+	pointer-events: none;
+}
+
+.btn-select-product {
+	pointer-events: auto;
+}
+ */
+
+.btn-compare {
+	display: flow;
+}
+
+.checkbox-label:not(.required) {
+	cursor: pointer;
+}
+
+.checkbox-label {
+	display: block;
+	padding: 10px;
+	/*border: 1px solid var(--primary);
+	color: var(--primary);*/
+	cursor: not-allowed;
+	text-align: center;
+}
+
+.hidden-checkbox {
+	display: none;
+}
+
+.product-different-name {
+	font-size: medium;
+}
+
+.product-different-qty-price {
+	font-size: small;
+}
+</style>

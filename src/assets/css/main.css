@@ -1,0 +1,102 @@
+a {
+    color: #484848D6;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #484848;
+    text-decoration: none;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.product-box {
+    margin-bottom: 2.2rem;
+    border: 1px solid !important;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.product-box:hover {
+    -webkit-transform: translateY(-5px);
+    -ms-transform: translateY(-5px);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.25);
+}
+
+.card .ribbon::before {
+    top: 0px;
+    right: 15px;
+}
+
+.card .ribbon::before, card .ribbon::after {
+    position: absolute;
+    content: "";
+    z-index: -1;
+    display: block;
+    border: 7px solid #ba24f0;
+    border-top-color: transparent;
+    border-left-color: transparent;
+}
+
+.card .ribbon span {
+    position: absolute;
+    top: 41px;
+    right: 0;
+    transform: rotate(-45deg);
+    width: 200px;
+    background: #ba24f0;
+    padding: 5px 0;
+    color: #fff;
+    text-align: center;
+    font-size: 17px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
+    z-index: 1;
+}
+
+.card .ribbon {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: -7px;
+    left: -5px;
+    overflow: hidden;
+}
+
+.products-box {
+    display: grid;
+    grid: auto-flow / repeat(3, 80px);
+    width: auto;
+    justify-content: space-evenly;
+}
+
+
+.item-wrapper {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.products-box {
+    overflow: auto;
+}
+
+.item-options .btn {
+    margin: 0 1px !important;
+}
+
+.text-start {
+    text-align: start;
+}
+
+.text-end {
+    text-align: end;
+}

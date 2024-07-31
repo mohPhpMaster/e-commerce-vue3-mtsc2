@@ -1,0 +1,9 @@
+{
+  "data": [
+    "http://ecommerce.local:8080/img/02.jpg",
+    "http://ecommerce.local:8080/img/07.jpg",
+    "http://ecommerce.local:8080/img/05.jpg"
+  ],
+  "status": "success",
+  "message": "carousel sliders retrieved successfully"
+}

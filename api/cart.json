@@ -1,0 +1,19 @@
+{
+  "data": {
+    "items": [
+      {
+        "id": 1,
+        "name": "حامل اكواب 1",
+        "slug": "1-cup-holder",
+        "price": "100.00",
+        "price_after_discount": "90.00",
+        "qty": "1",
+        "total": "449.00",
+        "imageUrl": "http://ecommerce.mtsc.tech/public/uploads/products/images/15_4.jpg"
+      }
+    ],
+    "total": "150.00"
+  },
+  "status": "success",
+  "message": "cart retrieved successfully"
+}

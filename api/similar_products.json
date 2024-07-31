@@ -1,0 +1,61 @@
+{
+  "data": [
+    {
+      "id": 4,
+      "name": "Product 4",
+      "slug": "4-product-4",
+      "description": "Description for product 3",
+      "label": "",
+      "brand": "Nvidia",
+      "brand_id": 3,
+      "brand_slug": "3-nvidia",
+      "price": 450,
+      "price_after_discount": 449,
+      "rating": "3",
+      "imageUrl": "https://www.pngitem.com/pimgs/m/484-4847451_dome-of-the-rock-clipart-transparent-png-free.png"
+    },
+    {
+      "id": 11,
+      "name": "منتج 1",
+      "slug": "11-product-1",
+      "description": "Description for product 1",
+      "label": "عرض خاص",
+      "brand": "Intel",
+      "brand_id": 2,
+      "brand_slug": "2-intel",
+      "price": 100,
+      "price_after_discount": 99,
+      "rating": "0",
+      "imageUrl": "http://ecommerce.mtsc.tech/public/app-assets/images/logo/logo-primary.png"
+    },
+    {
+      "id": 21,
+      "name": "منتج 2",
+      "slug": "21-product-2",
+      "description": "Description for product 2",
+      "label": "",
+      "brand": "Nvidia",
+      "brand_id": 3,
+      "brand_slug": "3-nvidia",
+      "price": 150,
+      "price_after_discount": 149,
+      "rating": "1",
+      "imageUrl": "http://ecommerce.mtsc.tech/public/uploads/products/images/15_4.jpg"
+    }
+  ],
+  "links": {
+    "first": "http://127.0.0.1:3000/api/products?page=1",
+    "last": null,
+    "prev": null,
+    "next": "http://127.0.0.1:3000/api/products?page=2"
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "path": "http://127.0.0.1:3000/api/products",
+    "per_page": 6,
+    "to": 6
+  },
+  "status": "success",
+  "message": "similar products retrieved successfully"
+}

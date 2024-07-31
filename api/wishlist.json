@@ -1,0 +1,171 @@
+{
+  "data": [
+    {
+      "id": 4,
+      "name": "Product 4",
+      "slug": "4-product-4",
+      "description": "Description for product 3",
+      "label": "",
+      "brand": "Nvidia",
+      "brand_id": 3,
+      "brand_slug": "3-nvidia",
+      "price": 450,
+      "price_after_discount": 449,
+      "rating": "3",
+      "imageUrl": "https://www.pngitem.com/pimgs/m/484-4847451_dome-of-the-rock-clipart-transparent-png-free.png"
+    },
+    {
+      "id": 11,
+      "name": "منتج 1",
+      "slug": "11-product-1",
+      "description": "Description for product 1",
+      "label": "عرض خاص",
+      "brand": "Intel",
+      "brand_id": 2,
+      "brand_slug": "2-intel",
+      "price": 100,
+      "price_after_discount": 99,
+      "rating": "0",
+      "imageUrl": "http://ecommerce.mtsc.tech/public/app-assets/images/logo/logo-primary.png"
+    },
+    {
+      "id": 21,
+      "name": "منتج 2",
+      "slug": "21-product-2",
+      "description": "Description for product 2",
+      "label": "",
+      "brand": "Nvidia",
+      "brand_id": 3,
+      "brand_slug": "3-nvidia",
+      "price": 150,
+      "price_after_discount": 149,
+      "rating": "1",
+      "imageUrl": "http://ecommerce.mtsc.tech/public/uploads/products/images/15_4.jpg"
+    },
+    {
+      "id": 1,
+      "name": "حامل اكواب 1",
+      "slug": "1-cup-holder",
+      "description": "حامل اكواب من الزجاج امريكي خطيررر",
+      "label": "عرض خاص",
+      "brand": "BMW",
+      "brand_id": 1,
+      "brand_slug": "1-b-m-w",
+      "price": 100,
+      "price_after_discount": 90,
+      "rating": "0",
+      "imageUrl": "http://ecommerce.mtsc.tech/public/uploads/products/images/15_4.jpg",
+      "accessories": {
+        "data": [
+          {
+            "id": "20",
+            "name": "Accessory 20",
+            "slug": "20-accessory-20",
+            "type": "required",
+            "price": "20.0",
+            "qty": "1"
+          },
+          {
+            "id": "21",
+            "name": "Accessory 21",
+            "slug": "21-accessory-21",
+            "type": "optional",
+            "price": "1.0",
+            "qty": "5"
+          }
+        ]
+      },
+      "related": {
+        "data": []
+      },
+      "images": {
+        "data": []
+      },
+      "categories": {
+        "data": []
+      },
+      "different": "زجاجي",
+      "differents": {
+        "data": [
+          {
+            "id": 11145,
+            "name": "حامل اكواب 11145",
+            "slug": "11145-cup-holder",
+            "description": "حامل اكواب من الخشب امريكي خطيررر",
+            "price": 100,
+            "imageUrl": "http://ecommerce.local:8080/img/02.jpg",
+            "different": "خشبي"
+          },
+          {
+            "id": 1112,
+            "name": "حامل اكواب 1112",
+            "slug": "1112-cup-holder",
+            "description": "حامل اكواب من الستيل امريكي خطيررر",
+            "price": 10,
+            "imageUrl": "http://ecommerce.local:8080/img/05.jpg",
+            "different": "ستيل"
+          },
+          {
+            "id": 11125,
+            "name": "حامل اكواب 111125",
+            "slug": "11125-cup-holder",
+            "description": "حامل اكواب من نايلون امريكي خطيررر",
+            "price": 45,
+            "imageUrl": "http://ecommerce.local:8080/img/07.jpg",
+            "different": "نايلون"
+          },
+          {
+            "id": 11126,
+            "name": "حامل اكواب 11126",
+            "slug": "11126-cup-holder",
+            "description": "حامل اكواب من هوا امريكي خطيررر",
+            "price": 5000,
+            "imageUrl": "https://via.placeholder.com/100x100",
+            "different": "هوا"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Product 2",
+      "slug": "2-product-2",
+      "description": "Description for product 2",
+      "label": "",
+      "brand": "",
+      "brand_id": null,
+      "price": 150,
+      "price_after_discount": 0,
+      "rating": "1",
+      "imageUrl": "http://ecommerce.mtsc.tech/public/app-assets/images/logo/logo-primary.png"
+    },
+    {
+      "id": 3,
+      "name": "Product 3",
+      "slug": "3-product-3",
+      "description": "Description for product 3",
+      "label": "10%",
+      "brand": "Intel",
+      "brand_id": 2,
+      "brand_slug": "2-intel",
+      "price": 250,
+      "rating": "2",
+      "imageUrl": "https://via.placeholder.com/300x300"
+    }
+  ],
+  "links": {
+    "first": "http://127.0.0.1:3000/api/products?page=1",
+    "last": null,
+    "prev": null,
+    "next": "http://127.0.0.1:3000/api/products?page=2"
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "path": "http://127.0.0.1:3000/api/products",
+    "per_page": 6,
+    "to": 6
+  },
+  "status": "success",
+  "message": "wishlisted products retrieved successfully"
+}

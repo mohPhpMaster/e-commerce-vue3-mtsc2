@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "حامل اكواب 1",
+      "slug": "1-cup-holder",
+      "description": "حامل اكواب من الزجاج امريكي خطيررر",
+      "brand": "BMW",
+      "price": 100,
+      "price_after_discount": 90,
+      "rating": "0",
+      "imageUrl": "http://ecommerce.mtsc.tech/public/uploads/products/images/15_4.jpg",
+      "different": "زجاجي"
+    }
+  ],
+  "status": "success",
+  "message": "products search retrieved successfully"
+}

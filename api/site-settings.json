@@ -1,0 +1,7 @@
+{
+  "status": "success",
+  "message": "site settings retrieved successfully",
+  "data": {
+    "currency": "SR"
+  }
+}

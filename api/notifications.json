@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "message": "Your order has been shipped.",
+      "date": "2024-07-22T12:00:00Z"
+    },
+    {
+      "id": 2,
+      "message": "Your wishlist product is on sale.",
+      "date": "2024-07-22T12:00:00Z"
+    }
+  ],
+  "status": "success",
+  "message": "notifications retrieved successfully"
+}

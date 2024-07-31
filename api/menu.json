@@ -1,0 +1,30 @@
+{
+  "status": "success",
+  "message": "menus retrieved successfully",
+  "data": [
+    {
+      "id": 5,
+      "name": "سحبة يو ويل كاليبرن جي تو",
+      "slug": "5-draw-you-will-caliburn-g2",
+      "imageUrl": "15_4.jpg",
+      "sub_categories": {
+        "data": [
+          {
+            "id": "7",
+            "slug": "7-sub-category-1",
+            "name": "sub category 1",
+            "sub_categories": {
+              "data": []
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "القسم الثاني",
+      "slug": "6-second-category",
+      "imageUrl": "15_4.jpg"
+    }
+  ]
+}

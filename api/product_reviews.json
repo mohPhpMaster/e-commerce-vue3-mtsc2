@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "user": "محمد عبده",
+      "rating": "5",
+      "comment": "هذا المنتج جيد جدا\n\nشكرا لكم",
+      "date": "2020-01-01"
+    },
+    {
+      "user": "Love Sara",
+      "rating": "1",
+      "comment": "هذا المنتج ليس جيدًا\n عليكم الراحة الكريم\n\nشكرا لكم\nالسلام عليكم ورحمة الله وبركاته هل تسمعونني كانكم لا تسمعونني ما  عاش من مات وكل ميت هو بالاصل عايشننن والسلاحف النينجا ترتل تقدم باستلام الخابور يلا الله معك حبيبي مع السلامعليكووووو",
+      "date": "2024-07-10"
+    }
+  ],
+  "links": {
+    "first": "http://127.0.0.1:3000/api/products?page=1",
+    "last": null,
+    "prev": null,
+    "next": "http://127.0.0.1:3000/api/products?page=2"
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "path": "http://127.0.0.1:3000/api/products",
+    "per_page": 6,
+    "to": 6
+  },
+  "status": "success",
+  "message": "product reviews retrieved successfully"
+}

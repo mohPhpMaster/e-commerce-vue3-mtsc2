@@ -1,0 +1,70 @@
+{
+  "data": {
+    "id": 1,
+    "name": "حامل اكواب 1",
+    "slug": "1-cup-holder",
+    "description": "حامل اكواب من الزجاج امريكي خطيررر",
+    "label": "عرض خاص",
+    "brand": "BMW",
+    "brand_id": 1,
+    "brand_slug": "1-b-m-w",
+    "price": 100,
+    "price_after_discount": 90,
+    "rating": "0",
+    "imageUrl": "http://ecommerce.mtsc.tech/public/uploads/products/images/15_4.jpg",
+    "accessories": [
+      {
+        "id": "20",
+        "name": "Accessory 20",
+        "type": "required",
+        "price": "20.0",
+        "qty": "1"
+      },
+      {
+        "id": "21",
+        "name": "Accessory 21",
+        "type": "optional",
+        "price": "1.0",
+        "qty": "5"
+      }
+    ],
+    "related": [],
+    "images": [],
+    "categories": [],
+    "different": "زجاجي",
+    "differents": [
+      {
+        "id": 11145,
+        "name": "حامل اكواب 11145",
+        "description": "حامل اكواب من الخشب امريكي خطيررر",
+        "price": 100,
+        "imageUrl": "http://ecommerce.local:8080/img/02.jpg",
+        "different": "خشبي"
+      },
+      {
+        "id": 1112,
+        "name": "حامل اكواب 1112",
+        "description": "حامل اكواب من الستيل امريكي خطيررر",
+        "price": 10,
+        "imageUrl": "http://ecommerce.local:8080/img/05.jpg",
+        "different": "ستيل"
+      },
+      {
+        "id": 11125,
+        "name": "حامل اكواب 11125",
+        "description": "حامل اكواب من نايلون امريكي خطيررر",
+        "price": 45,
+        "imageUrl": "http://ecommerce.local:8080/img/07.jpg",
+        "different": "نايلون"
+      },
+      {
+        "id": 11126,
+        "name": "حامل اكواب 11126",
+        "description": "حامل اكواب من هوا امريكي خطيررر",
+        "price": 5000,
+        "imageUrl": "https://via.placeholder.com/100x100",
+        "different": "هوا"
+      }
+    ]
+  }
+}

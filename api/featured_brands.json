@@ -1,0 +1,24 @@
+{
+  "status": "success",
+  "message": "featured brands retrieved successfully",
+  "data": [
+    {
+      "id": "1",
+      "name": "BMW",
+      "slug": "1-b-m-w",
+      "imageUrl": "https://via.placeholder.com/50x50"
+    },
+    {
+      "id": "2",
+      "name": "Intel",
+      "slug": "2-intel",
+      "imageUrl": "https://via.placeholder.com/100x100"
+    },
+    {
+      "id": "3",
+      "name": "Nvidia",
+      "slug": "3-nvidia",
+      "imageUrl": "https://via.placeholder.com/150x150"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "status": "success",
+  "message": "brands retrieved successfully",
+  "data": [
+    {
+      "id": 3,
+      "name": "Product 3",
+      "slug": "3-product-3",
+      "description": "Description for product 3",
+      "label": "10%",
+      "brand": "Intel",
+      "brand_id": 2,
+      "brand_slug": "2-intel",
+      "price": 250,
+      "rating": "2",
+      "imageUrl": "https://via.placeholder.com/300x300"
+    },
+    {
+      "id": 11,
+      "name": "منتج 1",
+      "slug": "11-product-1",
+      "description": "Description for product 1",
+      "label": "عرض خاص",
+      "brand": "Intel",
+      "brand_id": 2,
+      "brand_slug": "2-intel",
+      "price": 100,
+      "price_after_discount": 99,
+      "rating": "0",
+      "imageUrl": "http://ecommerce.mtsc.tech/public/app-assets/images/logo/logo-primary.png"
+    },
+    {
+      "id": 31,
+      "name": "منتج 3",
+      "slug": "31-product-3",
+      "description": "Description for product 3",
+      "label": "10%",
+      "brand": "Intel",
+      "brand_id": 2,
+      "brand_slug": "2-intel",
+      "price": 250,
+      "price_after_discount": 230,
+      "rating": "2",
+      "imageUrl": "https://www.pngitem.com/pimgs/m/484-4847451_dome-of-the-rock-clipart-transparent-png-free.png"
+    }
+  ]
+}

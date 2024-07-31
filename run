@@ -1,0 +1,6 @@
+# nvm use 14
+# npm run serve
+# npx vue-cli-service serve --host=ecommerce.local --port=8080 --open
+
+nvm use v16.20.2
+npx vue-cli-service serve --open
