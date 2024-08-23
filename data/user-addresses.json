@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "label": "Home",
+      "address": "123 Main St, Anytown, SA",
+      "long": "12.123",
+      "lat": "12.123",
+      "is_default": true
+    },
+    {
+      "id": 2,
+      "label": "Home 2",
+      "address": "123 Main St, Anytown, SA 2",
+      "long": "16.123",
+      "lat": "16.123",
+      "is_default": false
+    }
+  ],
+  "status": "success",
+  "message": "user addresses retrieved successfully"
+}

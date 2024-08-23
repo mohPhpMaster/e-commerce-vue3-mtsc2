@@ -85,7 +85,7 @@ export const useUtilityStore = defineStore("utility", () => {
         }
 
         modalId.value = id;
-        product = item;
+        product.value = item;
         productStore.handleImageActive(item ? item?.images?.[0] : "");
         cartStore.initialOrderQuantity()
     };

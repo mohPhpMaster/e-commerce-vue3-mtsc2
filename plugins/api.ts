@@ -30,6 +30,7 @@ export const api = {
     productAccessoriesGroupsData,
     siteSettingsData,
     cartFeesData,
+    userAddressesData,
 };
 
 export default defineNuxtPlugin(() => {
