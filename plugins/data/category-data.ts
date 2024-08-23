@@ -16,7 +16,7 @@ export async function categoryData({prepend = [], append = [], page = 1, slug = 
             page = page < 1 ? 1 : page;
         }
 
-        slug = slug || useRoute()?.params?.category;
+        slug = slug || "";//useRoute()?.params?.category;
         if (slug) {
             // let id = String(slug.split('-').shift());
             // slug = id ? `/${id}/products` : '';
@@ -29,7 +29,6 @@ export async function categoryData({prepend = [], append = [], page = 1, slug = 
         const transformedCategories: Awaited<ICategory>[] = await Promise.all(categories.map(convertCategoryResponse));
         return [...prepend, ...transformedCategories, ...append];
     } catch (error) {
-        debugger
         console.error('Error fetching category data:', error);
         return [];
     }

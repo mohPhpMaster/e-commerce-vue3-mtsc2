@@ -19,6 +19,8 @@ export const useUtilityStore = defineStore("utility", () => {
     // product modal
     let modalId = ref<string | null>('product-modal-641e887d05f9ee1717e1348a');
     let product = ref<IProduct | null>(product_data.value?.[0]);
+    // let product = useState<IProduct | null>('product', {value: product_data.value?.[0]});
+
     // video modal
     const videoUrl = ref<string>('https://www.youtube.com/embed/EW4ZYb3mCZk')
     const isVideoOpen: Ref<boolean> = ref(false);
@@ -83,7 +85,7 @@ export const useUtilityStore = defineStore("utility", () => {
         }
 
         modalId.value = id;
-        product.value = item;
+        product = item;
         productStore.handleImageActive(item ? item?.images?.[0] : "");
         cartStore.initialOrderQuantity()
     };

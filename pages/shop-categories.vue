@@ -11,5 +11,8 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * @deprecated not used
+ */
 useSeoMeta({ title: "Shop Category Page" });
 </script>

@@ -12,19 +12,20 @@ export const useCategoryStore = defineStore("category", () => {
     let openFilterOffcanvas = ref<boolean>(false);
     let currentPage = ref<number>(1); // page number value as ref
 
-    const loadCategories = async function ({name= 'default' }={}) {
+    const loadCategories = async function (args: {
+        prepend?: ICategory[],
+        append?: ICategory[],
+        page?: number,
+        slug?: string
+    } = {}) {
         return api.categoryData({
-            page: currentPage.value
+            page: currentPage.value,
+            ...args
         })
             .then(data => {
                 categories_data.value = data;
 
-                handleImageActive(categories_data.value[0]?.img || "");
-                _data.value = {
-                    ..._data.value,
-                    [name || 'default']: data
-                };
-
+                handleImageActive(data?.[0]?.img || "");
                 return data;
             })
     };

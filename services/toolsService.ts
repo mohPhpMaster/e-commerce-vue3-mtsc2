@@ -8,7 +8,7 @@ import type {IBrand} from "@/types/brand-d-t";
 const idKey = ["slug","sku"];
 
 export default {
-    parseImageUrl(url = "", baseUrl = process.env.VUE_APP_IMAGES_URL) {
+    parseImageUrl(url = "", baseUrl = "") {
         baseUrl = baseUrl || "";
         baseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
         url = url.startsWith('/') ? url.slice(1) : url;
@@ -97,6 +97,6 @@ export default {
         return `/brand/${this.parseId(brand, brand?.slug)}`;
     },
     getDefaultNoImageUrl(): string {
-        return process.env?.VUE_APP_NO_IMAGE_URL || "/images/no-image.png";
+        return useRuntimeConfig()?.public?.noImageUrl || "";
     },
 }

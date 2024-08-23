@@ -23,6 +23,9 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * @deprecated not used
+ */
 import {categories_data, useCategoryStore} from '@/pinia/useCategoryStore';
 import toolsService from "@/services/toolsService";
 

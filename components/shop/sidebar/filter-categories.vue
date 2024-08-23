@@ -4,16 +4,11 @@
       <ul>
         <li v-for="category in category_data" :key="category.id">
           <a
-            @click.prevent="handleCategoryRoute(category.slug)"
-            :class="`pointer ${
-              activeQuery ===
-              category.parentName.toLowerCase().replace('&', '').split(' ').join('-')
-                ? 'active'
-                : ''
-            }`"
+            @click.prevent="toolsService.gotoCategory(category)"
+            :class="`pointer ${isActiveQuery(category) ? 'active' : ''}`"
           >
-            {{ category.parentName }}
-            <span>{{ category.products.length }}</span>
+            {{ toolsService.parseCategoryName(category) }}
+            <span>{{ category?.products?.length }}</span>
           </a>
         </li>
       </ul>
@@ -22,21 +17,25 @@
 </template>
 
 <script setup lang="ts">
-import {_data, useCategoryStore} from '@/pinia/useCategoryStore';
+import { useCategoryStore} from '@/pinia/useCategoryStore';
 import {onMounted} from "vue";
+import {api} from "@/plugins/api";
+import toolsService from "@/services/toolsService";
 
 const categoryStore = useCategoryStore();
-const category_data = computed(() => _data['filter-categories'] || []);
+const category_data = ref<ICategory[]>([] as ICategory[]);
 const router = useRouter();
 const route = useRoute();
 const activeQuery = computed(() => route.query.category);
 
 // handle category route
-const handleCategoryRoute = (slug: string) => {
-	router.push(`/category/${encodeURIComponent(slug)}`);
-};
+const isActiveQuery = (category: ICategory) => activeQuery.value === category.parentName.toLowerCase().replace('&', '').split(' ').join('-');
 
 onMounted(() => {
-	categoryStore.loadCategories({name: 'filter-categories'});
+	api.categoryData({
+		page: categoryStore.currentPage,
+		slug: ""
+	})
+			.then((d) => (category_data.value = d))
 })
 </script>

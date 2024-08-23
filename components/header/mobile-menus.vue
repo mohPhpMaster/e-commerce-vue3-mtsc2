@@ -6,11 +6,12 @@
 		        :key="menu.id"
 		        :class="`has-dropdown ${isActiveMenu === menu.title?'dropdown-opened':''}`"
         >
-          <a :class="`${isActiveMenu === menu.title?'expanded':''}`">
+          <a :class="`${isActiveMenu === menu.title?'expanded':''}`"
+             @click="handleOpenSubMenu(menu.title)"
+          >
             {{ menu.title }}
             <button
 		            :class="`dropdown-toggle-btn ${isActiveMenu === menu.title?'dropdown-opened':''}`"
-		            @click="handleOpenSubMenu(menu.title)"
             >
               <i class="fa-regular fa-angle-right"></i>
             </button>
@@ -29,11 +30,10 @@
 </template>
 
 <script lang="ts" setup>
-import getMenuData from '@/data/menu-data';
+import menu_data from "@/data/menu-data";
 
-const menu_data = await getMenuData();
-
-let isActiveMenu = ref<string>("");
+// const menu_data = ref<IMenuItem[]>([] as IMenuItem[]);
+const isActiveMenu = ref<string>("");
 
 const handleOpenSubMenu = (title: string) => {
 	if (title === isActiveMenu.value) {
@@ -42,4 +42,11 @@ const handleOpenSubMenu = (title: string) => {
 		isActiveMenu.value = title;
 	}
 };
+
+// onMounted(() => {
+	// api.menuData({
+	// 	slug: ""
+	// })
+	// 		.then((d) => console.log(51,menu_data.value = d))
+// });
 </script>

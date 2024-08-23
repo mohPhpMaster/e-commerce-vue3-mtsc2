@@ -57,12 +57,12 @@
 
         <div class="tp-product-price-wrapper-2">
           <div v-if="item.discount > 0">
-            <span class="tp-product-price-2 new-price">${{ item.net }} {{ " " }}</span>
+            <span class="tp-product-price-2 new-price">{{ utilityStore.currency(item.net) }} {{ " " }}</span>
             <span class="tp-product-price-2 old-price">
-              ${{ item.price }}
+              {{ utilityStore.currency(item.price) }}
             </span>
           </div>
-          <span v-else class="tp-product-price-2 new-price">${{ item.price }}</span>
+          <span v-else class="tp-product-price-2 new-price">{{ utilityStore.currency(item.price) }}</span>
         </div>
 
         <p>{{ item.description.slice(0, 100) }}</p>
@@ -91,9 +91,6 @@ const compareStore = useCompareStore();
 const cartStore = useCartStore();
 const wishlistStore = useWishlistStore();
 const utilityStore = useUtilityStore();
-
-onMounted(() => {
-});
 
 function isItemInWishlist(product: IProduct) {
   return wishlistStore.wishlists.some((prd) => prd.id === product.id);

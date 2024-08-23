@@ -4,6 +4,8 @@ import {api} from "@/plugins/api";
 import type {IProduct} from "@/types/product-d-t";
 import type {IFetchProductOptions} from "@/types/fetch-product-options-d-t";
 
+const _LOG = false;
+
 export let product_data = ref<IProduct[]>([]);
 const cache: { [url: string]: any } = ref<{ [url: string]: any }>([]);
 
@@ -21,7 +23,7 @@ export const useProductStore = defineStore("product", () => {
             slug,
             page: currentPage.value
         };
-        console.warn(22 + ':useProductStore', currentOptions.value)
+        _LOG && console.warn(22 + ':useProductStore', currentOptions.value)
 
         product_data.value = await api.productData(currentOptions.value, cache);
         activeImg.value = product_data.value[0]?.images?.[0] || "";

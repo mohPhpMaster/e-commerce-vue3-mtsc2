@@ -37,5 +37,8 @@
     "vue-timer-hook": "^1.0.84",
     "vue3-toastify": "^0.1.14",
     "yup": "^1.3.2"
+  },
+  "engines": {
+    "node": "18.20.3"
   }
 }

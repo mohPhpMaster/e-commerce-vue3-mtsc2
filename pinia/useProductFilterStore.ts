@@ -3,6 +3,8 @@ import {computed, ref, watch} from "vue";
 import {product_data, useProductStore} from "@/pinia/useProductStore";
 import type {IFetchProductOptions} from "@/types/fetch-product-options-d-t";
 
+const _LOG = false;
+
 export const useProductFilterStore = defineStore("product_filter", () => {
     const route = useRoute();
     const router = useRouter();
@@ -12,7 +14,7 @@ export const useProductFilterStore = defineStore("product_filter", () => {
     // const product_data = computed(() => product_data);
 
     const maxProductPrice = computed(()=> {
-        console.warn(15 + ':useProductFilterStore:maxProductPrice')
+        _LOG && console.warn(15 + ':useProductFilterStore:maxProductPrice')
             return product_data.value.reduce((max, product) => {
                 return Number(product?.net || 0) > max
                     ? Number(product?.net || 0)
@@ -24,28 +26,28 @@ export const useProductFilterStore = defineStore("product_filter", () => {
     let priceValues = ref([0, maxProductPrice.value]);
 
     const handlePageChange = (value: number) => {
-        console.warn(27 + ':useProductFilterStore:handlePageChange', value)
+        _LOG && console.warn(27 + ':useProductFilterStore:handlePageChange', value)
         productStore.updateCurrentPage(Math.ceil((value + 9) / 9));
     };
 
     const handlePriceChange = (value: number[]) => {
-        console.warn(32 + ':useProductFilterStore:handlePriceChange', value)
+        _LOG && console.warn(32 + ':useProductFilterStore:handlePriceChange', value)
         priceValues.value = value;
     };
 
     const handleResetFilter = () => {
-        console.warn(37 + ':useProductFilterStore:handleResetFilter')
+        _LOG && console.warn(37 + ':useProductFilterStore:handleResetFilter')
         priceValues.value = [0, maxProductPrice.value];
     };
 
     const loadProducts = (args?: IFetchProductOptions) => {
-        console.warn(42 + ':useProductFilterStore:loadProducts', args || {})
+        _LOG && console.warn(42 + ':useProductFilterStore:loadProducts', args || {})
         return productStore.loadProducts(args);
     }
 
     const filteredProducts = computed(() => {
         let filtered = [...product_data.value];
-        console.warn(48 + ':useProductFilterStore:filteredProducts', {filtered, product_data})
+        _LOG && console.warn(48 + ':useProductFilterStore:filteredProducts', {filtered, product_data})
         // Apply route-based filters (price, status, etc.)
         if (route.query.minPrice && route.query.maxPrice) {
             filtered = filtered.filter(

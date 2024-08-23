@@ -15,7 +15,13 @@
 </template>
 
 <script setup lang="ts">
-import getMenuData from '@/data/menu-data';
+import menu_data from '@/data/menu-data';
+// const menu_data = ref<IMenuItem[]>([] as IMenuItem[]);
 
-const menu_data = await getMenuData();
+// onMounted(() => {
+	// api.menuData({
+	// 	slug: ""
+	// })
+	// 		.then((d) => console.log(51,menu_data.value = d))
+// });
 </script>
