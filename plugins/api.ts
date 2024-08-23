@@ -13,6 +13,7 @@ import productDifferentsData from "@/plugins/data/product-differents-data";
 import productAccessoriesGroupsData from "@/plugins/data/product-accessories-groups-data";
 import siteSettingsData from "@/plugins/data/site-settings-data";
 import cartFeesData from "@/plugins/data/cart-fees-data";
+import userAddressesData from "@/plugins/data/user-addresses-data";
 
 export const api = {
     menuData,
