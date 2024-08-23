@@ -1,0 +1,41 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "p": "nuxt dev --host",
+    "dev": "nuxt dev --open",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@vue/compiler-sfc": "^3.4.38",
+    "less": "^4.2.0",
+    "nuxt": "^3.8.0",
+    "vue": "^3.3.7",
+    "vue-router": "^4.2.5",
+    "vue3-carousel-nuxt": "^1.1.2"
+  },
+  "dependencies": {
+    "@nuxt/types": "^2.18.1",
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/i18n": "^8.3.3",
+    "@pinia/nuxt": "^0.5.1",
+    "@vueform/slider": "^2.1.9",
+    "bootstrap": "^5.3.2",
+    "dayjs": "^1.11.10",
+    "pinia": "^2.1.7",
+    "sass": "^1.69.5",
+    "sweetalert": "^2.1.2",
+    "swiper": "^11.0.3",
+    "vee-validate": "^4.11.8",
+    "vue-clipboard3": "^2.0.0",
+    "vue-i18n": "^9.13.1",
+    "vue-timer-hook": "^1.0.84",
+    "vue3-toastify": "^0.1.14",
+    "yup": "^1.3.2"
+  }
+}

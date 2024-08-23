@@ -1,0 +1,728 @@
+{
+	"info": {
+		"_postman_id": "d0d6ce77-e65b-4c98-baad-809162306f7a",
+		"name": "ecommerceAdmin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15346503"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "vnnGRkplP5WcEPl2g9aIhNj0PDt7yIOdsmzn9slg",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}oauth/token",
+					"host": [
+						"{{url}}oauth"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiODNjYzI4ODVlZmI0OTFlMzdmNDM2ZWI5NzM2MDA1N2NjYWQ3NjczZjMwZDE2YzgxZmJmZDRkMDE5OTFmNGE5NzllNmM2MjBkOTEwMmNiMzgiLCJpYXQiOjE3MjI3NjAyODkuMzY0Nzg3LCJuYmYiOjE3MjI3NjAyODkuMzY0Nzg5LCJleHAiOjE3NTQyOTYyODkuMzE5OTYxLCJzdWIiOiI5NCIsInNjb3BlcyI6W119.oj5cFgqeCLbXPq3xovOejgz94mpZORGKgDe7-nk4eXbaNpiYQuELkIfcUDnTDjoQMm4mcWPa4yPsKqP3wRccmevF_oe0-TfTmE6rXSXQVWvZ18F9BR4mnQxXXTg6IHNQMZRfYv296kD8cPtoN5e8fT01YN4q4shG_yj8PoZwhuLe-voKtCF7W8lNaDcKsIeXc56tiPOu8cCCdqJlHVBndPw1rjRf0a4icE91xnJZ8-3zbHuZBBGi4DTz257SWHz5cKYXa09Ejc0hY4NPGudKXWOL3WdGaD6WVhZrLlGvb8D-YzwXY01TMy9QPSmjCcu8jfkmt3V9WcYYSezKu_cFWf4rPvkXWIr01oJonLZ_CpwLIZgtLmUJGy22YfRKnPSR_rNhhYSxPeZ6svDavkvVikt5rXRhMFMshJk6TGyd2LC2wx6hKqTVV5ABwf58hMuMYu0xLvT6i8hTy57oy-eCILk6mv_OVQMCvk2UKu62H6BxoQQsyD93O4n8qe2wN6HeE4DFrD2_-WCIa-o_tZGbqFdOSedjfRB108xR7SB92w-2ZyySKm6J2g6FEiTTOuo2AKXQbOEBvT1PuZYIJilf4UVvVwlpOE_7ht0jLUakSEw7oKoiVViUoECfQmNQk4VtFqNeW0kefF-GHL-M_Kz_PShLrGOWlZGiZdlw4kpQMzc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"omar30\",\r\n    \"email\": \"x@x.x\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/register",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiYzVlODYyYTgyZDkwMmM2ODNjOGY4MWJkODA0Mjk2YzdjZDA5M2ZlYTM5OTdiOWQ5NjUxZGJiM2FmZTgzYTRjNTgxODRhZDc4YTliNGVlMjAiLCJpYXQiOjE3MjI3NzE4NDcuMDU3NDI2LCJuYmYiOjE3MjI3NzE4NDcuMDU3NDMzLCJleHAiOjE3NTQzMDc4NDcuMDI5MDY5LCJzdWIiOiIyMDkiLCJzY29wZXMiOlsiKiJdfQ.DAaWCyxVzKLhu6ecyYWkXN7Q0NSBZ7YvJ_LlJrtCvh-CUNbZMnX2UFBncAXS87c25DJhTbpfm1QD8n8SKW4B9XV_Te4tclfaaO_OMOc8_6MLD_1uvTPRqY7KNSqiXs5OhRfTuhUOozWQ8tJQ6B3KxMvdsLcLoGyx8OGog-R0qelWDhmna69SVfCduqe9ymaImPhvplS8IiCGbgeuT39hlderCimBIIKujcdADEwNvUyTlclJw7l_BWzQxbe4MbePzZSUIW2SumY23k8EDc3oCYm2yaFKijy_RsSCIRaDvLnZ_5_Oio-90tSXJsUNC_8-Zrj7pdT-4VlDk9ojZKWDzzFDSmW6-2NjF36GqgyYlgztbOscG3xCPfBmWIIZtK3fUnhaA7a9gEaLwoXFV61EZFNzP8jQXI8Z1sLy5xf7UCg-oUHk9bUmVE8wA-UNcv8AijBW2moLhFhOZeIuVmjm66iZuaFgbVg0wOX9yB8rFXf3Do53SghZgFbAS3PWpV3yR7ooF7VvDMlt_v2Wte7-0MrWovprYF8JthF2aVzf5-_w2lwzfyOlw4k1JHZwUrV5m9iBZZwUfrtzpV6NXK6MpqhajkDZhfcuQ3s8RWY2NbGEWPHU327WvYGHVz1L_mR-Y4qhakexLCqWirdwh1Om-GtlYhPkWM-S22Bc8RnCLek",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}api/test",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"test"
+					]
+				},
+				"description": "get item name and barcode"
+			},
+			"response": []
+		},
+		{
+			"name": "addProductReview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiYzVlODYyYTgyZDkwMmM2ODNjOGY4MWJkODA0Mjk2YzdjZDA5M2ZlYTM5OTdiOWQ5NjUxZGJiM2FmZTgzYTRjNTgxODRhZDc4YTliNGVlMjAiLCJpYXQiOjE3MjI3NzE4NDcuMDU3NDI2LCJuYmYiOjE3MjI3NzE4NDcuMDU3NDMzLCJleHAiOjE3NTQzMDc4NDcuMDI5MDY5LCJzdWIiOiIyMDkiLCJzY29wZXMiOlsiKiJdfQ.DAaWCyxVzKLhu6ecyYWkXN7Q0NSBZ7YvJ_LlJrtCvh-CUNbZMnX2UFBncAXS87c25DJhTbpfm1QD8n8SKW4B9XV_Te4tclfaaO_OMOc8_6MLD_1uvTPRqY7KNSqiXs5OhRfTuhUOozWQ8tJQ6B3KxMvdsLcLoGyx8OGog-R0qelWDhmna69SVfCduqe9ymaImPhvplS8IiCGbgeuT39hlderCimBIIKujcdADEwNvUyTlclJw7l_BWzQxbe4MbePzZSUIW2SumY23k8EDc3oCYm2yaFKijy_RsSCIRaDvLnZ_5_Oio-90tSXJsUNC_8-Zrj7pdT-4VlDk9ojZKWDzzFDSmW6-2NjF36GqgyYlgztbOscG3xCPfBmWIIZtK3fUnhaA7a9gEaLwoXFV61EZFNzP8jQXI8Z1sLy5xf7UCg-oUHk9bUmVE8wA-UNcv8AijBW2moLhFhOZeIuVmjm66iZuaFgbVg0wOX9yB8rFXf3Do53SghZgFbAS3PWpV3yR7ooF7VvDMlt_v2Wte7-0MrWovprYF8JthF2aVzf5-_w2lwzfyOlw4k1JHZwUrV5m9iBZZwUfrtzpV6NXK6MpqhajkDZhfcuQ3s8RWY2NbGEWPHU327WvYGHVz1L_mR-Y4qhakexLCqWirdwh1Om-GtlYhPkWM-S22Bc8RnCLek",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"comment\" : \"very good product\",\r\n    \"rating\" : 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}api/products/{{product}}/reviews",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"products",
+						"{{product}}",
+						"reviews"
+					]
+				},
+				"description": "get item name and barcode"
+			},
+			"response": []
+		},
+		{
+			"name": "getProducts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/products?category_id=1&brand_id=33&search=سحب",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "category_id",
+							"value": "1"
+						},
+						{
+							"key": "brand_id",
+							"value": "33"
+						},
+						{
+							"key": "search",
+							"value": "سحب"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCategoriesWithProducts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/categoriesWithProducts",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"categoriesWithProducts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCategories",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/categories",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCategoriesFeatured",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/categories/featured",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"categories",
+						"featured"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProductById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/products/{{product}}?page=1",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"products",
+						"{{product}}"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCatById",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/categories/{{category}}",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"categories",
+						"{{category}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProductAccessories",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/products/{{product}}/accessories",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"products",
+						"{{product}}",
+						"accessories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCarousel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}api/carousel",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"carousel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBrands",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/brands",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"brands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getFeaturedBrands",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/brands/featured",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"brands",
+						"featured"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBrandsProducts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/brands/{{brandId}}/products",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"brands",
+						"{{brandId}}",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProductAccessoriesGroups",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/products/{{product}}/accessories_groups",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"products",
+						"{{product}}",
+						"accessories_groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getRelatedProducts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/products/{{product}}/related",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"products",
+						"{{product}}",
+						"related"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSiteSettings",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/site-settings",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"site-settings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProductsByCategoryId",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/categories/{{category}}/products",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"categories",
+						"{{category}}",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProduactReviews",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/products/{{product}}/reviews",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"products",
+						"{{product}}",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getProduactDifferents",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/products/{{product}}/differents",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"products",
+						"{{product}}",
+						"differents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "productsSsearch",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "language",
+						"value": "ar",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/products",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"products"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "سحبة",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "ماركة",
+							"disabled": true
+						},
+						{
+							"key": "brand",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

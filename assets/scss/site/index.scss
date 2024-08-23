@@ -1,0 +1,19 @@
+:is(:disabled, .disabled):is(button, input, select, textarea, a) {
+  cursor: not-allowed;
+  opacity: .5;
+
+  &:is(button, input[type="submit"], input[type="button"], a):hover {
+    background-color: var(--tp-common-black);
+    color: var(--tp-common-white);
+  }
+}
+
+.description-text {
+  height: 96px;
+}
+
+.see-more {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--tp-theme-primary);
+}

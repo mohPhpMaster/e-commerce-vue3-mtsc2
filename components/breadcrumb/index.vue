@@ -1,0 +1,50 @@
+<template>
+  <section class="breadcrumb__area include-bg pt-100 pb-50" :style="`background-color:${bg_clr && '#EFF1F5'}`">
+    <div class="container">
+      <div class="row">
+        <div class="col-xxl-12">
+          <div :class="`breadcrumb__content p-relative z-index-1 ${center && 'text-center'}`">
+            <h3 class="breadcrumb__title">{{ parsedTitle }}</h3>
+            <div class="breadcrumb__list">
+              <span><nuxt-link href="/">{{ $t('Home') }}</nuxt-link></span>
+              <span>{{ parsedSubtitle }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup lang="ts">
+import type {ICategory} from "@/types/category-d-t";
+import toolsService from "@/services/toolsService";
+
+const props = defineProps<{
+	category?: ICategory;
+  title?: string;
+  subtitle?: string;
+  bg_clr?:boolean;
+  center?:boolean;
+}>();
+
+const parsedTitle = computed(() => {
+	if (props?.category) {
+		return toolsService.parseCategoryName(props?.category)
+	} else if (props?.title) {
+		return props?.title
+	} else {
+		return "NO TITLE"
+	}
+});
+
+const parsedSubtitle = computed(() => {
+	if (props?.category) {
+		return toolsService.parseCategoryName(props?.category)
+	} else if (props?.subtitle) {
+		return props?.subtitle
+	} else {
+		return "NO SUBTITLE"
+	}
+});
+</script>
