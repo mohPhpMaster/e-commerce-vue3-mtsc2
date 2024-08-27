@@ -45,11 +45,25 @@
 </template>
 
 <script setup lang="ts">
-import product_data from "@/data/product-data";
+// import product_data from "@/data/product-data";
 import { type IProduct } from "@/types/product-d-t";
 import toolsService from "@/services/toolsService";
+import {useProductStore} from "@/pinia/useProductStore";
 
-let topRatedProducts: { product: IProduct; rating: number }[] = product_data
+const productStore = useProductStore();
+const {data: product_data} = useLazyAsyncData('product', () => productStore.loadProducts()
+		.then((products: IProduct[]) => {
+			if (products.value?.[0] && products.value?.[0]?.images?.length > 0) {
+				productStore.activeImg = products.value?.[0]?.images?.[0];
+			}
+
+			return products.value;
+		}), {
+	initialData: productStore.product_data,
+	watch: [productStore.product_data],
+});
+
+let topRatedProducts: { product: IProduct; rating: number }[] = product_data.value
   .map((product) => {
     if (product.reviews && product.reviews.length > 0) {
       const totalRating = product.reviews.reduce(

@@ -5,7 +5,7 @@ import type {IMenuItem} from "@/types/menu-d-t";
 import type {IDropdownMenu} from "@/types/dropdown-menu-d-t";
 import type {IBrand} from "@/types/brand-d-t";
 
-const idKey = ["slug","sku"];
+const idKey = ["slug", "sku"];
 
 export default {
     parseImageUrl(url = "", baseUrl = "") {
@@ -17,7 +17,7 @@ export default {
             return url.startsWith('http') ? url : (baseUrl + url);
         }
 
-        return this.getDefaultNoImageUrl();
+        return useNuxtApp().$settings.noImageUrl;
     },
     id(obj: any): string {
         // console.log(13,obj.ITYPE)
@@ -35,7 +35,7 @@ export default {
     getIdFromSlugPrefix(slug: string = ''): string {
         return String(String(slug).split('-').shift());
     },
-    getSlug(slug: string | number, {prefix  = '', suffix = ''} = {}): string {
+    getSlug(slug: string | number, {prefix = '', suffix = ''} = {}): string {
         // let value = String(String(slug).split('-').shift());
         let value = String(slug);
         return value ? `${prefix || ''}${value}${suffix || ''}` : '';
@@ -46,7 +46,7 @@ export default {
             .replace(/_/g, ' ')           // Replace underscores with spaces (if any)
             .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize the first letter of each word
     },
-    parseMenuName(menu: IMenuItem|IDropdownMenu): string {
+    parseMenuName(menu: IMenuItem | IDropdownMenu): string {
         return menu?.title || "Untitled Menu";
     },
     parseCategoryName(category?: ICategory | ISubCategory, $default: string = 'Untitled Category'): string {
@@ -56,7 +56,7 @@ export default {
             ("slug" in category && this.slugToTitleCase(category?.slug))
         ) || $default;
     },
-    parseProductName(product: IProduct, addSuffix:boolean = false): string {
+    parseProductName(product: IProduct, addSuffix: boolean = false): string {
         let suffix = '';
         if (addSuffix) {
             suffix = product?.additionalInfo?.[0]?.value || '';
@@ -66,6 +66,39 @@ export default {
         return String(product?.name || (product?.sku ? this.slugToTitleCase(product?.sku) : undefined) || product?.id || 'Untitled Product') +
             suffix;
     },
+    parseProductDifferent(product: IProduct): string {
+        return String(product?.additionalInfo?.[0]?.value || '');
+    },
+    parseProductDescription(
+        product: IProduct, cutter: {
+            when?: (() => boolean);
+            max_length: number;
+            suffix: string;
+        } | (() => boolean) = {
+            when: undefined,
+            max_length: 100,
+            suffix: '...'
+        }
+    ): string {
+        let description = product?.description || '';
+        if (typeof cutter === 'function') {
+            if (cutter()) {
+                description = (description.substring(0, 100) + '...');
+            }
+        } else if (cutter?.when) {
+            if (cutter?.when()) {
+                description = (description.substring(0, cutter.max_length) + cutter.suffix);
+            }
+        }
+
+        return this.normalizeLineEndingsToHtml(description);
+
+        // return (
+        // 		!textMore || textMore()
+        // 				? product?.description
+        // 				: `${product?.description.substring(0, 100)}...`
+        // ).replace(/\n/g, '<br>')
+    },
     parseBrandName(brand: IBrand): string {
         return String(brand?.name || brand?.id || 'Untitled Brand');
     },
@@ -73,7 +106,7 @@ export default {
         return text.replace(/\r\n/g, '\n');
     },
     normalizeLineEndingsToHtml(text?: string): string {
-        return this.normalizeLineEndings(text||"").replace(/\n/g, '<br>');
+        return this.normalizeLineEndings(text || "").replace(/\n/g, '<br>');
     },
     gotoCategory(category: ICategory): void {
         useRouter().push(this.getCategoryUrl(category));
@@ -98,5 +131,8 @@ export default {
     },
     getDefaultNoImageUrl(): string {
         return useRuntimeConfig()?.public?.noImageUrl || "";
+    },
+    getApiUrl(): string {
+        return useRuntimeConfig()?.public?.apiURL || "";
     },
 }

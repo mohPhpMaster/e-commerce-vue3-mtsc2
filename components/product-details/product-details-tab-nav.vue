@@ -20,7 +20,7 @@
                         <div class="col-lg-12">
                             <div class="tp-product-details-desc-content pt-25">
                               <span>{{ toolsService.parseCategoryName(product?.parentCategory) }}</span>
-                              <h3 class="tp-product-details-desc-title">{{product.name}}</h3>
+                              <h3 class="tp-product-details-desc-title">{{ toolsService.parseProductName(product, true) }}</h3>
 		                          <p v-html="product_description"></p>
                             </div>
                         </div>
@@ -134,15 +134,15 @@ const props = defineProps<{product:IProduct}>();
 
 const product_description = computed(() => toolsService.normalizeLineEndingsToHtml(props.product.description));
 const reviews = ref<IReview[]>([]);
-
-api.productReviewsData({
-	product: props?.product,
-})
-		.then(data => {
-			reviews.value = data;
-
-			return data;
+const loadData = ()=>
+		api.productReviewsData({
+			product: props?.product,
 		})
+				.then(data => {
+					reviews.value = data;
+
+					return data;
+				})
 
 onMounted(() => {
   const nav_active = document.getElementById("nav-addInfo-tab");
@@ -151,7 +151,7 @@ onMounted(() => {
     marker.style.left = nav_active.offsetLeft + "px";
     marker.style.width = nav_active.offsetWidth + "px";
   }
-
+	loadData();
 	// todo: handle additional info
 	// console.log(156, props.product.additionalInfo);
 });
@@ -163,4 +163,18 @@ const handleActiveMarker = (event: MouseEvent) => {
 		marker.style.width = (event.target as HTMLButtonElement).offsetWidth + "px";
 	}
 };
+
+watch(
+		() => props.product,
+		(newStatus, oldStatus) => {
+			loadData();
+			const nav_active = document.getElementById("nav-addInfo-tab");
+			const marker = document.getElementById("productTabMarker");
+			if (nav_active?.classList.contains("active") && marker) {
+				marker.style.left = nav_active.offsetLeft + "px";
+				marker.style.width = nav_active.offsetWidth + "px";
+			}
+
+		})
+
 </script>

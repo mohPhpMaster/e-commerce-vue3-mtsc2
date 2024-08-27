@@ -3,7 +3,6 @@ import { type IProduct } from "@/types/product-d-t";
 import { defineStore } from "pinia";
 import { toast } from "vue3-toastify";
 import swal from "sweetalert";
-import toolsService from "@/services/toolsService";
 
 export const useWishlistStore = defineStore("wishlist_product", () => {
   const {t} = useI18n();

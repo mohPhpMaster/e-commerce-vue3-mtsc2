@@ -100,19 +100,21 @@ const cartStore = useCartStore();
 
 const wishlistStore = useWishlistStore();
 const utilityStore = useUtilityStore();
-const currency = utilityStore?.currency;
+
+// Currency Formatter
+const currency = useSiteSettings().currency;
 const compareStore = useCompareStore();
 
-const $product = ref<IProduct>(props?.product);
+const $product = ref<IProduct>(JSON.parse(JSON.stringify(props?.product)));
 
-onMounted(() => {
-	api.productData({
-		product: props?.product,
-	})
-	.then((res) => {
-		$product.value = res?.[0];
-	})
-});
+// onMounted(() => {
+// 	api.productData({
+// 		product: props?.product,
+// 	})
+// 	.then((res) => {
+// 		$product.value = res?.[0];
+// 	})
+// });
 
 function isItemInWishlist(product: IProduct) {
   return wishlistStore.wishlists.some((prd) => prd.id === product.id);

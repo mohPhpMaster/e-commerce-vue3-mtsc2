@@ -26,14 +26,14 @@
 import { computed, ref, onMounted,watch } from "vue";
 const emit = defineEmits(["handlePaginate"]);
 const route = useRoute();
+const router = useRouter();
 
 type ItemDataType<T> = {
   data: T[];
   itemsPerPage: number;
 };
 const props = defineProps<ItemDataType<any>>();
-const currentPage = ref<number>(1);
-
+const currentPage = ref<number>(Number(route?.query?.page || 1));
 const totalPages = computed(() =>
   Math.ceil(props.data.length / props.itemsPerPage)
 );
@@ -46,13 +46,16 @@ const setPage = (idx: number) => {
   }
   window.scrollTo(0, 0);
   currentPage.value = idx;
+	const query = {...route.query, page: idx};
+	router.push({query});
   emit("handlePaginate", props.data, startIndex.value, endIndex.value);
+
 };
 
 onMounted(() => {
   emit("handlePaginate", props.data, startIndex.value, endIndex.value);
 });
 watch(() => route.query || route.params, (newStatus) => {
-  currentPage.value = 1;
+  currentPage.value = Number(route?.query?.page || 1);
 });
 </script>

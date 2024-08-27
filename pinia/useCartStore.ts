@@ -148,7 +148,6 @@ export const useCartStore = defineStore("cart_product", () => {
     };
 
     const quantitySet = (payload: IProduct, quantity: number) => {
-        toast.info(`Quantity For ${toolsService.parseProductName(payload, true)} updated to ${quantity} `);
         cart_products.value.map((item: ICartItem) => {
             if (item?.differents?.id === payload.id) {
                 if (typeof item.quantity !== "undefined") {
@@ -158,6 +157,7 @@ export const useCartStore = defineStore("cart_product", () => {
             return {...item};
         });
         localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
+        toast.info(`Quantity For ${toolsService.parseProductName(payload, true)} updated to ${quantity} `);
     };
 
     // remover_cart_products
@@ -174,8 +174,8 @@ export const useCartStore = defineStore("cart_product", () => {
                     cart_products.value = cart_products.value.filter(
                         (p) => p?.differents?.id !== payload.id
                     );
-                    toast.error(`${toolsService.parseProductName(payload, true)} removed from cart`);
                     localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
+                    toast.error(`${toolsService.parseProductName(payload, true)} removed from cart`);
                 }
             })
     };
@@ -214,6 +214,7 @@ export const useCartStore = defineStore("cart_product", () => {
                 itemTotal += accessory?.accessory?.net * Number(accessory?.accessory?.qty || 1);
             }
         });
+
         return itemTotal;
     }
 

@@ -65,11 +65,12 @@ export async function productAccessoriesGroupsData({
 export function convertProductAccessoriesResponse(product: IProductAccessoriesResponse): IProductAccessories {
     let discount = Number(product?.discount) || 0;
     let price = Number(product.price) || 0;
+
     return {
         ITYPE: 'product-accessories',
         id: String(product.id).trim(),
         name: product.name,
-        is_required: Boolean(product.is_required),
+        is_required: Boolean(typeof product.is_required === 'string' ? JSON.parse(product.is_required) : product.is_required),
         price,
         discount,
         net: price - discount,
@@ -84,7 +85,7 @@ export function convertProductAccessoriesGroupsResponse(product: IProductAccesso
         ITYPE: 'product-accessories-groups',
         id: String(product.id).trim(),
         name: product.name,
-        is_required: Boolean(product.is_required),
+        is_required: Boolean(typeof product.is_required === 'string' ? JSON.parse(product.is_required) : product.is_required),
         group_id: product.group_id,
         group: product.group,
         qty: product.qty,

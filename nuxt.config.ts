@@ -4,8 +4,11 @@ export default defineNuxtConfig({
         public: {
             noImageUrl: process.env.NUXT_ENV_NO_IMAGE_URL || "/images/no-image.png",
             imagesUrl: process.env.NUXT_ENV_IMAGES_URL || "",
+            apiURL: process.env.NUXT_ENV_API_URL || "",
+            perPage: process.env.NUXT_ENV_PER_PAGE || 9,
         }
     },
+
     modules: [[
         '@pinia/nuxt',
         {
@@ -18,6 +21,7 @@ export default defineNuxtConfig({
         '@nuxtjs/i18n',
         "vue3-carousel-nuxt"
     ],
+
     i18n: {
         strategy: "no_prefix",
         locales: [
@@ -45,6 +49,7 @@ export default defineNuxtConfig({
         lazy: true,
         langDir: 'locales',
     },
+
     app: {
         baseURL: '',
         head: {
@@ -72,9 +77,14 @@ export default defineNuxtConfig({
     ],
 
     plugins: [
-        {src: "~/plugins/axiosInstance.ts", ssr: false},
+        {src: "~/plugins/axiosInstance.ts", mode: "all" },
+        {src: "~/plugins/settings.ts", mode: "all"},
         {src: "~/plugins/api.ts", ssr: false},
         {src: "~/plugins/i18n.ts", ssr: false},
         {src: "~/plugins/yupLocale.ts", mode: "client"},
     ],
+
+    devtools: {
+        enable: true
+    },
 })

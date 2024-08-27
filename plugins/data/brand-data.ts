@@ -15,7 +15,7 @@ export async function brandData({prepend = [], append = [], page = 1, slug = ''}
             page = page < 1 ? 1 : page;
         }
 
-        slug = slug || useRoute()?.params?.brand;
+        slug = slug || "";
         if (slug) {
             // slug = String(slug.split('-').shift());
             slug = slug ? `/${slug}` : '';

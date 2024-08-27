@@ -23,8 +23,8 @@
               <nav>
                 <div class="nav nav-tabs justify-content-center tp-product-tab tp-tab-menu p-relative" id="nav-tab">
                     <button @click="toolsService.gotoCategory(category)" :class="`nav-link active`" id="nav_active">
-                      {{ category.parentName }}
-                      <span class="tp-product-tab-tooltip">{{category.products.length}}</span>
+                      {{ category?.parentName }}
+                      <span class="tp-product-tab-tooltip" v-if="products?.length > 0">{{ products?.length }}</span>
                     </button>
                   <span id="productTabMarker" class="tp-tab-line d-none d-sm-inline-block"></span>
                 </div>
@@ -58,8 +58,9 @@ const props = defineProps<{
 	url: string
 }>()
 
-
-onMounted(() => {
-
-});
+// const $products: Ref<IProduct[]> = ref([]);
+//
+// onMounted(() => {
+// 	console.log(64, props?.products,$products.value)
+// });
 </script>

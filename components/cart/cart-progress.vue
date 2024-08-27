@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="cartStore.totalPriceQuantity.total < freeShippingThreshold">
+    <template v-if="cartStore?.totalPriceQuantity?.total < freeShippingThreshold">
       <p>{{ $t('Add $:amount more to qualify for free shipping', { amount: currency(remainingAmount) }) }}</p>
     </template>
     <template v-else>
@@ -23,9 +23,9 @@
 
 <script setup lang="ts">
 import { useCartStore } from '@/pinia/useCartStore';
-import {useUtilityStore} from "@/pinia/useUtilityStore";
 
-const currency = useUtilityStore()?.currency;
+// Currency Formatter
+const currency = useSiteSettings().currency;
 const cartStore = useCartStore()
 const freeShippingThreshold = ref<number>(100);
 const progress = computed(() => (cartStore.totalPriceQuantity.total / freeShippingThreshold.value) * 100);

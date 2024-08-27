@@ -33,10 +33,14 @@ import type {IBrand} from "@/types/brand-d-t";
 
 const {loadBrands} = useBrandStore();
 const router = useRouter();
-let brand_items: Ref<IBrand[]> = ref([]);
+const route = useRoute();
+const brand_items: Ref<IBrand[]> = ref([]);
 
 onMounted(() => {
-	loadBrands()
+	loadBrands({
+		page: route?.params?.page || 1,
+		slug: route?.params?.brand || ""
+	})
 			.then((data) => {
 				brand_items.value = data
 			})

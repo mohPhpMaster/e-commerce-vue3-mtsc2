@@ -62,7 +62,22 @@
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Navigation } from "swiper/modules";
-import product_data from "@/data/product-data";
+// import product_data from "@/data/product-data";
+import type {IProduct} from "@/types/product-d-t";
+import {useProductStore} from "@/pinia/useProductStore";
+
+const productStore = useProductStore();
+const {data: product_data} = useLazyAsyncData('product', () => productStore.loadProducts()
+		.then((products: IProduct[]) => {
+			if (products.value?.[0] && products.value?.[0]?.images?.length > 0) {
+				productStore.activeImg = products.value?.[0]?.images?.[0];
+			}
+
+			return products.value;
+		}), {
+	initialData: productStore.product_data,
+	watch: [productStore.product_data],
+});
 
 const best_sell_products = [...product_data]
   .slice()

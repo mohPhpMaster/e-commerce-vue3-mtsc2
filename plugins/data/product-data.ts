@@ -7,8 +7,6 @@ import type {ICategory} from "@/types/category-d-t";
 import type {IBrand} from "@/types/brand-d-t";
 import type {IBrandResponse} from "@/types/brand-response-d-t";
 
-const $cache: { [url: string]: any } = {};
-
 export async function productData({
                                       prepend = [],
                                       append = [],
@@ -19,6 +17,7 @@ export async function productData({
                                       brand = undefined,
                                       query = undefined,
                                       search = undefined,
+                                      plain = false,
                                   }: {
     prepend?: IProduct[],
     append?: IProduct[],
@@ -29,7 +28,8 @@ export async function productData({
     brand?: IBrand,
     query?: string,
     search?: string,
-} = {}, cache: { [url: string]: any } = {}): Promise<IProduct[]> {
+    plain?: boolean;
+} = {}): Promise<IProduct[]> {
     try {
         page = Number(page) || 1;
         page = page < 1 ? 1 : page;
@@ -42,6 +42,8 @@ export async function productData({
 
         if (category) {
             url = `categories/${toolsService.id(category)}/products`;
+            // url = `categories/${category.id}/products`;
+            // url = `products/`;
         } else if (brand) {
             url = `brands/${toolsService.id(brand)}/products`;
             // converter = (o: []) => o.flatMap(convertBrandProductsResponse);
@@ -52,18 +54,14 @@ export async function productData({
         }
 
         url = `${url}${url_suffix}`;
-        if (cache[url] || $cache[url]) {
-            return cache[url] || $cache[url];
-        }
-
         const response: { data: { data: IProductResponse[] } } = await $axios.get(url);
+        if (plain) {
+            return converter(response?.data?.data || []);
+        }
         const products = response?.data?.data || [];
         const transformedProducts: Awaited<IProduct>[] = await Promise.all(converter(products));
-        const data = [...prepend, ...transformedProducts, ...append];
-        cache[url] = data;
-        $cache[url] = data;
-
-        return data;
+        // console.log(63, {url,transformedProducts})
+        return [...prepend, ...transformedProducts, ...append];
     } catch (error) {
         console.error('Error fetching product data:', error);
         return [];
@@ -75,7 +73,7 @@ export function convertProductResponse(product: IProductResponse): IProduct {
         product?.imageUrl || "",
         ...(product?.images?.data || [])
     ].filter(x => x);
-    images = images.length ? images : [toolsService.getDefaultNoImageUrl()];
+    images = images.length ? images : [useNuxtApp().$settings.noImageUrl];
 
     let discount = Number(product?.discount || product?.price_after_discount) || 0;
     let price = Number(product.price) || 0;

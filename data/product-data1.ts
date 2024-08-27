@@ -1,10 +1,10 @@
 // import type { IProduct } from "@/types/product-d-t";
 // import {api} from "@/plugins/api";
 // import {product_data} from "@/pinia/useProductStore";
+import {useProductStore} from "@/pinia/useProductStore";
 
-// const productStore = useProductStore();
+const productStore = useProductStore();
 // const product_data = computed(() => productStore.product_data);
-import {product_data} from "@/pinia/useProductStore";
 
 // const product_data:IProduct[] = await api.productData([
 //   // {
@@ -575,4 +575,4 @@ import {product_data} from "@/pinia/useProductStore";
 //   // },
 // ]);
 
-export default product_data.value;
+export default JSON.parse(JSON.stringify(productStore?.product_data));

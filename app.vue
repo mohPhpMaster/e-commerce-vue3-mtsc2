@@ -1,5 +1,6 @@
 <template>
   <NuxtLayout name="default">
+	  <NuxtLoadingIndicator />
     <NuxtPage />
 
 	  <cart-modal
@@ -18,9 +19,6 @@ import {useUtilityStore} from './pinia/useUtilityStore';
 import localeService from "@/services/localeService";
 import {useUserStore} from "@/pinia/userStore";
 import {useCartStore} from "@/pinia/useCartStore";
-import swal from 'sweetalert';
-import {toast} from "vue3-toastify";
-import type {ICartItem} from "@/types/cart-item-d-t";
 
 const route = useRoute();
 const {t} = useI18n();
@@ -34,10 +32,8 @@ const cartStore = useCartStore();
 onMounted(() => {
 	localeService.checkLanguage();
 	userStore.initializeUser(true);
-
 	// $axios.instance.defaults.headers.common['language'] = localeService.locale();
 	// console.log(17, $axios.instance.defaults.headers.common['language'], localeService.locale())
-
 })
 
 watch(() => route.path, () => {

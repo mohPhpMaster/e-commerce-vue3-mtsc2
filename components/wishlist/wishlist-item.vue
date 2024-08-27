@@ -37,10 +37,11 @@ import { useCartStore } from "@/pinia/useCartStore";
 import { type IProduct } from '@/types/product-d-t';
 import toolsService from "@/services/toolsService";
 import type {ICartItem} from "@/types/cart-item-d-t";
-import {useUtilityStore} from "@/pinia/useUtilityStore";
 const wishlistStore = useWishlistStore();
 const cartStore = useCartStore();
-const currency = useUtilityStore()?.currency;
+
+// Currency Formatter
+const currency = useSiteSettings().currency;
 const props = defineProps<{item:IProduct}>()
 
 function isItemInCart(product: IProduct) {

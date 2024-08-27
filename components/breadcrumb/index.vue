@@ -34,7 +34,7 @@ const parsedTitle = computed(() => {
 	} else if (props?.title) {
 		return props?.title
 	} else {
-		return "NO TITLE"
+		return ""
 	}
 });
 
@@ -44,7 +44,7 @@ const parsedSubtitle = computed(() => {
 	} else if (props?.subtitle) {
 		return props?.subtitle
 	} else {
-		return "NO SUBTITLE"
+		return ""
 	}
 });
 </script>

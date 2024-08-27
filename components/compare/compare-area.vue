@@ -103,9 +103,9 @@
  import {useCartStore} from "@/pinia/useCartStore";
  import toolsService from "@/services/toolsService";
  import type {IProduct} from "@/types/product-d-t";
- import {useUtilityStore} from "@/pinia/useUtilityStore";
 
- const currency = useUtilityStore()?.currency
+ // Currency Formatter
+ const currency = useSiteSettings().currency;
  const compareStore = useCompareStore();
  const cartStore = useCartStore();
  const {t} = useI18n();

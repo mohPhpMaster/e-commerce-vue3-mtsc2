@@ -11,4 +11,5 @@ export type IFetchProductOptions = {
     category?: ICategory;
     brand?: IBrand;
     search?: string;
+    plain?: boolean;
 };

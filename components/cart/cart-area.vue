@@ -49,24 +49,24 @@
         </div>
         <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="tp-cart-checkout-wrapper">
-              <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between" v-if="feeStore.fees.length > 0">
+              <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between" v-if="shippingStore.fees.value.length > 0">
                   <span class="tp-cart-checkout-top-title">{{ $t('Subtotal') }}</span>
                   <span class="tp-cart-checkout-top-price">
                     {{ currency(cartStore.totalPriceQuantity.total.toFixed(2)) }}
                   </span>
               </div>
-              <div class="tp-cart-checkout-shipping" v-if="feeStore.fees.length > 0">
+              <div class="tp-cart-checkout-shipping" v-if="shippingStore.fees.value.length > 0">
                   <h4 class="tp-cart-checkout-shipping-title">{{ $t('Shipping') }}</h4>
                   <div class="tp-cart-checkout-shipping-option-wrapper">
-                    <div class="tp-cart-checkout-shipping-option" v-for="(_fee, index) in feeStore.fees" :key="index">
+                    <div class="tp-cart-checkout-shipping-option" v-for="(_fee, index) in shippingStore.fees.value" :key="index">
                         <input :id="_fee.name" type="radio" name="shipping" :checked="_fee?.is_default || false">
-                        <label @click="feeStore.handleShippingCost(_fee.value)" :for="_fee.name">{{ _fee.name }}<span v-if="!['free',0].includes(_fee.value)">: {{ currency(_fee.value) }}</span></label>
+                        <label @click="shippingStore.setSelectedFee(_fee)" :for="_fee.name">{{ _fee.name }}<span v-if="!['free',0].includes(_fee.value)">: {{ currency(_fee.value) }}</span></label>
                     </div>
                   </div>
               </div>
               <div class="tp-cart-checkout-total d-flex align-items-center justify-content-between">
                   <span>{{ $t('Total') }}</span>
-                  <span>{{ currency((cartStore.totalPriceQuantity.total + feeStore.shipCost).toFixed(2)) }}</span>
+                  <span>{{ currency((cartStore.totalPriceQuantity.total + shippingStore.shipCost.value).toFixed(2)) }}</span>
               </div>
               <div class="tp-cart-checkout-proceed">
                   <nuxt-link href="/checkout" class="tp-cart-checkout-btn w-100">{{ $t('Proceed to Checkout') }}</nuxt-link>
@@ -81,18 +81,19 @@
 <script setup lang="ts">
 import { useCartStore } from "@/pinia/useCartStore";
 import {useUtilityStore} from "@/pinia/useUtilityStore";
-import {useFeesStore} from "@/pinia/useFeesStore";
+// import {useFeesStore} from "@/pinia/useFeesStore";
+// import {useShipping} from useShipping();
 
 const {t} = useI18n();
-const {currency} = useUtilityStore();
+const currency = useSiteSettings().currency;
 const cartStore = useCartStore();
-const feeStore = useFeesStore();
+const shippingStore = useShipping();
 let couponCode = ref<string>('');
 
 const handleCouponSubmit = () => {
   console.log(couponCode.value)
 }
 
-onMounted(...feeStore.getOnMounted());
-watch(...feeStore.getWatch())
+// onMounted(...shippingStore.getOnMounted());
+// watch(...shippingStore.getWatch())
 </script>

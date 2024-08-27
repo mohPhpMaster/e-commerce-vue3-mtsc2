@@ -58,9 +58,9 @@
 import {useCartStore} from "@/pinia/useCartStore";
 import toolsService from "@/services/toolsService";
 import type {ICartItem} from "@/types/cart-item-d-t";
-import {useUtilityStore} from "@/pinia/useUtilityStore";
 
-const currency = useUtilityStore()?.currency;
+// Currency Formatter
+const currency = useSiteSettings().currency;
 const cartStore = useCartStore();
 
 const props = defineProps<{ item: ICartItem }>();

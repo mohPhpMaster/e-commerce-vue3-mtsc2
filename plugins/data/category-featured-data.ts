@@ -9,7 +9,7 @@ export async function categoryFeaturedData(prepend: ICategory[] = [], append: IC
         page = page < 1 ? 1 : page;
         const response: { data: { data: ICategoryResponse[] } } = await $axios.get(`categories/featured?page=${page}`);
         const categories = response?.data?.data || [];
-        const transformedCategories: Awaited<ICategory>[] = await Promise.all(categories.map(convertResponse));
+        const transformedCategories: Awaited<ICategory>[] = await Promise.all(categories.map(convertCategoryFeaturedResponse));
         return [...prepend, ...transformedCategories, ...append];
     } catch (error) {
         console.error('Error fetching category featured data:', error);
@@ -17,7 +17,7 @@ export async function categoryFeaturedData(prepend: ICategory[] = [], append: IC
     }
 }
 
-export function convertResponse(category: ICategoryResponse): ICategory {
+export function convertCategoryFeaturedResponse(category: ICategoryResponse): ICategory {
     return {
         ITYPE: 'category',
         id: category.id,

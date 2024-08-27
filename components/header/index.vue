@@ -27,7 +27,7 @@
                       </div>
                   </div>
                   <!-- category start -->
-                  <header-top-categories :is-active="isActive"></header-top-categories>                
+                  <header-top-categories :categories="topCategories" :is-active="isActive"></header-top-categories>
                   <!-- category end -->
                 </div>
                 <div class="col-xxl-4 col-xl-6 d-none d-xl-block">
@@ -76,7 +76,7 @@
                         <div class="tp-header-action-item-5">
                             <button @click="cartStore.handleCartOffcanvas" type="button" class="cartmini-open-btn">
                               <svg-cart-bag></svg-cart-bag>
-                              <span class="tp-header-action-badge-5">{{ cartStore.totalPriceQuantity.quantity }}</span>
+                              <span class="tp-header-action-badge-5">{{ cartStore?.totalPriceQuantity?.quantity }}</span>
                             </button>
                         </div>
                         <div class="tp-header-action-item-5 d-none d-sm-block d-xxl-none">
@@ -103,7 +103,7 @@
   <!-- search end -->
 
   <!-- cart offcanvas start -->
-  <offcanvas-mobile-sidebar></offcanvas-mobile-sidebar>
+  <offcanvas-mobile-sidebar :categories="topCategories"></offcanvas-mobile-sidebar>
   <!-- cart offcanvas end -->
 </template>
 
@@ -117,8 +117,20 @@ const {isSticky} = useSticky();
 const router = useRouter();
 const route = useRoute();
 
+const {data: topCategories, pending, error, refresh} = useLazyAsyncData('topCategories', () =>
+		useTopCategories().loadTopCategories()
+);
+
+// onMounted(() => {
+//
+// 	loadTopCategories()
+// 			.then((d) => {
+// 				console.log(127, d, topCategories.value)
+// 			})
+// })
 let isActive = ref<boolean>(false);
 let searchText = ref<string>(route?.query?.searchText);
+
 // handle active
 const handleActive = () => isActive.value = !isActive.value;
 

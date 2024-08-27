@@ -16,7 +16,14 @@
                     <div class="tp-shop-top-left d-flex align-items-center">
                       <div class="tp-shop-top-result">
                         <p>
-                          {{ $t('Showing ') }}1–{{store.filteredProducts?.slice(0, perView).length}}{{ $t(' of ') }}{{ product_data.length }}{{ $t(' results') }}
+<!--                          {{ $t('Showing ') }}1–{{store.filteredProducts?.slice(0, perView).length}}{{ $t(' of ') }}{{ product_data.length }}{{ $t(' results') }}-->
+	                        {{
+		                        $t('Showing :start-:end of :total results', {
+			                        start: 1,
+			                        end: store.filteredProducts?.slice(0, perView).length,
+			                        total: product_data.length || 0,
+		                        })
+	                        }}
                         </p>
                       </div>
                     </div>

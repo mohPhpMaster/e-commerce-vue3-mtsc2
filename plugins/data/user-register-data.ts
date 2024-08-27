@@ -12,7 +12,8 @@ export async function userLoginData(user_data: IUserLoginFormValues): Promise<IU
             return Array.isArray(o) ? transformed : transformed?.[0];
         };
 
-        return $axios.post('login', formDataService(user_data))
+        return $axios
+            .post('login', formDataService(user_data))
             .then((response: {data: { data: IUser }}) => {
                 const userData = response?.data?.data || [];
 

@@ -17,13 +17,9 @@ import {Carousel, Slide, Pagination, Navigation} from 'vue3-carousel/dist/carous
 import toolsService from "@/services/toolsService";
 import {$axios} from "@/plugins/axiosInstance";
 
-const slides = ref<string[]>([])
-
-$axios.get('carousel')
-		.then((response: { data: { data: string[] } }) => {
-			slides.value = response?.data?.data || [];
-		});
-
+const {data: slides, pending, error, refresh} = useLazyAsyncData<string[]>('carousel', () =>
+		$axios.get('carousel').then(res => res?.data?.data)
+);
 </script>
 
 <style>

@@ -21,12 +21,12 @@
           </li>
 
           <!-- shipping -->
-          <li class="tp-order-info-list-shipping" v-if="feeStore.fees.length > 0">
+          <li class="tp-order-info-list-shipping" v-if="shippingStore?.fees?.value?.length > 0">
               <span>{{ $t('Shipping') }}</span>
               <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
-                <span v-for="(_fee, index) in feeStore.fees" :key="index">
+                <span v-for="(_fee, index) in shippingStore.fees.value" :key="_fee.id">
                     <input :id="_fee.name" type="radio" name="shipping" :checked="_fee?.is_default || false">
-                    <label @click="feeStore.handleShippingCost(_fee.value)" :for="_fee.name">{{ _fee.name }}<span v-if="!['free',0].includes(_fee.value)">: {{ currency(_fee.value) }}</span></label>
+                    <label @click="shippingStore.handleShippingCost(_fee.value)" :for="_fee.name">{{ _fee.name }}<span v-if="!['free',0].includes(_fee.value)">: {{ currency(_fee.value) }}</span></label>
                 </span>
               </div>
           </li>
@@ -34,7 +34,7 @@
           <!-- total -->
           <li class="tp-order-info-list-total">
               <span>{{ $t('Total') }}</span>
-              <span>{{ currency((cartStore.totalPriceQuantity.total + feeStore.shipCost)) }}</span>
+              <span>{{ currency((cartStore.totalPriceQuantity.total + shippingStore.shipCost.value)) }}</span>
           </li>
         </ul>
     </div>
@@ -70,11 +70,12 @@
 import {useCartStore} from '@/pinia/useCartStore';
 import toolsService from "@/services/toolsService";
 import {useUtilityStore} from "@/pinia/useUtilityStore";
-import {useFeesStore} from "@/pinia/useFeesStore";
+// import {useFeesStore} from "@/pinia/useFeesStore";
 
 const cartStore = useCartStore();
-const {currency} = useUtilityStore();
-const feeStore = useFeesStore();
+const currency = useSiteSettings().currency;
+// const feeStore = useFeesStore();
+const shippingStore = useShipping();
 let payment_name = ref<string>('');
 
 // handle payment item
@@ -82,6 +83,6 @@ const handlePayment = (value:string) => {
     payment_name.value = value
 }
 
-onMounted(...feeStore.getOnMounted());
-watch(...feeStore.getWatch())
+// onMounted(...feeStore.getOnMounted());
+// watch(...feeStore.getWatch())
 </script>

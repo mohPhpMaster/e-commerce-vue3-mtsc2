@@ -4,7 +4,6 @@
       "id": 1,
       "name": "group 1",
       "is_required": "0",
-      "price": "200.0",
       "accessories": [
         {
           "id": "20",

@@ -3,9 +3,11 @@
     <!-- <Transition> -->
       <nav v-if="isActive" class="tp-category-menu-content">
         <ul>
-          <li v-for="(item, i) in category_data" :class="{
+          <li
+		          v-for="(item, i) in categories" :key="i" :class="{
 						'has-dropdown': item.children?.length
-          }" :key="i">
+          }"
+          >
             <a class="pointer" @click="toolsService.gotoCategory(item)">
               <span v-if="item.img">
                 <img
@@ -19,7 +21,10 @@
 
             <ul v-if="item.children" class="tp-submenu">
               <li v-for="(child, i) in item.children" :key="i">
-                <a class="pointer" @click="toolsService.gotoCategory(child as ICategory)">{{ toolsService.parseCategoryName(child) }}</a>
+                <a
+		                class="pointer"
+		                @click="toolsService.gotoCategory(child as ICategory)"
+                >{{ toolsService.parseCategoryName(child) }}</a>
               </li>
             </ul>
           </li>
@@ -29,25 +34,11 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import toolsService from "@/services/toolsService";
-import {onMounted} from "vue";
-import {api} from "@/plugins/api";
 import type {ICategory} from "@/types/category-d-t";
 
-defineProps<{ isActive: boolean }>();
-
-const category_data = ref<ICategory[]>([]);
-
-api.categoryData()
-		.then((data: ICategory[]) => {
-			category_data.value = data;
-			return data;
-		})
-
-onMounted(() => {
-})
-
+defineProps<{ isActive: boolean, categories: ICategory[] }>();
 </script>
 
 <style scoped>

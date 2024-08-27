@@ -17,16 +17,16 @@
                       <ul id="productTab" class="nav nav-tabs" role="tablist">
                         <li class="nav-item" role="presentation">
                           <button
-                            :class="`nav-link ${displayStyleStore() === 'grid' ? 'active' : ''}`"
-                            @click="displayStyleStore('grid')"
+		                          :class="`nav-link ${displayStyle === 'grid' ? 'active' : ''}`"
+		                          @click="displayStyleStore('grid')"
                           >
                             <svg-grid />
                           </button>
                         </li>
                         <li class="nav-item" role="presentation">
                           <button
-                            :class="`nav-link ${displayStyleStore() === 'list' ? 'active' : ''}`"
-                            @click="displayStyleStore('list')"
+		                          :class="`nav-link ${displayStyle === 'list' ? 'active' : ''}`"
+		                          @click="displayStyleStore('list')"
                           >
                             <svg-list />
                           </button>
@@ -35,22 +35,29 @@
                     </div>
                     <div class="tp-shop-top-result">
 	                    <p>
-											  {{ $t('Showing ') }}{{ items_pagination_mode === 1 ? (displayedProducts.length ? 1 : 0) : (startIndex + 1) }}–{{ items_pagination_mode === 1 ? Number(displayedProducts?.length || 0) : (startIndex + filteredProducts?.slice(startIndex, endIndex).length) }}{{ $t(' of ') }}{{ filteredProducts?.length || 0 }}{{ $t(' results') }}
+<!--                        {{ $t('Showing ') }}{{ items_pagination_mode === 1 ? (displayedProducts.length ? 1 : 0) : (startIndex + 1) }}–{{ items_pagination_mode === 1 ? Number(displayedProducts?.length || 0) : (startIndex + filteredProducts.slice(startIndex, endIndex).length) }}{{ $t(' of ') }}{{ filteredProducts?.length || 0 }}{{ $t(' results') }}-->
+		                    {{
+			                    $t('Showing :start-:end of :total results', {
+				                    start: items_pagination_mode === 1 ? (filteredProducts?.length ? 1 : 0) : (startIndex + 1),
+				                    end: items_pagination_mode === 1 ? (filteredProducts.slice(startIndex, endIndex)?.length || filteredProducts?.length || 0) : (startIndex + filteredProducts.slice(startIndex, endIndex)?.length),
+				                    total: filteredProducts?.length || 0,
+			                    })
+		                    }}
 											</p>
                     </div>
                   </div>
                 </div>
                 <div class="col-xl-6">
-                  <shop-sidebar-filter-select @handle-select-filter="store.handleSelectFilter" />
+                  <shop-sidebar-filter-select v-if="filteredProducts?.length" @handle-select-filter="store.handleSelectFilter" />
                 </div>
               </div>
             </div>
             <div class="tp-shop-items-wrapper tp-shop-item-primary">
-              <div v-show="displayStyleStore() === 'grid'">
+              <div v-if="displayStyle === 'grid'">
                 <div class="row infinite-container">
                   <div
-		                  v-for="product in filteredProducts.slice(startIndex, endIndex)"
-		                  :key="product.id"
+		                  v-for="product in displayedProducts"
+		                  :key="product.sku"
 		                  class="col-xl-4 col-md-6 col-sm-6 infinite-item"
                   >
                     <product-single :product="product" />
@@ -58,11 +65,11 @@
                 </div>
               </div>
 
-              <div v-show="displayStyleStore() === 'list'">
+              <div v-if="displayStyle === 'list'">
                 <div class="row">
                   <div class="col-xl-12">
                     <product-list-item
-		                    v-for="product in filteredProducts?.slice(startIndex,endIndex)"
+		                    v-for="product in displayedProducts"
 		                    :key="product.id"
 		                    :item="product"
                     />
@@ -73,12 +80,12 @@
 
             <div class="tp-shop-pagination mt-20">
               <div
-		              v-if="filteredProducts.length > 9"
+		              v-if="filteredProducts?.length > perPage"
 		              class="tp-pagination"
               >
                 <ui-pagination
 		                :data="filteredProducts || []"
-		                :items-per-page="9"
+		                :items-per-page="perPage"
 		                @handle-paginate="handlePagination"
                 />
               </div>
@@ -91,12 +98,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
-import { useProductFilterStore } from "@/pinia/useProductFilterStore";
-import type { IProduct } from "@/types/product-d-t";
-import type { ICategory } from "@/types/category-d-t";
-import type { IBrand } from "@/types/brand-d-t";
+import {useProductFilterStore} from "@/pinia/useProductFilterStore";
+import type {IProduct} from "@/types/product-d-t";
+import type {ICategory} from "@/types/category-d-t";
+import type {IBrand} from "@/types/brand-d-t";
+import type {IFetchProductOptions} from "@/types/fetch-product-options-d-t";
+import {api} from "@/plugins/api";
 
+const perPage = useNuxtApp().$settings.perPage;
 const route = useRoute();
 const props = defineProps({
 	items_pagination_mode: {
@@ -119,40 +128,71 @@ const props = defineProps({
 		type: Array as PropType<IProduct[]>,
 		default: [],
 	},
-	currentPage: {
-		type: Number,
-		default: 1,
-	},
+	// currentPage: {
+	// 	type: Number,
+	// 	default: 1,
+	// },
 });
-
 const store = useProductFilterStore();
+const page = ref<number>(route?.query?.page || 1);
+const {data, pending, refresh} = await useAsyncData(
+		`load-products-${props?.category?.id || 0}-${props?.brand?.id || 0}-${page.value || 1}`,
+		async () => {
+			let opt = {
+				category: props?.category,
+				brand: props?.brand,
+				page: page.value,
+			};
+			const response = await api.productData(opt);
+			store.updateProductOptions(opt);
+
+			return response;
+		},
+		{
+			// initialData: [], // optional
+			// server: true, // optional
+		}
+);
+
+const filteredProducts = ref<IProduct[]>(store.filterProducts(data.value || []));
 const startIndex = ref<number>(0);
-const endIndex = ref<number>(store.filteredProducts?.length!);
-const filteredProducts = ref<IProduct[]>(store.filteredProducts!);
+const endIndex = ref<number>(filteredProducts.value?.length!);
+
 const propListStyle = computed(() => (props?.list_style === undefined ? "grid" : (props?.list_style ? "list" : "grid")));
 const displayedProducts = computed(() => filteredProducts.value.slice(startIndex.value, endIndex.value));
-const displayStyle = ref<string>(propListStyle?.value);
+const displayStyle = ref<string>(propListStyle.value);
+
+store.setData(data.value);
+// filteredProducts.value = store.filterProducts(data.value || []);
+
+const loadProduct = (args?: IFetchProductOptions) => {
+	store.updateProductOptions(args);
+	return api.productData(args);
+}
 
 const displayStyleStore = (style?: string): string => {
 	if (style !== undefined) {
+		if (process.client) { // Ensure this runs only on the client side
+			try {
+				window.localStorage.setItem("display_style", style);
+				displayStyle.value = style;
+			} catch (error) {
+				console.error("Error accessing localStorage:", error);
+			}
+		}
+	}
+
+	let result = propListStyle.value;
+	if (process.client) { // Ensure this runs only on the client side
 		try {
-			window && window.localStorage && window.localStorage.setItem("display_style", style);
+			result = window.localStorage.getItem("display_style") || result;
 		} catch (error) {
 			console.error("Error accessing localStorage:", error);
 		}
-		displayStyle.value = style;
 	}
 
-	let result = propListStyle?.value;
-	try {
-		 result = window && window.localStorage && window.localStorage.getItem("display_style") || result;
-	} catch (error) {
-		console.error("Error accessing localStorage:", error);
-	}
-
-	if (displayStyle.value !== result)
-	{
-		return displayStyleStore(result)
+	if (displayStyle.value !== result) {
+		return displayStyleStore(result);
 	}
 
 	return result;
@@ -162,49 +202,65 @@ function handlePagination(data: IProduct[], start: number, end: number): void {
 	filteredProducts.value = data;
 	startIndex.value = start;
 	endIndex.value = end;
-	store.handlePageChange(start)
+	store.handlePageChange(start);
+	store.setData(data);
 }
 
+// store.setData(data.value)
+// console.log(201,data.value)
+// filteredProducts.value = store.filterProducts(data.value || []);
+
+// loadProduct({
+// 	category: props?.category,
+// 	brand: props?.brand,
+// 	page: page.value
+// });
+
 watch(
-		props,
+		() => [props.category, props.brand],
 		(newStatus, oldStatus) => {
-			if (newStatus.category !== oldStatus.category || newStatus.brand !== oldStatus.brand) {
-				store.loadProducts({
-					category: newStatus.category,
-					brand: newStatus.brand,
-				});
+			if (newStatus[0] !== oldStatus[0] || newStatus[1] !== oldStatus[1]) {
+				loadProduct({
+					category: props?.category,
+					brand: props?.brand,
+					page: page.value
+				})
+						.then((data) => {
+							store.setData(data)
+							filteredProducts.value = store.filterProducts(data || []);
+							return data;
+						});
 			}
-			// store.loadProducts({
-			// 	category: props?.category,
-			// 	brand: props?.brand,
-			// })
 		}
 );
-
 
 watch(
-		() => String(route.query) + JSON.stringify(route.params) + JSON.stringify(filteredProducts.value),
-		(newStatus) => {
+		() => String(route.query) + JSON.stringify(route.params),
+		() => {
 			startIndex.value = 0;
-			endIndex.value = store.filteredProducts && (store.filteredProducts.length > 9 ? 9 : store.filteredProducts?.length)!;
+			endIndex.value = store.filteredProducts && (store.filteredProducts?.length > perPage ? perPage : store.filteredProducts?.length)!;
 		}
 );
+
+watch(
+		() => page,
+		() => {
+			store.updateCurrentPage(page);
+		}
+)
 
 onMounted(() => {
-	store
-			.loadProducts({
-				category: props?.category,
-				brand: props?.brand,
-			})
-			.then((data) => {
-				filteredProducts.value = store.filteredProducts!;
-			});
-})
+	displayStyleStore();
 
-// watch(
-//   () => startIndex.value,
-//   (newStatus) => {
-//     store.handlePageChange(9/newStatus);
-//   }
-// );
+	loadProduct({
+		category: props?.category,
+		brand: props?.brand,
+		page: page.value
+	})
+			.then((data) => {
+				store.setData(data)
+				filteredProducts.value = store.filterProducts(data || []);
+				return data;
+			})
+});
 </script>

@@ -22,7 +22,7 @@
           </div>
         </div>
 	      <!-- mobile category start -->
-        <category-mobile-categories />
+        <category-mobile-categories :categories="categories"/>
 	      <!-- mobile category end -->
         <div class="tp-main-menu-mobile fix d-lg-none mb-40">
         <!-- mobile menus start -->
@@ -82,6 +82,9 @@
 import {useUtilityStore} from "@/pinia/useUtilityStore";
 
 const utilsStore = useUtilityStore();
+const props = defineProps<{
+	categories: ICategory[],
+}>();
 
 let isToggleActive = ref<string>("");
 // handle active

@@ -33,6 +33,10 @@ export async function productDifferentsData({
         slug = slug || '';
         query = query || '';
         search = search || '';
+        if (!slug && !product && !category && !brand && !query && !search) {
+            return [];
+        }
+
         let url = `products`;
         let url_suffix = `?page=${page}&query=${query}&search=${search}`;
         let converter: Function = (o: []) => o.map(convertProductDifferentsResponse);
@@ -50,9 +54,9 @@ export async function productDifferentsData({
         }
 
         url = `${url}${url_suffix}`;
-
         const response: { data: { data: IProductDifferentsResponse[] } } = await $axios.get(url);
         const products = response?.data?.data || [];
+        return converter(products);
         const transformedProducts: Awaited<IProduct>[] = await Promise.all(converter(products));
         return [...prepend, ...transformedProducts, ...append];
     } catch (error) {
@@ -66,7 +70,7 @@ export function convertProductDifferentsResponse(product: IProductDifferentsResp
         product?.imageUrl || "",
         ...(product?.images?.data || [])
     ].filter(x => x);
-    images = images.length ? images : [toolsService.getDefaultNoImageUrl()];
+    images = images.length ? images : [useNuxtApp().$settings.noImageUrl];
 
     let discount = Number(product?.discount || product?.price_after_discount) || 0;
     let price = Number(product.price) || 0;

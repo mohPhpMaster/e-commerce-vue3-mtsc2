@@ -8,7 +8,7 @@
     <div class="tp-category-mobile-menu">
       <nav :class="`tp-category-menu-content ${isCategoryActive ? 'active' : ''}`">
         <ul :class="isCategoryActive ? 'active' : ''">
-          <li v-for="(item, i) in category_data" :key="i" class="has-dropdown">
+          <li v-for="(item, i) in categories" :key="i" class="has-dropdown">
             <a class="pointer" @click.prevent="handleOpenSubMenu(item)">
               <span v-if="item.img">
                 <img :src="item.img" alt="category image" style="width: 50px; height: 50px; object-fit: contain"/>
@@ -34,22 +34,14 @@
 <script lang="ts" setup>
 import toolsService from "@/services/toolsService";
 import type {ICategory} from "@/types/category-d-t";
-import {useCategoryStore} from '@/pinia/useCategoryStore';
-import {api} from "@/plugins/api";
 
 const router = useRouter();
-const {currentPage} = useCategoryStore();
-const category_data = ref<ICategory[]>([] as ICategory[]);
 let isCategoryActive = ref<boolean>(false);
 let openCategory = ref<string>("");
 
-onMounted(() => {
-	api.categoryData({
-		page: currentPage,
-		slug: ""
-	})
-			.then((d) => (category_data.value = d))
-})
+const props = defineProps<{
+	categories: ICategory[],
+}>();
 
 const handleOpenSubMenu = (item: ICategory) => {
 	if (item?.children?.length === 0 && item?.url) {

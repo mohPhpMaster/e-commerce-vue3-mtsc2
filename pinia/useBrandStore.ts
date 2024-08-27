@@ -3,13 +3,12 @@ import {onMounted, ref, watch} from "vue";
 import type {IBrand} from "@/types/brand-d-t";
 import {api} from "@/plugins/api";
 
-export let brands_data = ref<IBrand[]>([]);
-
 export const useBrandStore = defineStore("brand", () => {
-  let activeImg = ref<string>("");
-  let openFilterDropdown = ref<boolean>(false);
-  let openFilterOffcanvas = ref<boolean>(false);
-  let currentPage = ref<number>(1); // page number value as ref
+  const activeImg = ref<string>("");
+  const openFilterDropdown = ref<boolean>(false);
+  const openFilterOffcanvas = ref<boolean>(false);
+  const currentPage = ref<number>(1);
+  const brands_data = ref<IBrand[]>([]);
 
   const loadBrands = async () => {
     const route = useRoute();
@@ -19,7 +18,7 @@ export const useBrandStore = defineStore("brand", () => {
       page: currentPage.value
     });
     activeImg.value = brands_data.value[0]?.imageUrl || "";
-    return brands_data.value;
+    return brands_data;
   };
 
   // onMounted(loadBrands);

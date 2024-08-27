@@ -13,7 +13,7 @@ export async function siteSettingsData(): Promise<ISiteSettings> {
     }
 }
 
-function convertSiteSettingsResponse(settings: ISiteSettingsResponse): ISiteSettings {
+export function convertSiteSettingsResponse(settings: ISiteSettingsResponse): ISiteSettings {
     return settings;
 }
 

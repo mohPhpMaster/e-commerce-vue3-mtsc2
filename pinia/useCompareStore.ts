@@ -3,7 +3,6 @@ import { type IProduct } from "@/types/product-d-t";
 import { defineStore } from "pinia";
 import { toast } from "vue3-toastify";
 import swal from "sweetalert";
-import toolsService from "@/services/toolsService";
 
 export const useCompareStore = defineStore("compare_product", () => {
   let compare_items = ref<IProduct[]>([]);
@@ -26,6 +25,7 @@ export const useCompareStore = defineStore("compare_product", () => {
       JSON.stringify(compare_items.value)
     );
   };
+
   // removeCompare
   const removeCompareProduct = (payload: IProduct) => {
     compare_items.value = compare_items.value.filter(
@@ -81,6 +81,7 @@ export const useCompareStore = defineStore("compare_product", () => {
   onMounted(() => {
     initializeCompareProducts();
   });
+
   return {
     add_compare_product,
     removeCompareProduct,

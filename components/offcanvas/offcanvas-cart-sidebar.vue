@@ -96,9 +96,9 @@
 <script setup lang="ts">
 import { useCartStore } from "@/pinia/useCartStore";
 import toolsService from "@/services/toolsService";
-import {useUtilityStore} from "@/pinia/useUtilityStore";
 
-const currency = useUtilityStore()?.currency;
+// Currency Formatter
+const currency = useSiteSettings().currency;
 
 const cartStore = useCartStore();
 </script>

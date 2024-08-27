@@ -22,25 +22,33 @@
 </template>
 
 <script setup lang="ts">
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { Scrollbar } from "swiper/modules";
+import {Swiper, SwiperSlide} from "swiper/vue";
+import {Scrollbar} from "swiper/modules";
 import type {ICategory} from "@/types/category-d-t";
-import {api} from "@/plugins/api";
 import type {IProduct} from "@/types/product-d-t";
+import {$axios} from "@/plugins/axiosInstance";
+import toolsService from "@/services/toolsService";
+import {convertProductResponse} from "@/plugins/data/product-data";
 
 const props = defineProps<{
 	product?: IProduct;
 	category?: ICategory
 }>();
 
-const related_products = ref<IProduct[]>([]);
+const productRelatedLoader = () => $axios.get(toolsService.getRelatedProductUrl(props.product)).then(res => {
+	return (res?.data?.data || []).map(convertProductResponse)
+});
 
-api.relatedProductsData({ product: props?.product })
-		.then((data: IProduct[]) => {
-			// console.log(40, {data})
-			return related_products.value = data
-		})
+const {data: related_products, pending, refresh} = useLazyAsyncData(`products-${props?.product?.id}-related`,
+		productRelatedLoader,{
+	watch: [props],
+});
 
+onMounted(async () => {
+	if (!related_products.value) {
+		await refresh()
+	}
+})
 // slider_setting
 const slider_setting = {
   slidesPerView: 4,

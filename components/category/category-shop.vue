@@ -26,17 +26,18 @@
 /**
  * @deprecated not used
  */
-import {categories_data, useCategoryStore} from '@/pinia/useCategoryStore';
+import {useCategoryStore} from '@/pinia/useCategoryStore';
 import toolsService from "@/services/toolsService";
+import type {ICategory} from "@/types/category-d-t";
 
 const {loadCategories} = useCategoryStore();
 const router = useRouter();
+const categories_data = ref<ICategory[]>([]);
 
 onMounted(() => {
-	loadCategories({name: 'categories'})
+	loadCategories()
+		.then((data) => {
+			categories_data.value = data;
+		})
 })
-
-const handleCategory = (slug: string) => {
-  router.push(`/category/${encodeURIComponent(slug)}`);
-};
 </script>

@@ -39,7 +39,7 @@ export async function relatedProductsData({
         }
 
         url = `${url}${url_suffix}`;
-
+        // console.log(42, {url})
         const response: { data: { data: IProductResponse[] } } = await $axios.get(url);
         const products = response?.data?.data || [];
         return await Promise.all(converter(products));

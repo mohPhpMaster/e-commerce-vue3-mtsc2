@@ -35,13 +35,13 @@
 
 <script setup lang="ts">
 import toolsService from "@/services/toolsService";
-import {api} from "@/plugins/api";
 import type {IProduct} from "@/types/product-d-t";
-import {useUtilityStore} from "@/pinia/useUtilityStore";
 
 const emit = defineEmits(['updated'])
 
-const currency = useUtilityStore()?.currency;
+
+// Currency Formatter
+const currency = useSiteSettings().currency;
 
 const props = defineProps<{
 	product: IProduct;

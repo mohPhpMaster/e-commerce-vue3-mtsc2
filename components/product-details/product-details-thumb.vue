@@ -32,8 +32,14 @@ import { type IProduct } from '@/types/product-d-t';
 import { useProductStore } from "@/pinia/useProductStore";
 import { useUtilityStore } from "@/pinia/useUtilityStore";
 // props
-defineProps<{ product: IProduct }>();
+const props = defineProps<{ product: IProduct }>();
 
 const productStore = useProductStore();
-const utilsStore = useUtilityStore();
+
+watch(
+	() => props.product,
+	(newVal) => {
+		productStore.activeImg = newVal?.images?.[0];
+	}
+);
 </script>

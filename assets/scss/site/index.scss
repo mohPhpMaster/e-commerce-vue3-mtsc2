@@ -12,8 +12,24 @@
   height: 96px;
 }
 
-.see-more {
+.show-more-less {
   cursor: pointer;
   font-weight: 500;
   color: var(--tp-theme-primary);
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.bolder {
+  font-weight: bolder;
+}
+
+.v-hidden {
+  visibility: hidden;
+}
+
+.v-visible {
+  visibility: visible;
 }

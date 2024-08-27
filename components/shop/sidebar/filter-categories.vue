@@ -23,7 +23,7 @@ import {api} from "@/plugins/api";
 import toolsService from "@/services/toolsService";
 
 const categoryStore = useCategoryStore();
-const category_data = ref<ICategory[]>([] as ICategory[]);
+// const category_data = ref<ICategory[]>([] as ICategory[]);
 const router = useRouter();
 const route = useRoute();
 const activeQuery = computed(() => route.query.category);
@@ -31,11 +31,14 @@ const activeQuery = computed(() => route.query.category);
 // handle category route
 const isActiveQuery = (category: ICategory) => activeQuery.value === category.parentName.toLowerCase().replace('&', '').split(' ').join('-');
 
-onMounted(() => {
-	api.categoryData({
-		page: categoryStore.currentPage,
-		slug: ""
-	})
-			.then((d) => (category_data.value = d))
-})
+const {data: category_data, pending, error, refresh} = useLazyAsyncData<string[]>('categories', () =>
+		api.categoryData({
+			page: categoryStore.currentPage,
+			slug: ""
+		})
+				.then(data => {
+
+					return data;
+				})
+);
 </script>

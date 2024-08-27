@@ -15,13 +15,27 @@
       </button>
 
       <div class="col-3 dropdown">
-        <button id="groupSelect" ref="groupSelect" aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle px-3 w-100" data-bs-toggle="dropdown" type="button">
+        <button
+		        id="groupSelect"
+		        ref="groupSelect"
+		        aria-expanded="false"
+		        aria-haspopup="true"
+		        class="btn btn-secondary dropdown-toggle px-3 w-100"
+		        data-bs-toggle="dropdown"
+		        type="button"
+        >
           {{ selectedGroupIndex !== "" ? productAccessories?.[selectedGroupIndex]?.name : $t("Choose") }}
         </button>
 
         <div aria-labelledby="groupSelect" class="dropdown-menu w-100 p-3">
           <input v-model="searchTerm" autofocus class="form-control mb-2 input-group-search" :placeholder="$t('Search...')" type="text"/>
-          <a v-for="(group, index) in filteredGroups" :key="index" class="dropdown-item" href="#" @click="selectGroup(index)">
+          <a
+		          v-for="(group, index) in filteredGroups"
+		          :key="index"
+		          href="void(0)"
+		          class="dropdown-item"
+		          @click.prevent="selectGroup(index)"
+          >
             {{ group?.name }}
           </a>
         </div>
@@ -95,11 +109,11 @@ import type {IProduct} from "@/types/product-d-t";
 import type {IProductAccessories} from "@/types/product-accessories-d-t";
 import type {IProductAccessoriesGroups} from "@/types/product-accessories-groups-d-t";
 import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
-import {useUtilityStore} from "@/pinia/useUtilityStore";
 
 const emit = defineEmits(['updated'])
 
-const currency = useUtilityStore()?.currency;
+// Currency Formatter
+const currency = useSiteSettings().currency;
 
 // Props
 const props = defineProps<{
@@ -204,12 +218,12 @@ watch(
 		}
 );
 
-watch(
-		() => props.product,
-		async (newVal) => {
-
-		}
-);
+// watch(
+// 		() => props.product,
+// 		async (newVal) => {
+//
+// 		}
+// );
 </script>
 
 <style scoped>

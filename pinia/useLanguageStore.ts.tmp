@@ -1,13 +1,13 @@
 import {defineStore} from "pinia";
 import {ref, watch} from "vue";
 
-export let current_language = ref('');
-const router = useRouter();
-
 /**
  * @deprecated useless
  */
 export const useLanguageStore = defineStore("language", () => {
+    let current_language = ref('');
+    const router = useRouter();
+
     watch(()=>{
         return router.params?.locale
     }, (value)=>{

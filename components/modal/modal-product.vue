@@ -27,7 +27,7 @@
 	        <!-- product details thumb end -->
 
 	        <!-- product details wrapper -->
-          <product-details-wrapper :product="utilityStore.product" :is-show-bottom="false"/>
+          <product-details-wrapper v-if="utilityStore?.product?.id" :product="utilityStore.product" :is-show-bottom="false"/>
 	        <!-- product details wrapper -->
         </div>
       </div>

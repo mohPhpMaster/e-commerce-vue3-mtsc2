@@ -3,14 +3,12 @@ import {ref, watch} from "vue";
 import type {ICategory} from "@/types/category-d-t";
 import {api} from "@/plugins/api";
 
-export let _data = ref<{ [key: string]: ICategory[] }>({});
-export let categories_data = ref<ICategory[]>([]);
-
 export const useCategoryStore = defineStore("category", () => {
     let activeImg = ref<string>("");
     let openFilterDropdown = ref<boolean>(false);
     let openFilterOffcanvas = ref<boolean>(false);
     let currentPage = ref<number>(1); // page number value as ref
+    const categories_data = ref<ICategory[]>([]);
 
     const loadCategories = async function (args: {
         prepend?: ICategory[],
@@ -18,16 +16,20 @@ export const useCategoryStore = defineStore("category", () => {
         page?: number,
         slug?: string
     } = {}) {
-        return api.categoryData({
-            page: currentPage.value,
-            ...args
-        })
-            .then(data => {
-                categories_data.value = data;
-
-                handleImageActive(data?.[0]?.img || "");
-                return data;
+        const {data, pending, error, refresh} = useLazyAsyncData('categories', () =>
+            api.categoryData({
+                page: currentPage.value,
+                ...args
             })
+                .then(data => {
+                    categories_data.value = data;
+
+                    handleImageActive(data?.[0]?.img || "");
+                    return data;
+                })
+        );
+
+        return data
     };
 
     // onMounted(loadCategories);

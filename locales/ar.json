@@ -128,5 +128,6 @@
   "Place Order": "تقديم الطلب",
   "All Categories": "جميع الاقسام",
   "Clear": "مسح",
-  "Remove all": "إزالة الكل"
+  "Remove all": "إزالة الكل",
+  "Showing :start-:end of :total results": "عرض {start}-{end} من {total} نتيجة"
 }

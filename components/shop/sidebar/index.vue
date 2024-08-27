@@ -25,7 +25,7 @@
     <div class="tp-shop-widget mb-50">
       <h3 class="tp-shop-widget-title">{{ $t('Top Rated Products') }}</h3>
       <!-- filter top-product start -->
-      <shop-sidebar-top-product />
+<!--      <shop-sidebar-top-product />-->
       <!-- filter top-product end -->
     </div>
     <!-- brand -->
