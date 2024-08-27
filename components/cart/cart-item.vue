@@ -2,7 +2,7 @@
   <tr class="tp-cart-item-row">
     <!-- img -->
     <td class="tp-cart-img col-2">
-      <nuxt-link :to="toolsService.getProductUrl(item?.differents)" style="background-color: #F2F3F5;display: block;">
+      <nuxt-link :to="toolsService.getProductUrl(item?.differents, true)" style="background-color: #F2F3F5;display: block;">
         <img :src="item?.differents.images?.[0]" :title="item?.differents?.name" alt="cart-img" />
       </nuxt-link>
     </td>
@@ -10,7 +10,7 @@
     <td class="tp-cart-title px-1 col-6">
      <div class="row">
 		  <div class="col-12">
-          <nuxt-link :to="toolsService.getProductUrl(item?.differents)">
+          <nuxt-link :to="toolsService.getProductUrl(item?.differents, true)">
 		      {{ toolsService.parseProductName(item?.differents, true) }}
 		    </nuxt-link>
 		  </div>

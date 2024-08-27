@@ -39,14 +39,14 @@ const productRelatedLoader = () => $axios.get(toolsService.getRelatedProductUrl(
 	return (res?.data?.data || []).map(convertProductResponse)
 });
 
-const {data: related_products, pending, refresh} = useLazyAsyncData(`products-${props?.product?.id}-related`,
+const {data: related_products, pending, refresh: refresh_related_products} = useLazyAsyncData(`products-${props?.product?.id}-related`,
 		productRelatedLoader,{
-	watch: [props],
+	watch: [props.product],
 });
 
 onMounted(async () => {
 	if (!related_products.value) {
-		await refresh()
+		await refresh_related_products()
 	}
 })
 // slider_setting

@@ -120,8 +120,14 @@ export default {
     getRelatedProductUrl(product: IProduct): string {
         return `/products/${this.parseId(product, product?.sku)}/related`;
     },
-    getProductUrl(product: IProduct): string {
-        return `/product-details/${this.parseId(product, product?.sku)}`;
+    getProductUrl(product: IProduct, addSuffix: boolean = false): string {
+        let suffix = '';
+        if (addSuffix) {
+            suffix = product?.additionalInfo?.[0]?.value || '';
+            suffix = suffix ? `?different=${product?.id}&different_name=${suffix}` : '';
+        }
+
+        return `/product-details/${this.parseId(product, product?.sku)}${suffix}`;
     },
     getCategoryUrl(category: ICategory): string {
         return `/category/${this.parseId(category, category?.slug)}`;

@@ -7,7 +7,7 @@
         role="tablist"
       >
         <button
-          v-for="(img, i) in product?.images"
+          v-for="(img, i) in product_images"
           :key="i"
           @click="productStore.handleImageActive(img)"
           :class="`nav-link ${img === productStore.activeImg ? 'active' : ''}`"
@@ -35,6 +35,7 @@ import { useUtilityStore } from "@/pinia/useUtilityStore";
 const props = defineProps<{ product: IProduct }>();
 
 const productStore = useProductStore();
+const product_images = computed(() => props.product?.images);
 
 watch(
 	() => props.product,

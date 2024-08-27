@@ -30,6 +30,7 @@ onMounted(() => {
 				if (products?.[0] && products?.[0]?.images?.length > 0) {
 					productStore.activeImg = products?.[0]?.images?.[0];
 				}
+				// console.log(33, productStore.activeImg)
 			});
 });
 

@@ -24,18 +24,20 @@ const route = useRoute();
 
 useSeoMeta({title: "Product Details Page"});
 
-const {data: product, pending} = useLazyAsyncData(`product-${route.params.product}`, () => productStore.loadProducts()
-		.then((products: IProduct[]) => {
+const {data: product, pending} = useLazyAsyncData(`product-${route.params.product}`, () => productStore.loadProducts({
+	slug: route.params.product,
+})
+		.then(async (products: IProduct[]) => {
 			if (products.value?.[0] && products.value?.[0]?.images?.length > 0) {
 				productStore.activeImg = products.value?.[0]?.images?.[0];
 			}
 
+			// await refreshNuxtData([`products-${products.value?.[0]?.id}-differents`, `products-${products.value?.[0]?.id}-accessories`]);
 			return products.value?.[0];
 		}), {
 	initialData: productStore.product_data?.[0],
-	watch: [productStore.product_data, route],
+	watch: [route],
 });
-// console.log(37,product)
 // onMounted(() => {
 // 	productStore
 // 			.loadProducts()

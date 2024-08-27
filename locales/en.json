@@ -129,5 +129,6 @@
   "All Categories": "All Categories",
   "Clear": "Clear",
   "Remove all": "Remove all",
-  "Showing :start-:end of :total results": "Showing {start}-{end} of {total} results"
+  "Showing :start-:end of :total results": "Showing {start}-{end} of {total} results",
+  "Please select all required accessories": "Please select all required accessories"
 }

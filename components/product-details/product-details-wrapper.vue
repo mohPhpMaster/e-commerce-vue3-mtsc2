@@ -58,8 +58,7 @@
           <div class="tp-product-details-add-to-cart mb-15 w-100">
           <button
 		          class="tp-product-details-add-to-cart-btn w-100"
-		          data-bs-dismiss="modal"
-		          @click="openCartProduct(different)"
+		          @click="addToCart(mainProduct)"
           >
             {{ $t("Add To Cart") }}
           </button>
@@ -117,6 +116,7 @@
   </div>
 </template>
 
+
 <script lang="ts" setup>
 import {type IProduct} from '@/types/product-d-t';
 import {useCartStore} from "@/pinia/useCartStore";
@@ -126,28 +126,28 @@ import {convertProductDifferentsResponse} from "@/plugins/data/product-different
 import {convertProductAccessoriesResponse} from "@/plugins/data/product-accessories-groups-data";
 import type {IProductAccessoriesGroups} from "@/types/product-accessories-groups-d-t";
 import type {IProductAccessories} from "@/types/product-accessories-d-t";
+import {toast} from "vue3-toastify";
+import type {ICartItem} from "@/types/cart-item-d-t";
 
 const cartStore = useCartStore();
 const route = useRoute();
 const router = useRouter();
+const {t} = useI18n();
 const emit = defineEmits(['updated'])
 
 const props = withDefaults(defineProps<{ product: IProduct; mainProduct: IProduct; isShowBottom?: boolean }>(), {
 	isShowBottom: true,
 })
-const different = useState('different', () => props?.product);
+const different = ref(props?.product);
 const accessories = useState('accessories', () => [] as IProductAccessoriesGroups[]);
 
-const productDifferentsLoader = () => $axios.get(`products/${toolsService.id(props?.product)}/differents`).then(res => {
+const productDifferentsLoader = () => $axios.get(`products/${toolsService.id(props.mainProduct)}/differents`).then(res => {
 	let data = (res?.data?.data || []).map(convertProductDifferentsResponse);
 	data.unshift(props?.mainProduct);
-	if (route.query?.different) {
-		different.value = data.find((product) => Number(product?.id) === Number(route.query?.different))
-	}
 	return data
 });
 
-const productAccessoriesLoader = () => $axios.get(`products/${toolsService.id(props?.product)}/accessories_groups`).then(res => {
+const productAccessoriesLoader = () => $axios.get(`products/${toolsService.id(props.mainProduct)}/accessories_groups`).then(res => {
 	let data = (res?.data?.data || []).map(convertProductAccessoriesResponse);
 	return data
 });
@@ -157,8 +157,8 @@ const {
 	error: productDifferentsError,
 	pending: productDifferentsPending,
 	refresh: productDifferentsRefresh,
-} = await useLazyAsyncData(`products-${props?.product?.id}-differents`, productDifferentsLoader, {
-	watch: [props.mainProduct],
+} = await useLazyAsyncData(`products-${props.mainProduct?.id}-differents`, productDifferentsLoader, {
+	watch: [props.mainProduct,different,route],
 })
 
 const {
@@ -166,14 +166,33 @@ const {
 	error: productAccessoriesError,
 	pending: productAccessoriesPending,
 	refresh: productAccessoriesRefresh,
-} = await useLazyAsyncData(`products-${props?.product?.id}-accessories`, productAccessoriesLoader, {
-	watch: [props.mainProduct],
+} = await useLazyAsyncData(`products-${props.mainProduct?.id}-accessories`, productAccessoriesLoader, {
+	watch: [props.mainProduct, different,route],
 })
 
 const currency = useSiteSettings().currency;
 
-const openCartProduct = (product: IProduct) => {
-	cartStore.openCartProduct(product)
+const addToCart = (product: IProduct) => {
+	let requiredAccessories = productAccessories.value.filter((accessory) => accessory?.is_required);
+	// let requiredAccessories = productAccessories.value.slice(0,1);
+	if (!requiredAccessories.every((accessory) => (accessory.id in accessories.value))) {
+		toast.error(t("Please select all required accessories"));
+		return false;
+	}
+
+	let $accessories = productAccessories.value
+			.filter((accessory) => accessory?.id in accessories.value)
+			.map((accessory) => ({
+				group: accessory,
+				accessory: accessories.value[accessory.id],
+			}))
+
+	const cartItem: ICartItem = {
+		quantity: cartStore.orderQuantity,
+		accessories: $accessories,
+		differents: different.value,
+	}
+	cartStore.addToCart(cartItem);
 }
 
 const differentProductClicked = ($product: IProduct) => {
@@ -183,7 +202,8 @@ const differentProductClicked = ($product: IProduct) => {
 	router.push({
 		query: {
 			...route.query,
-			different: $product?.id
+			different: $product?.id,
+			different_name: toolsService.parseProductDifferent($product),
 		}
 	})
 }
@@ -207,14 +227,27 @@ onMounted(async () => {
 	}
 });
 
+watch(
+		() => productDifferents.value,
+		(newStatus, oldStatus) => {
+			if (route.query?.different && Number(route.query?.different) !== Number(different.value?.id)) {
+				if (productDifferents.value?.length) {
+					different.value = productDifferents.value.find((p) => Number(p?.id) === Number(route.query?.different))
+				}
+			}
+			different.value = different.value || props?.product || props?.mainProduct;
+
+			emit('updated', different.value)
+			// console.log(241, different.value)
+		}
+)
 
 watch(
 		() => props.product,
-		(newStatus, oldStatus) => {
+		async (newStatus, oldStatus) => {
 			different.value = newStatus
 			accessories.value = [] as IProductAccessoriesGroups[]
-			// productDifferentsRefresh()
-			// productAccessoriesRefresh()
+			// console.log(251, different.value)
 		}
 )
 
@@ -223,6 +256,13 @@ watch(
 		(newStatus, oldStatus) => {
 			productDifferentsRefresh()
 			productAccessoriesRefresh()
+			if (route.query?.different && Number(route.query?.different) !== Number(different.value?.id)) {
+				if (productDifferents.value?.length) {
+					different.value = productDifferents.value.find((p) => Number(p?.id) === Number(route.query?.different))
+				}
+			}
+			different.value = different.value || props?.product || props?.mainProduct;
+			console.log(266, different.value)
 		}
 )
 </script>

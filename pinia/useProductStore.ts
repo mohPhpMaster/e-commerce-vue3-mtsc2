@@ -24,7 +24,8 @@ export const useProductStore = defineStore("product", () => {
         _LOG && console.warn(22 + ':useProductStore', currentOptions.value)
 
         product_data.value = await api.productData(currentOptions.value);
-        activeImg.value = product_data.value?.[0]?.images?.[0] || "";
+        // activeImg.value = product_data.value?.[0]?.images?.[0] || "";
+        // console.log(28, activeImg.value)
         return product_data;
     };
 

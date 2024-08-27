@@ -36,7 +36,7 @@
                 <div class="col-xl-10">
                   <table>
                       <tbody>
-                        <tr v-for="(info,i) in product.additionalInfo" :key="i">
+                        <tr v-for="(info,i) in product?.additionalInfo" :key="i">
                             <td>{{info.key}}</td>
                             <td>{{info.value}}</td>
                         </tr>
@@ -59,7 +59,7 @@
                         <h3 class="tp-product-details-review-number-title">{{ $t('Customer reviews') }}</h3>
                         <div class="tp-product-details-review-summery d-flex align-items-center">
                             <div class="tp-product-details-review-summery-value">
-                              <span>{{ product.rating }}</span>
+                              <span>{{ product?.rating }}</span>
                             </div>
                             <div class="tp-product-details-review-summery-rating d-flex align-items-center">
 										          <product-rating :product="product" />
@@ -132,7 +132,7 @@ import type {IReview} from "@/types/review-d-t";
 const {isLoggedIn} = useUserStore();
 const props = defineProps<{product:IProduct}>();
 
-const product_description = computed(() => toolsService.normalizeLineEndingsToHtml(props.product.description));
+const product_description = computed(() => toolsService.normalizeLineEndingsToHtml(props.product?.description));
 const reviews = ref<IReview[]>([]);
 const loadData = ()=>
 		api.productReviewsData({
@@ -153,7 +153,7 @@ onMounted(() => {
   }
 	loadData();
 	// todo: handle additional info
-	// console.log(156, props.product.additionalInfo);
+	// console.log(156, props.product?.additionalInfo);
 });
 
 const handleActiveMarker = (event: MouseEvent) => {

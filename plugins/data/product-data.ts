@@ -6,6 +6,7 @@ import {convertCategoryResponse} from "@/plugins/data/category-data";
 import type {ICategory} from "@/types/category-d-t";
 import type {IBrand} from "@/types/brand-d-t";
 import type {IBrandResponse} from "@/types/brand-response-d-t";
+import type {IFetchProductOptions} from "@/types/fetch-product-options-d-t";
 
 export async function productData({
                                       prepend = [],
@@ -18,18 +19,7 @@ export async function productData({
                                       query = undefined,
                                       search = undefined,
                                       plain = false,
-                                  }: {
-    prepend?: IProduct[],
-    append?: IProduct[],
-    page?: number,
-    slug?: string,
-    category?: ICategory,
-    product?: IProduct,
-    brand?: IBrand,
-    query?: string,
-    search?: string,
-    plain?: boolean;
-} = {}): Promise<IProduct[]> {
+                                  }: IFetchProductOptions = {}): Promise<IProduct[]> {
     try {
         page = Number(page) || 1;
         page = page < 1 ? 1 : page;
