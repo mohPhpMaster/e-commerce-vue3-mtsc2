@@ -104,9 +104,30 @@ export const useProductFilterStore = defineStore("product_filter", () => {
     });
 
     watch(
-        () => route.query,
-        () => {
-            loadProducts(productStore.currentProductOptions);
+        () => route.params,
+        (v) => {
+            if (Object.keys(route.query).length === 0) {
+                loadProducts({
+                    page: 1,
+                    slug: '',
+                    category: undefined,
+                    brand: undefined,
+                    search: '',
+                    product: undefined,
+                    query: '',
+                });
+            } else {
+                productStore.updateProductOptions({
+                    ...productStore.currentProductOptions,
+                    ...v,
+                    ...route.query,
+                })
+                loadProducts({
+                    ...productStore.currentProductOptions,
+                    ...v,
+                    ...route.query,
+                });
+            }
         }
     );
 

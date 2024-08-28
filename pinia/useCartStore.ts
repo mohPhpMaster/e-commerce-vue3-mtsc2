@@ -73,6 +73,7 @@ export const useCartStore = defineStore("cart_product", () => {
     };
 
     const addToCart = (cart: ICartItem) => {
+        console.log(76, cart)
         if (cart_modal_status.value) {
             closeCart();
         }
@@ -92,8 +93,6 @@ export const useCartStore = defineStore("cart_product", () => {
         );
 
         const isExist = cart_products.value.some(searchForItem);
-
-        console.log(74, 'addToCart', cart, isExist)
         if (!isExist) {
             cart_products.value.push(cart);
             localStorage.setItem("cart_products", JSON.stringify(cart_products.value));

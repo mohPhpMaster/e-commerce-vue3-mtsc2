@@ -35,7 +35,7 @@ const props = defineProps<{ product: IProduct, current: IProduct }>()
 const checkQuery = () => {
 	if (route.query?.different) {
 		if (Number(props.product.id) === Number(route.query?.different) && Number(props.current?.id) !== Number(route.query?.different)) {
-			console.log(37, Number(props.product?.id), Number(route.query?.different), Number(props.current?.id))
+			// console.log(37, Number(props.product?.id), Number(route.query?.different), Number(props.current?.id))
 			emit('clicked', props.product)
 		}
 	}

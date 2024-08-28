@@ -19,6 +19,7 @@ export async function productData({
                                       query = undefined,
                                       search = undefined,
                                       plain = false,
+                                      toURL = false,
                                   }: IFetchProductOptions = {}): Promise<IProduct[]> {
     try {
         page = Number(page) || 1;
@@ -28,7 +29,7 @@ export async function productData({
         search = search || '';
         let url = `products`;
         let url_suffix = `?page=${page}&query=${query}&search=${search}`;
-        let converter: Function = (o: []) => o.map(convertProductResponse);
+        let converter: Function = (o: []) => o.map(x=>convertProductResponse(x));
 
         if (category) {
             url = `categories/${toolsService.id(category)}/products`;
@@ -44,9 +45,15 @@ export async function productData({
         }
 
         url = `${url}${url_suffix}`;
+        if (toURL) {
+            return url;
+        }
         const response: { data: { data: IProductResponse[] } } = await $axios.get(url);
+        // console.log(52, url)
+        // const response: { data: { data: IProductResponse[] } } = await import("@/data/products.json").then(x => ({ data: x.default }));
+        // console.log(55, response);
         if (plain) {
-            return converter(response?.data?.data || []);
+            return (response?.data?.data || []);
         }
         const products = response?.data?.data || [];
         const transformedProducts: Awaited<IProduct>[] = await Promise.all(converter(products));
@@ -58,12 +65,14 @@ export async function productData({
     }
 }
 
-export function convertProductResponse(product: IProductResponse): IProduct {
+export function convertProductResponse(product: IProductResponse, noImage?: string): IProduct {
     let images: string[] = [
         product?.imageUrl || "",
         ...(product?.images?.data || [])
     ].filter(x => x);
-    images = images.length ? images : [useNuxtApp().$settings.noImageUrl];
+    images = images.length ? images : [
+        noImage || toolsService.getDefaultNoImageUrl() || useNuxtApp().$settings.noImageUrl || 'no-image'
+    ].filter(x => x);
 
     let discount = Number(product?.discount || product?.price_after_discount) || 0;
     let price = Number(product.price) || 0;
@@ -98,7 +107,7 @@ export function convertProductResponse(product: IProductResponse): IProduct {
 }
 
 export function convertBrandProductsResponse(brand: IBrandResponse): IProduct[] {
-    return (brand?.products?.data || []).map(convertProductResponse);
+    return (brand?.products?.data || []).map(x=>convertProductResponse(x));
 }
 
 export default productData;

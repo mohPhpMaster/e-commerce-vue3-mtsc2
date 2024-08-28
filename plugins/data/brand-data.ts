@@ -40,7 +40,7 @@ export function convertBrandResponse(brand: IBrandResponse): IBrand {
         slug: brand.slug,
         url: `/brand/${brand.slug}`,
         imageUrl: brand.imageUrl,
-        products: (brand?.products?.data || []).map(convertProductResponse),
+        products: (brand?.products?.data || []).map(x=>convertProductResponse(x)),
     };
 }
 

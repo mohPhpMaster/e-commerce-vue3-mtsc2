@@ -20,8 +20,7 @@ export default {
         return useNuxtApp().$settings.noImageUrl;
     },
     id(obj: any): string {
-        // console.log(13,obj.ITYPE)
-        let idx = idKey.find(key => key in obj);
+        let idx = idKey.find(key => obj.hasOwnProperty(key));
         return idx && idx in obj ?
             obj[idx] :
             obj;
@@ -113,6 +112,9 @@ export default {
     },
     gotoBrand(brand: IBrand): void {
         useRouter().push(this.getBrandUrl(brand));
+    },
+    gotoProduct(product: IProduct): void {
+        useRouter().push(this.getProductUrl(product));
     },
     getProductReviewUrl(product: IProduct): string {
         return `/products/${product.id}/reviews`;

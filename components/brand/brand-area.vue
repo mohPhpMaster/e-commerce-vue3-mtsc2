@@ -5,10 +5,10 @@
           <div class="col-xl-12">
               <div class="tp-section-title-wrapper-5 mb-50 text-center">
                 <span class="tp-section-title-pre-5">
-                    Shop by Brands
+                    {{ $t('Shop by Brands') }}
                     <svg-shape-line></svg-shape-line>
                 </span>
-                <h3 class="tp-section-title-5">Shop by Brands</h3>
+                <h3 class="tp-section-title-5">{{ $t('Shop by Brands') }}</h3>
               </div>
           </div>
         </div>

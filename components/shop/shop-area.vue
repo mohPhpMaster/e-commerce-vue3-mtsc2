@@ -104,6 +104,10 @@ import type {ICategory} from "@/types/category-d-t";
 import type {IBrand} from "@/types/brand-d-t";
 import type {IFetchProductOptions} from "@/types/fetch-product-options-d-t";
 import {api} from "@/plugins/api";
+import {convertProductResponse} from "@/plugins/data/product-data";
+import {$axios} from "@/plugins/axiosInstance";
+import toolsService from "@/services/toolsService";
+import {convertProductDifferentsResponse} from "@/plugins/data/product-differents-data";
 
 const perPage = useNuxtApp().$settings.perPage;
 const route = useRoute();
@@ -135,40 +139,19 @@ const props = defineProps({
 });
 const store = useProductFilterStore();
 const page = ref<number>(route?.query?.page || 1);
-const {data, pending, refresh} = await useAsyncData(
-		`load-products-${props?.category?.id || 0}-${props?.brand?.id || 0}-${page.value || 1}`,
-		async () => {
-			let opt = {
-				category: props?.category,
-				brand: props?.brand,
-				page: page.value,
-			};
-			const response = await api.productData(opt);
-			store.updateProductOptions(opt);
-
-			return response;
-		},
-		{
-			// initialData: [], // optional
-			// server: true, // optional
-		}
-);
-
-const filteredProducts = ref<IProduct[]>(store.filterProducts(data.value || []));
+const filteredProducts = ref<IProduct[]>([]);
 const startIndex = ref<number>(0);
 const endIndex = ref<number>(filteredProducts.value?.length!);
 
 const propListStyle = computed(() => (props?.list_style === undefined ? "grid" : (props?.list_style ? "list" : "grid")));
-const displayedProducts = computed(() => filteredProducts.value.slice(startIndex.value, endIndex.value));
+const displayedProducts = computed(() => {
+	if (filteredProducts.value?.length > perPage) {
+		return filteredProducts.value.slice(startIndex.value, endIndex.value);
+	}
+
+	return filteredProducts.value;
+});
 const displayStyle = ref<string>(propListStyle.value);
-
-store.setData(data.value);
-// filteredProducts.value = store.filterProducts(data.value || []);
-
-const loadProduct = (args?: IFetchProductOptions) => {
-	store.updateProductOptions(args);
-	return api.productData(args);
-}
 
 const displayStyleStore = (style?: string): string => {
 	if (style !== undefined) {
@@ -206,9 +189,34 @@ function handlePagination(data: IProduct[], start: number, end: number): void {
 	store.setData(data);
 }
 
-// store.setData(data.value)
+const {data, pending, refresh} = await useAsyncData(
+		`load-products-${props?.category?.id || 0}-${props?.brand?.id || 0}-${page.value || 1}`,
+		() => {
+			let opt: IFetchProductOptions = {
+				category: props?.category,
+				brand: props?.brand,
+				page: page.value,
+				plain: true
+			};
+			store.updateProductOptions(opt);
+			const {siteSettings} = useSiteSettings();
+			let noImageUrl = siteSettings.noImageUrl;
+			const response = api.productData(opt)
+					.then(data => {
+						return data.map(x => convertProductResponse(x, noImageUrl));
+					});
+
+			return response;
+		},
+		{
+			// initialData: [], // optional
+			// server: true, // optional
+		}
+);
+
+store.setData(data.value)
 // console.log(201,data.value)
-// filteredProducts.value = store.filterProducts(data.value || []);
+filteredProducts.value = store.filterProducts(data.value || []);
 
 // loadProduct({
 // 	category: props?.category,
@@ -220,16 +228,7 @@ watch(
 		() => [props.category, props.brand],
 		(newStatus, oldStatus) => {
 			if (newStatus[0] !== oldStatus[0] || newStatus[1] !== oldStatus[1]) {
-				loadProduct({
-					category: props?.category,
-					brand: props?.brand,
-					page: page.value
-				})
-						.then((data) => {
-							store.setData(data)
-							filteredProducts.value = store.filterProducts(data || []);
-							return data;
-						});
+				refresh();
 			}
 		}
 );
@@ -252,15 +251,8 @@ watch(
 onMounted(() => {
 	displayStyleStore();
 
-	loadProduct({
-		category: props?.category,
-		brand: props?.brand,
-		page: page.value
-	})
-			.then((data) => {
-				store.setData(data)
-				filteredProducts.value = store.filterProducts(data || []);
-				return data;
-			})
+	if (!data.value) {
+		refresh()
+	}
 });
 </script>

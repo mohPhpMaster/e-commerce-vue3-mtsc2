@@ -36,7 +36,7 @@ const props = defineProps<{
 }>();
 
 const productRelatedLoader = () => $axios.get(toolsService.getRelatedProductUrl(props.product)).then(res => {
-	return (res?.data?.data || []).map(convertProductResponse)
+	return (res?.data?.data || []).map(x=>convertProductResponse(x))
 });
 
 const {data: related_products, pending, refresh: refresh_related_products} = useLazyAsyncData(`products-${props?.product?.id}-related`,

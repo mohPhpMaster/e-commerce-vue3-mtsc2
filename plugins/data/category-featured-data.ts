@@ -25,7 +25,7 @@ export function convertCategoryFeaturedResponse(category: ICategoryResponse): IC
         url: `/category/${category.slug}`,
         img: category.imageUrl,
         parentName: category.name,
-        products: (category?.products?.data || []).map(convertProductResponse),
+        products: (category?.products?.data || []).map(x=>convertProductResponse(x)),
         children: category?.sub_categories?.data/*.map((subCategory) => subCategory.id)*/,
         textClr: category.textClr || undefined,
     };

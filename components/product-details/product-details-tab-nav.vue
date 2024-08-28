@@ -133,16 +133,24 @@ const {isLoggedIn} = useUserStore();
 const props = defineProps<{product:IProduct}>();
 
 const product_description = computed(() => toolsService.normalizeLineEndingsToHtml(props.product?.description));
+const _data = ref<{ [key: string]: IReview[] }>([]);
 const reviews = ref<IReview[]>([]);
-const loadData = ()=>
-		api.productReviewsData({
-			product: props?.product,
-		})
-				.then(data => {
-					reviews.value = data;
+const loadData = ()=> {
+	if (_data.value?.[props.product.id])
+	{
+		return _data.value[props.product.id];
+	}
 
-					return data;
-				})
+	return api.productReviewsData({
+		product: props?.product,
+	})
+			.then(data => {
+				reviews.value = data;
+				_data.value[props.product.id] = reviews;
+
+				return data;
+			});
+}
 
 onMounted(() => {
   const nav_active = document.getElementById("nav-addInfo-tab");

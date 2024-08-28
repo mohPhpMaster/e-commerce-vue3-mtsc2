@@ -22,7 +22,7 @@ const page = ref(1)
 const {data: brand, pending} = await useAsyncData(
 		`brand-${propBrand.value}`,
 		() => $fetch(`brands/${propBrand.value}`, {
-			baseURL: useNuxtApp().$settings.apiURL,
+			baseURL: useSiteSettings().siteSettings.apiURL,
 			responseType: 'json',
 			parseResponse: (res) => JSON.parse(res)?.data?.[0],
 			params: {

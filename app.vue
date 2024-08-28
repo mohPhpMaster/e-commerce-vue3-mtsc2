@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="default">
-	  <NuxtLoadingIndicator />
+	  <NuxtLoadingIndicator :skip="['error']" />
     <NuxtPage />
 
 	  <cart-modal

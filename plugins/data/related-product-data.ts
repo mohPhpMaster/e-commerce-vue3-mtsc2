@@ -28,7 +28,7 @@ export async function relatedProductsData({
         search = search || '';
         let url = `products`;
         let url_suffix = `?page=${page}&search=${search}`;
-        let converter: Function = (o: []) => o.map(convertProductResponse);
+        let converter: Function = (o: []) => o.map(x=>convertProductResponse(x));
 
         if (slug) {
             slug = toolsService.getSlug(slug, {prefix: '/',suffix: '/related'});

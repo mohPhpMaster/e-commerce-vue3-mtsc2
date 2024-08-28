@@ -1,7 +1,7 @@
 <template>
  <div class="tp-product-item-5 p-relative white-bg mb-40" :title="$product?.description || ''">
     <div class="tp-product-thumb-5 w-img fix mb-15">
-        <nuxt-link :href="toolsService.getProductUrl($product)">
+        <nuxt-link @click="toolsService.gotoProduct($product)" >
           <img :src="$product.images?.[0]" :alt="toolsService.parseProductName($product)" class="product-image">
         </nuxt-link>
 
@@ -65,7 +65,7 @@
           <span><a :href="toolsService.getCategoryUrl($product.parentCategory)">{{ toolsService.parseCategoryName($product.parentCategory, '') }}</a></span>
         </div>
         <h3 class="tp-product-title-5">
-          <nuxt-link :href="toolsService.getProductUrl($product)">{{ toolsService.parseProductName($product) }}</nuxt-link>
+          <nuxt-link @click="toolsService.gotoProduct($product)">{{ toolsService.parseProductName($product) }}</nuxt-link>
         </h3>
         <div class="tp-product-rating-5">
 					<product-rating :product="$product" />

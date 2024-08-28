@@ -71,7 +71,6 @@
 import {useProductStore} from "@/pinia/useProductStore";
 
 const productStore = useProductStore();
-// productStore.loadProducts();
 let product_data = computed(() => productStore.product_data);
 
 const top_rated_products = product_data.value.filter((product) => Number(product.rating)).slice(-3);

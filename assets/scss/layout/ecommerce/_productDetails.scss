@@ -421,6 +421,25 @@
             }
         }
     }
+    &-differents-accessories {
+        margin-bottom: 22px;
+        &-item{
+            &:not(:last-child){
+                margin-bottom: 3px;
+            }
+            & > span{
+                font-size: 15px;
+                color: var(--tp-common-black);
+                line-height: 1.4;
+                margin-right: 6px;
+            }
+            & p{
+                font-size: 15px;
+                margin-bottom: 0;
+                line-height: 1.4;
+            }
+        }
+    }
     &-query{
         margin-bottom: 22px;
         &-item{

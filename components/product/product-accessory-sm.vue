@@ -5,9 +5,10 @@
 		        ref="groupSelect"
 		        aria-expanded="false"
 		        aria-haspopup="true"
-		        class="tp-btn tp-btn-sm dropdown-toggle px-3 w-100"
+		        class="tp-btn tp-btn-sm dropdown-toggle px-3 w-100 py-2 text-truncate "
 		        data-bs-toggle="dropdown"
 		        type="button"
+		        :title="selectedAccessory?.id ? selectedAccessory?.name : $t('Choose')"
         >
           {{ selectedAccessory?.id ? selectedAccessory?.name : $t("Choose") }}
         </button>
@@ -23,8 +24,9 @@
           <a
 		          v-show="!searchTerm"
 		          href="void(0)"
-		          class="dropdown-item"
+		          class="dropdown-item text-truncate"
 		          @click.prevent="resetAccessory()"
+		          :title="$t('Choose')"
           >
             {{ $t("Choose") }}
           </a>
@@ -32,8 +34,9 @@
 		          v-for="(accessory, index) in filteredAccessories"
 		          :key="index"
 		          href="void(0)"
-		          class="dropdown-item"
+		          class="dropdown-item text-truncate"
 		          @click.prevent="selectAccessory(accessory)"
+		          :title="accessory?.name"
           >
             {{ accessory?.name }}
           </a>

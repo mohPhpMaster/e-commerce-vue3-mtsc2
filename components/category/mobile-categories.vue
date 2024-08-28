@@ -9,7 +9,7 @@
       <nav :class="`tp-category-menu-content ${isCategoryActive ? 'active' : ''}`">
         <ul :class="isCategoryActive ? 'active' : ''">
           <li v-for="(item, i) in categories" :key="i" class="has-dropdown">
-            <a class="pointer" @click.prevent="handleOpenSubMenu(item)">
+            <a class="pointer" @click.prevent="handleOpenSubMenu(item)" @dblclick.prevent.stop="router.push(item.url)">
               <span v-if="item.img">
                 <img :src="item.img" alt="category image" style="width: 50px; height: 50px; object-fit: contain"/>
               </span>
@@ -21,7 +21,7 @@
 
             <ul v-if="item?.children?.length > 0" :class="`tp-submenu ${openCategory === item.parentName ? 'active' : ''}`">
               <li v-for="(child, i) in item.children" :key="i">
-                <a class="pointer" @click.prevent="handleOpenSubMenu(child)">{{ toolsService.parseCategoryName(child) }}</a>
+                <a class="pointer" @dblclick.prevent="router.push(child.url)" @click.prevent="handleOpenSubMenu(child)">{{ toolsService.parseCategoryName(child) }}</a>
               </li>
             </ul>
           </li>
