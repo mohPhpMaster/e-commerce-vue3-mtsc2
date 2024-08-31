@@ -7,10 +7,12 @@
       <div class="row">
         <div class="col-xxl-12">
           <div class="breadcrumb__content text-center p-relative z-index-1">
-            <h3 class="breadcrumb__title">{{title}}</h3>
+            <h3 class="breadcrumb__title">{{ title }}</h3>
             <div class="breadcrumb__list">
-              <span><nuxt-link href="/">Home</nuxt-link></span>
-              <span>{{subtitle}}</span>
+              <span>
+	              <nuxt-link href="/">{{ $t('Home') }}</nuxt-link>
+              </span>
+              <span>{{ subtitle }}</span>
             </div>
           </div>
         </div>

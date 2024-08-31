@@ -44,7 +44,12 @@ export const useProductFilterStore = defineStore("product_filter", () => {
     const loadProducts = (args?: IFetchProductOptions): Promise<IProduct[]> => {
         _LOG && console.warn(42 + ':useProductFilterStore:loadProducts', args || {})
         return productStore.loadProducts(args).then((data) => {
-            product_data.value = data.value;
+            if (args?.pagination)
+            {
+                product_data.value = data.value.data;
+            } else {
+                product_data.value = data.value;
+            }
             return data;
         })
     }
@@ -102,7 +107,7 @@ export const useProductFilterStore = defineStore("product_filter", () => {
 
         return filterProducts(filtered);
     });
-
+/*
     watch(
         () => route.params,
         (v) => {
@@ -130,10 +135,11 @@ export const useProductFilterStore = defineStore("product_filter", () => {
             }
         }
     );
-
+*/
     return {
         // productStore,
         // product_data: productStore.product_data,
+        product_data,
         loadProducts,
         maxProductPrice,
         priceValues,

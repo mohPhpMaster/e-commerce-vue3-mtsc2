@@ -45,7 +45,7 @@
                 <span class="cartmini__quantity">{{ " " }}x{{ item.quantity }}</span>
               </div>
             </div>
-            <a @click="cartStore.removeCartProduct(item?.differents)" class="cartmini__del pointer">
+            <a @click="cartStore.removeCartProduct(item)" class="cartmini__del pointer">
               <i class="fa-regular fa-xmark"></i>
             </a>
           </div>
@@ -98,9 +98,7 @@
 <script setup lang="ts">
 import { useCartStore } from "@/pinia/useCartStore";
 import toolsService from "@/services/toolsService";
-
-// Currency Formatter
-const currency = useSiteSettings().currency;
+import currency from "@/services/currencyService";
 
 const cartStore = useCartStore();
 </script>

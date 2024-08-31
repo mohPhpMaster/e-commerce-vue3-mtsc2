@@ -1,6 +1,6 @@
 <template>
   <section class="profile__area pt-120 pb-120">
-      <div v-if="userStore?.isLoggedIn && userStore?.initialized" class="container">
+      <div v-if="userStore?.isLoggedIn() && userStore?.initialized" class="container">
         <div class="profile__inner p-relative">
             <div class="profile__shape">
               <img class="profile__shape-1" src="/images/login/laptop.png" alt="" >
@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import {useUserStore} from "@/pinia/userStore";
+import {useUserStore} from "@/pinia/useUserStore";
 import {toast} from "vue3-toastify";
 
 const userStore = useUserStore();
@@ -87,7 +87,7 @@ const logout = () => {
 }
 
 onMounted(() => {
-	if (userStore.initialized && !userStore.isLoggedIn) {
+	if (userStore.initialized && !userStore.isLoggedIn()) {
 		logout();
 	}
 });

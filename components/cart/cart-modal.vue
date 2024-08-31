@@ -1,5 +1,5 @@
 <template>
-	<div :id="id" class="modal fade tp-product-modal" @close="close" role="dialog" tabindex="-1">
+	<div :id="id" class="modal fade tp-product-modal" role="dialog" tabindex="-1" @close="close">
 	  <div class="modal-dialog modal-dialog-centered" data-bs-backdrop="static" role="document">
 	    <div class="modal-content">
 
@@ -11,27 +11,15 @@
 	        </button>
 	      </div>
 
-	      <!-- CartModal Body -->
+		    <!-- CartModal Body -->
 	      <div class="modal-body">
-		      <div class="pb-2 product-differents-block">
-            <cart-product-differents
-		            :product="product"
-		            :productsCount="cart_different_products_count"
-		            :productDifferents="productDifferents"
-		            :select="productDifferentsValue"
-		            @updated="setProductDifferents"
-            ></cart-product-differents>
-		      </div>
-
-		      <div class="pt-2 product-accessories-block">
-				    <cart-product-accessories
-						    :product="product"
-						    :productsCount="cart_accessory_products_count"
-						    :select="productAccessoriesValue"
-						    :productAccessories="productAccessories"
-						    @updated="setProductAccessories"
-				    />
-		      </div>
+		      <product-details-differents-accessories
+				      :different="different"
+				      :product="product"
+				      @clicked="setDifferentProduct"
+				      @updated="setAccessoryProduct"
+				      @onLoading="loading = $event"
+		      />
 	      </div>
 
 		    <!-- CartModal Footer -->
@@ -41,11 +29,11 @@
 			      <div class="tp-product-details-action-item-wrapper d-sm-flex align-items-center">
 			          <div class="tp-product-details-quantity">
 			            <div class="tp-product-quantity mb-15 mr-15">
-			                <span class="tp-cart-minus" @click.stop.prevent="store.decrement">
+			                <span class="tp-cart-minus" @click.stop.prevent="loading || store.decrement()">
 			                  <svg-minus />
 			                </span>
-			                <input class="tp-cart-input" type="text" :value="store.orderQuantity" readonly>
-			                <span class="tp-cart-plus" @click.stop.prevent="store.increment">
+			                <input :value="store.orderQuantity" class="tp-cart-input" readonly type="text">
+			                <span class="tp-cart-plus" @click.stop.prevent="loading || store.increment()">
 			                  <svg-plus-sm />
 			                </span>
 			            </div>
@@ -54,8 +42,17 @@
 			    </div>
 
           <div class="tp-product-details-add-to-cart mb-15 row">
-            <button @click="commitProductToCart" data-bs-dismiss="modal" class="tp-product-details-buy-now-btn my-1" :disabled="!productDifferents?.length">{{ $t("Add To Cart") }}</button>
-            <button type="button" data-bs-dismiss="modal" class="tp-product-details-add-to-cart-btn my-1">{{ $t("Cancel") }}</button>
+            <button
+		            :disabled="loading || Object.keys(different).length === 0"
+		            class="tp-product-details-buy-now-btn my-1"
+		            data-bs-dismiss="modal"
+		            @click="commitProductToCart"
+            >{{ $t("Add To Cart") }}</button>
+            <button
+		            class="tp-product-details-add-to-cart-btn my-1"
+		            data-bs-dismiss="modal"
+		            type="button"
+            >{{ $t("Cancel") }}</button>
           </div>
 
 	      </div>
@@ -66,53 +63,53 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue';
-import { useRouter } from 'vue-router';
-import swal from 'sweetalert';
-import PAG from "@/data/product_accessories_groups.json";
 import {useCartStore} from "@/pinia/useCartStore";
-import toolsService from "@/services/toolsService";
-import {api} from "@/plugins/api";
 import type {IProduct} from "@/types/product-d-t";
 import type {IProductAccessories} from "@/types/product-accessories-d-t";
-import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
 import type {ICartItem} from "@/types/cart-item-d-t";
+import type {IProductAccessoriesGroups} from "@/types/product-accessories-groups-d-t";
+import {loading} from "@nuxt/ui-templates";
+import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
 
 const props = defineProps<{
-	title: string;
-	id: string;
-	cart_different_products_count: number;
-	cart_accessory_products_count: number;
+	title?: string;
+	id?: string;
+	cart_different_products_count?: number;
+	cart_accessory_products_count?: number;
 }>();
 const emit = defineEmits(['selected', 'closed', 'opened']);
 
 const router = useRouter();
+const route = useRoute();
 const {t} = useI18n();
 const store = useCartStore();
-
-const modalStatus = ref(false);
-const productDifferentsValue = ref<string|number>("");
-const productAccessoriesValue = ref<ISelectedAccessories[]>([] as ISelectedAccessories[]);
-const productDifferents = ref<IProduct[]>([] as IProduct[]);
-const productAccessories = ref<IProductAccessories[]>([] as IProductAccessories[]);
 
 const cartModalStatus = computed(() => store.cart_modal_status);
 const cartModalQty = computed(() => store.orderQuantity);
 const product = computed(() => store.cart_product);
-
-const parsedTitle = computed(() => props.title);
-
+const parsedTitle = computed(() => store.cart_title || props.title);
 const modalElement = computed(() => window.$(`#${props.id}`));
 
-const incrementQty = () => {
-	// store.incrementCartQty()
-	store.increment()
-};
+const loading = ref(false);
+const modalStatus = ref(false);
+const different = ref<IProduct>(product.value);
+const accessories = ref<ISelectedAccessories[]>([] as ISelectedAccessories[]);
 
-const decrementQty = () => {
-	// store.decrementCartQty();
-	store.decrement();
-};
+const setDifferentProduct = ($product: IProduct) => {
+	different.value = $product;
+}
+
+const setAccessoryProduct = ($group: IProductAccessories, $accessory: IProductAccessoriesGroups, $productAccessories: IProductAccessoriesGroups[]) => {
+	if ($accessory?.id) {
+		accessories.value = [
+			...accessories.value,
+			{
+				group: $group,
+				accessory: $accessory
+			}
+		]
+	}
+}
 
 const modal = (...args: any[]) => {
 	return modalElement.value.modal(...args);
@@ -126,13 +123,13 @@ const close = () => {
 	}
 
 	modal('hide');
+	store.cart_product = {} as IProduct;
+	different.value = {} as IProduct;
+	accessories.value = [] as IProductAccessoriesGroups[]
 };
 
 const open = async () => {
-	// Fetch product accessories and differents (adjust based on your logic)
-	// await cartStore.fetchProductAccessoriesGroups(product.value?.slug);
-	// await cartStore.fetchProductDifferents(product.value?.slug);
-
+	different.value = Object.keys(different.value).length ? different.value : product.value;
 	modalStatus.value = true;
 
 	if (!cartModalStatus.value) {
@@ -143,20 +140,19 @@ const open = async () => {
 };
 
 const commitProductToCart = () => {
-	if (!productDifferentsValue.value) {
+	if (!different.value) {
 		return;
 	}
 
 	const cart: ICartItem = {
-		differents: <IProduct>productDifferents.value.find((product_different: IProduct) => product_different?.id === productDifferentsValue.value),
-		accessories: productAccessoriesValue.value,
+		differents: different.value,
+		accessories: accessories.value,
 		quantity: cartModalQty.value
 	};
 
 	emit('selected', cart);
 	store.addToCart(cart)
 	store.initialOrderQuantity();
-	setProductAccessories([] as ISelectedAccessories[]);
 };
 
 const checkModal = async () => {
@@ -169,14 +165,6 @@ const checkModal = async () => {
 	});
 };
 
-const setProductDifferents = (value: IProduct) => {
-	productDifferentsValue.value = value?.id;
-};
-
-const setProductAccessories = (value: any) => {
-	productAccessoriesValue.value = value;
-};
-
 onMounted(async () => {
 	await checkModal();
 	modalElement.value
@@ -184,6 +172,7 @@ onMounted(async () => {
 				if (cartModalStatus.value) {
 					store.closeCart();
 				}
+
 				emit('closed');
 			})
 			?.on('shown.bs.modal', () => {
@@ -192,7 +181,6 @@ onMounted(async () => {
 				}
 
 				emit('opened');
-
 			});
 });
 
@@ -204,30 +192,6 @@ onUnmounted(() => {
 
 watch(cartModalStatus, async (newVal, oldVal) => {
 	await checkModal();
-});
-
-watch(product, async (newVal, oldVal) => {
-	if (product?.value)
-	{
-		api.productDifferentsData({
-			product: product.value
-		}).then((res: any) => {
-			productDifferents.value = [
-				product.value,
-				...res
-			];
-			setProductDifferents(product.value);
-		})
-
-		// productAccessories.value = PAG.data;
-		// setProductAccessories([]);
-		api.productAccessoriesGroupsData({
-			product: product.value
-		}).then((res: any) => {
-			productAccessories.value = res;//.map((r: IProduct) => r.sku);
-			// setProductAccessories([]);
-		})
-	}
 });
 </script>
 
@@ -244,5 +208,9 @@ watch(product, async (newVal, oldVal) => {
 .product-accessories-block {
 	/*max-height: 25vh;
 	height: 25vh;*/
+}
+
+.error {
+	color: red;
 }
 </style>

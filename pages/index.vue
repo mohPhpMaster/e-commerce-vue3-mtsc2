@@ -26,7 +26,9 @@
 import {$axios} from "@/plugins/axiosInstance";
 import {convertCategoryFeaturedResponse} from "@/plugins/data/category-featured-data";
 
-useSeoMeta({title: "Shofi Grocery - eCommerce Vue Nuxt 3 Template"});
+useSeoMeta({
+	title: ''
+});
 
 const {data: category_data, pending, error, refresh} = useLazyAsyncData<string[]>('categories/featured', () =>
 		$axios.get('categories/featured').then(res => (res?.data?.data || []).map(convertCategoryFeaturedResponse))

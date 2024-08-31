@@ -51,7 +51,7 @@
 <script lang="ts" setup>
 import {useForm} from "vee-validate";
 import * as yup from "yup";
-import {useUserStore} from '@/pinia/userStore'
+import {useUserStore} from '@/pinia/useUserStore'
 import type {IUser} from "@/types/user-d-t";
 import {toast} from "vue3-toastify";
 import type {IUserLoginFormValues} from "@/types/user-login-form-values-d-t";

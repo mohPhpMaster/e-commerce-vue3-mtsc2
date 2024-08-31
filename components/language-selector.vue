@@ -26,17 +26,9 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue';
-import localeServices from "@/services/localeService";
-// import LocaleService from "@/services/LocaleService";
-// const {selectedLanguageFlag, selectedLanguageName, selectedLanguage, locale, changeLanguage, locales} = localeServices;
-// const {locale, locales,setLocale} = useI18n();
-// const selectedLanguage = computed(() => localeService.selectedLanguage )
-// const selectedLanguage = computed(() => {
-// 	return typeof window !== 'undefined' && window.localStorage.getItem('selectedLanguage') || 'en'
-// });
-// const locales = computed(() => LocaleService.getLocales());
-// const selectedLanguageName = computed(() => LocaleService.getCurrentLocaleName());
-// const selectedLanguageFlag = computed(() => `/images/icon/${LocaleService.getCurrentLocale()}.svg`);
+import {useLocaleStore} from "@/pinia/useLocaleStore";
+
+const localeServices = useLocaleStore();
 const isToggleActive = ref<string>('');
 
 const toggleDropdown = () => {
@@ -44,13 +36,8 @@ const toggleDropdown = () => {
 };
 
 const changeLocale = (language: string) => {
-	// LocaleService.setLocaleTo(language);
 	localeServices.changeLanguage(language);
 	toggleDropdown();
-
-  // const currentRoute = router.currentRoute.value;
-  // router.push({ path: currentRoute.fullPath, query: { ...currentRoute.query, lang: language } });
-	// location.reload();
 };
 
 </script>

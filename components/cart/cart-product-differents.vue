@@ -36,12 +36,9 @@
 <script setup lang="ts">
 import toolsService from "@/services/toolsService";
 import type {IProduct} from "@/types/product-d-t";
+import currency from "@/services/currencyService";
 
 const emit = defineEmits(['updated'])
-
-
-// Currency Formatter
-const currency = useSiteSettings().currency;
 
 const props = defineProps<{
 	product: IProduct;

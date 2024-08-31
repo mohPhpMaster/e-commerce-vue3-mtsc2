@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- breadcrumb start -->
-    <breadcrumb title="Search Products" subtitle="Search Products" />
-    <!-- breadcrumb end -->
+    <breadcrumb :subtitle="$t('Search Page')" :title="propSearchText ? t('Search for (:search)', {search: propSearchText}) : $t('Search Page')" />
+	  <!-- breadcrumb end -->
 
-    <!-- shop area start -->
+	  <!-- shop area start -->
     <section class="tp-shop-area pb-120">
       <div class="container">
         <div class="row">
@@ -20,8 +20,8 @@
 	                        {{
 		                        $t('Showing :start-:end of :total results', {
 			                        start: 1,
-			                        end: store.filteredProducts?.slice(0, perView).length,
-			                        total: product_data.length || 0,
+			                        end: searchStore.filteredProducts?.slice(0, perView).length,
+			                        total: searchStore.filteredProducts?.length || 0,
 		                        })
 	                        }}
                         </p>
@@ -30,7 +30,7 @@
                   </div>
                   <div class="col-xl-6">
                     <shop-sidebar-filter-select
-                      @handle-select-filter="store.handleSelectFilter"
+		                    @handle-select-filter="store.handleSelectFilter"
                     />
                   </div>
                 </div>
@@ -39,26 +39,28 @@
                 <div>
                   <div class="row infinite-container">
                     <div
-                      v-for="item in store.filteredProducts?.slice(0,perView)"
-                      :key="item.id"
-                      class="col-xl-3 col-md-4 col-sm-6 infinite-item"
+		                    v-for="item in searchStore.filteredProducts?.slice(0,perView)"
+		                    v-if="!searchStore.loading"
+		                    :key="item.id"
+		                    class="col-xl-3 col-md-4 col-sm-6 infinite-item"
                     >
-                      <product-single :product="item"/>
+                      <product-single :product="item" />
                     </div>
+	                  <loading-skeleton v-else />
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="text-center">
+            <div class="text-center" v-if="!searchStore.loading">
               <button
-                v-if="
-                  store.filteredProducts &&
-                  perView < store.filteredProducts.length
+		              v-if="
+                  searchStore.filteredProducts &&
+                  perView < searchStore.filteredProducts.length
                 "
-                @click="handlePerView"
-                type="button"
-                class="btn-loadmore tp-btn tp-btn-border tp-btn-border-primary"
+		              class="btn-loadmore tp-btn tp-btn-border tp-btn-border-primary"
+		              type="button"
+		              @click="handlePerView"
               >
 								{{ $t('Load More Products') }}
               </button>
@@ -69,51 +71,46 @@
         </div>
       </div>
     </section>
-    <!-- shop area end -->
+	  <!-- shop area end -->
   </div>
 </template>
 
-<script setup lang="ts">
-import {api} from "@/plugins/api";
+<script lang="ts" setup>
+import {useProductFilterStore} from "@/pinia/useProductFilterStore";
+import {useSearchStore} from "@/pinia/useSearchStore";
 
-useSeoMeta({ title: "Search Page" });
-
-import { ref } from "vue";
-// import product_data from "@/data/product-data";
-import { useProductFilterStore } from "@/pinia/useProductFilterStore";
-import type {ICategory} from "@/types/category-d-t";
-import type {IProduct} from "@/types/product-d-t";
-
-const product_data = ref<IProduct[]>([]);
 const propSearchText = computed(() => useRoute()?.query?.searchText);
-let perView = ref<number>(8);
 const store = useProductFilterStore();
-
-// api.productData({
-// 	query: store.selectVal || propSearchText?.value || '',
-// })
-// 		.then(data => {
-// 			// category.value = data?.[0];
-// 			console.log(87, data, store.selectVal || propSearchText, store.filteredProducts);
-// 			product_data.value = data;
-// 			return data;
-// 		})
+const searchStore = useSearchStore();
+const {$settings} = useNuxtApp();
+const {title} = useSiteSettings();
+const {t} = useI18n();
+const perPage = $settings.perPage;
+const perView = ref<number>(perPage);
 
 function handlePerView() {
-  perView.value = perView.value + 3;
+	perView.value = perView.value + 3;
+}
+
+function setTitle() {
+	nextTick(function () {
+		useSeoMeta({
+			title: title(
+					propSearchText.value ? t('Search for (:search)', {search: propSearchText.value}) : ''
+			)
+		});
+	});
 }
 
 onMounted(() => {
-	store.loadProducts({search: propSearchText?.value || '',})
-			.then(data => {
-				product_data.value = data;
-			})
+	searchStore
+			.triggerSearch()
+			.then(setTitle)
 })
 
 watch(propSearchText, () => {
-	store.loadProducts({search: propSearchText?.value || '',})
-			.then(data => {
-				product_data.value = data;
-			})
+	searchStore
+			.triggerSearch()
+			.then(setTitle)
 })
 </script>

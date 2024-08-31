@@ -22,7 +22,7 @@
         <div class="row">
           <div class="col-xl-12">
             <!-- product details tab nav -->
-            <product-details-tab-nav :product="different" />
+            <product-details-tab-nav :main-product="product" :product="different" />
             <!-- product details tab nav -->
           </div>
         </div>
@@ -41,5 +41,6 @@ const different = ref({...props?.product});
 
 const productUpdated = ($product: IProduct) => {
 	different.value = $product
+	useSeoMeta({title: useSiteSettings().title(toolsService.parseProductName(different.value, true))})
 }
 </script>

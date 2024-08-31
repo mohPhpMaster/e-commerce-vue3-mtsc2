@@ -6,6 +6,7 @@ export default defineNuxtConfig({
             imagesUrl: process.env.NUXT_ENV_IMAGES_URL || "",
             apiURL: process.env.NUXT_ENV_API_URL || "",
             perPage: process.env.NUXT_ENV_PER_PAGE || 9,
+            siteTitle: process.env.NUXT_ENV_SITE_TITLE || "Shop1",
         }
     },
 
@@ -19,8 +20,38 @@ export default defineNuxtConfig({
         },
     ],
         '@nuxtjs/i18n',
-        "vue3-carousel-nuxt"
+        "vue3-carousel-nuxt",
+        'nuxt-purgecss'
     ],
+
+    // vite: {
+    //     cacheDir: 'node_modules/.vite',
+    //     // You can add Vite options here
+    //     server: {
+    //         hmr: true, // Enable Hot Module Replacement
+    //     },
+    //     optimizeDeps: {
+    //         include: ['axios'], // List dependencies to optimize
+    //     },
+    //     resolve: {
+    //         alias: {
+    //             // '@': '/<path-to-your-src>', // Adjust the path as needed
+    //         },
+    //     },
+    //     build: {
+    //         // Customize build options here
+    //         // outDir: 'dist', // Output directory for the build
+    //         minify: 'esbuild', // Minification options
+    //     },
+    //     plugins: [
+    //         // Add any Vite plugins you need
+    //     ],
+    // },
+
+    purgecss: {
+        enabled: false,
+        safelist: [],
+    },
 
     i18n: {
         strategy: "no_prefix",
@@ -53,7 +84,7 @@ export default defineNuxtConfig({
     app: {
         baseURL: '',
         head: {
-            title: "Shofi Grocery - eCommerce Vue Nuxt 3 Template",
+            title: "",
             charset: 'utf-8',
             viewport: 'width=device-width, initial-scale=1',
             base: {href: '/'},
@@ -77,6 +108,7 @@ export default defineNuxtConfig({
     ],
 
     plugins: [
+        // {src: "~/plugins/loadingIndicator.ts", mode: "all", order: -1},
         {src: "~/plugins/axiosInstance.ts", mode: "all" },
         {src: "~/plugins/settings.ts", mode: "all"},
         {src: "~/plugins/api.ts", ssr: false},
@@ -85,6 +117,6 @@ export default defineNuxtConfig({
     ],
 
     devtools: {
-        enable: true
+        enable: false
     },
 })

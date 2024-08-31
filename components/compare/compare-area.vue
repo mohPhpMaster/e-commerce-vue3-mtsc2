@@ -58,7 +58,7 @@
                                       <button
 		                                      class="tp-btn"
 		                                      type="button"
-		                                      @click="cartStore.openCartProduct(item)"
+		                                      @click="cartStore.openCartProduct(item, $t('Add To Cart'))"
                                       >{{ $t('Add To Cart') }}</button>
                                   </div>
                               </td>
@@ -103,9 +103,9 @@
  import {useCartStore} from "@/pinia/useCartStore";
  import toolsService from "@/services/toolsService";
  import type {IProduct} from "@/types/product-d-t";
+ import currency from "@/services/currencyService";
 
- // Currency Formatter
- const currency = useSiteSettings().currency;
+
  const compareStore = useCompareStore();
  const cartStore = useCartStore();
  const {t} = useI18n();

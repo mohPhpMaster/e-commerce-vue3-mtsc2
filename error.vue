@@ -11,11 +11,10 @@
   
               <h5 class="tp-error-title">{{ error.statusCode }} {{ error.message }}</h5>
               <p>
-                Whoops, this is embarassing. Looks like the page you were looking
-                for wasn't found.
+                {{ $t("Whoops, this is embarassing. Looks like the page you were looking for wasn't found.") }}
               </p>
   
-              <nuxt-link href="/" class="tp-error-btn">Back to Home</nuxt-link>
+              <nuxt-link href="/" class="tp-error-btn">{{ $t("Back to Home") }}</nuxt-link>
             </div>
           </div>
         </div>
@@ -25,6 +24,8 @@
 </template>
 
 <script setup lang="ts">
-useSeoMeta({ title: "Error Page" });
+const { t } = useI18n();
+const {title} = useSiteSettings();
+useSeoMeta({ title: t("Error Page") });
 defineProps(["error"]);
 </script>

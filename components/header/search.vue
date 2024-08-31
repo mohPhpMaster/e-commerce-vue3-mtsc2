@@ -9,7 +9,7 @@
             </div>
             <form @submit.prevent="handleSubmit">
               <div class="tp-search-input mb-10">
-                <input type="text" :placeholder="$t('Search for products keywords ...')" v-model="searchText"/>
+                <input type="text" class="search-bar-input-search" :placeholder="$t('Search for products keywords ...')" v-model="searchText" autofocus />
                 <button type="submit"><i class="flaticon-search-1"></i></button>
               </div>
             </form>
@@ -27,6 +27,8 @@
 
 <script setup lang="ts">
 import { useUtilityStore } from "@/pinia/useUtilityStore";
+import {useSearchStore} from "@/pinia/useSearchStore";
+const route = useRoute();
 const router = useRouter();
 let searchText = ref<string>(useRoute()?.query?.searchText);
 const utilityStore = useUtilityStore();
@@ -36,6 +38,10 @@ const handleSubmit = () => {
 	utilityStore.handleOpenSearchBar();
 
 	if (searchText.value) {
+		if (searchText.value === router.currentRoute.value?.query?.searchText) {
+			useSearchStore().triggerSearch();
+			return false;
+		}
     router.push(`/search?searchText=${searchText.value}`);
   } else {
     router.push(`/search`);

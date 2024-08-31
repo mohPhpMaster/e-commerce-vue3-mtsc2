@@ -50,8 +50,8 @@
           <div class="tp-product-details-review-wrapper pt-60">
             <div class="row">
                 <div :class="{
-									'col-lg-6': isLoggedIn,
-									'col-lg-12': !isLoggedIn
+									'col-lg-6': isLoggedIn(),
+									'col-lg-12': !isLoggedIn()
                 }">
                   <div class="tp-product-details-review-statics">
                       <!-- number -->
@@ -106,7 +106,7 @@
                       </div>
                   </div>
                 </div> <!-- end col -->
-                <div v-if="isLoggedIn" class="col-lg-6">
+                <div v-if="isLoggedIn()" class="col-lg-6">
                   <div class="tp-product-details-review-form">
                       <h3 class="tp-product-details-review-form-title">{{ $t('Review this product') }}</h3>
                       <p>{{ $t('All fields are Required') }}</p>
@@ -125,32 +125,49 @@
 <script setup lang="ts">
 import { type IProduct } from '@/types/product-d-t';
 import toolsService from "@/services/toolsService";
-import {useUserStore} from "@/pinia/userStore";
+import {useUserStore} from "@/pinia/useUserStore";
 import {api} from "@/plugins/api";
 import type {IReview} from "@/types/review-d-t";
+import {$axios} from "@/plugins/axiosInstance";
+import {convertProductAccessoriesResponse} from "@/plugins/data/product-accessories-groups-data";
 
-const {isLoggedIn} = useUserStore();
-const props = defineProps<{product:IProduct}>();
+const {isLoggedIn, user} = useUserStore();
+const props = defineProps<{product:IProduct; mainProduct?:IProduct}>();
 
-const product_description = computed(() => toolsService.normalizeLineEndingsToHtml(props.product?.description));
 const _data = ref<{ [key: string]: IReview[] }>([]);
-const reviews = ref<IReview[]>([]);
+// const reviews = ref<IReview[]>([]);
+const product_description = computed(() => toolsService.normalizeLineEndingsToHtml(props.product?.description));
+const pId = computed(() => props.mainProduct?.id || props.product.id);
+
 const loadData = ()=> {
-	if (_data.value?.[props.product.id])
+	if (_data.value?.[pId.value])
 	{
-		return _data.value[props.product.id];
+		return _data.value[pId.value];
 	}
 
 	return api.productReviewsData({
 		product: props?.product,
 	})
 			.then(data => {
-				reviews.value = data;
-				_data.value[props.product.id] = reviews;
+				// reviews.value = data;
+				_data.value[pId.value] = reviews;
 
 				return data;
 			});
 }
+
+const {
+	data: reviews,
+	error: reviewsError,
+	pending: reviewsPending,
+	refresh: reviewsRefresh,
+} = useLazyAsyncData(
+		`products-${pId.value}-reviews`,
+		loadData,
+		{
+			watch: [pId],
+		}
+)
 
 onMounted(() => {
   const nav_active = document.getElementById("nav-addInfo-tab");
@@ -159,9 +176,8 @@ onMounted(() => {
     marker.style.left = nav_active.offsetLeft + "px";
     marker.style.width = nav_active.offsetWidth + "px";
   }
-	loadData();
+	// loadData();
 	// todo: handle additional info
-	// console.log(156, props.product?.additionalInfo);
 });
 
 const handleActiveMarker = (event: MouseEvent) => {
@@ -173,9 +189,9 @@ const handleActiveMarker = (event: MouseEvent) => {
 };
 
 watch(
-		() => props.product,
+		() => pId,
 		(newStatus, oldStatus) => {
-			loadData();
+			reviewsRefresh();
 			const nav_active = document.getElementById("nav-addInfo-tab");
 			const marker = document.getElementById("productTabMarker");
 			if (nav_active?.classList.contains("active") && marker) {
@@ -183,6 +199,7 @@ watch(
 				marker.style.width = nav_active.offsetWidth + "px";
 			}
 
-		})
+		}
+);
 
 </script>

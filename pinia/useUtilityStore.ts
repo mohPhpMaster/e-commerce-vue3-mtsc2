@@ -31,6 +31,15 @@ export const useUtilityStore = defineStore("utility", () => {
     // handle image active
     const handleOpenSearchBar = () => {
         openSearchBar.value = !openSearchBar.value;
+
+        if (openSearchBar.value)
+        {
+            setTimeout(() => {
+                const userInput = document.querySelector('.search-bar-input-search');
+                userInput?.focus();
+                userInput?.select();
+            }, 500);
+        }
     };
 
     // handle image active
@@ -80,7 +89,7 @@ export const useUtilityStore = defineStore("utility", () => {
     };
 
     // handle Open Modal
-    const handleOpenModal = (id: string | null, item: IProduct | null) => {
+    const handleOpenModal = (id: string | null, item: IProduct | null, fetchProduct: boolean = false) => {
         if (!id || !item) {
             console.warn(83, 'handleOpenModal', id, item);
             window.$(`#${modalId.value}`).modal('hide');
@@ -90,6 +99,20 @@ export const useUtilityStore = defineStore("utility", () => {
         product.value = item;
         productStore.handleImageActive(item ? item?.images?.[0] : "");
         cartStore.initialOrderQuantity()
+
+        if (fetchProduct) {
+            const loading = useLoading();
+            loading.disable();
+            api.productData({product: item})
+                .then((products: IProduct[]) => products?.[0])
+                .then((p?: IProduct) => {
+                    if (p && p.id) {
+                        product.value = p;
+                        productStore.handleImageActive(p ? p?.images?.[0] : "");
+                    }
+                })
+                .then(() => loading.enable())
+        }
     };
 
     // const handleShippingCost = (value: number | string) => {

@@ -23,7 +23,13 @@ export const useProductStore = defineStore("product", () => {
         };
         _LOG && console.warn(22 + ':useProductStore', currentOptions.value)
 
-        product_data.value = await api.productData(currentOptions.value);
+        const _data = await api.productData(currentOptions.value);
+        if (currentOptions.value?.pagination) {
+            product_data.value = _data.data;
+        } else {
+            product_data.value = _data;
+        }
+
         // activeImg.value = product_data.value?.[0]?.images?.[0] || "";
         // console.log(28, activeImg.value)
         return product_data;

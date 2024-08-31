@@ -46,9 +46,9 @@ export default {
             .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize the first letter of each word
     },
     parseMenuName(menu: IMenuItem | IDropdownMenu): string {
-        return menu?.title || "Untitled Menu";
+        return menu?.title || "";
     },
-    parseCategoryName(category?: ICategory | ISubCategory, $default: string = 'Untitled Category'): string {
+    parseCategoryName(category?: ICategory | ISubCategory, $default: string = ''): string {
         return category && (
             ("name" in category && category?.name) ||
             ("parentName" in category && category?.parentName) ||
@@ -62,7 +62,7 @@ export default {
             suffix = suffix ? ` - ${suffix}` : '';
         }
 
-        return String(product?.name || (product?.sku ? this.slugToTitleCase(product?.sku) : undefined) || product?.id || 'Untitled Product') +
+        return String(product?.name || (product?.sku ? this.slugToTitleCase(product?.sku) : undefined) || product?.id || '') +
             suffix;
     },
     parseProductDifferent(product: IProduct): string {
@@ -99,7 +99,7 @@ export default {
         // ).replace(/\n/g, '<br>')
     },
     parseBrandName(brand: IBrand): string {
-        return String(brand?.name || brand?.id || 'Untitled Brand');
+        return String(brand?.name || brand?.id || '');
     },
     normalizeLineEndings(text: string): string {
         return text.replace(/\r\n/g, '\n');
@@ -142,5 +142,8 @@ export default {
     },
     getApiUrl(): string {
         return useRuntimeConfig()?.public?.apiURL || "";
+    },
+    getSiteTitle(): string {
+        return useRuntimeConfig()?.public?.siteTitle || "";
     },
 }

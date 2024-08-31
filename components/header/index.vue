@@ -112,6 +112,7 @@ import { useCartStore } from '@/pinia/useCartStore';
 import { useWishlistStore } from '@/pinia/useWishlistStore';
 import { useUtilityStore} from '@/pinia/useUtilityStore';
 import {useCompareStore} from "@/pinia/useCompareStore";
+import {useSearchStore} from "@/pinia/useSearchStore";
 
 const {isSticky} = useSticky();
 const router = useRouter();
@@ -121,13 +122,6 @@ const {data: topCategories, pending, error, refresh} = useLazyAsyncData('topCate
 		useTopCategories().loadTopCategories()
 );
 
-// onMounted(() => {
-//
-// 	loadTopCategories()
-// 			.then((d) => {
-// 				console.log(127, d, topCategories.value)
-// 			})
-// })
 let isActive = ref<boolean>(false);
 let searchText = ref<string>(route?.query?.searchText);
 
@@ -140,7 +134,12 @@ const utilityStore = useUtilityStore();
 const compareStore = useCompareStore();
 
 const handleSubmit = () => {
-  if(searchText.value){
+	if(searchText.value){
+	  if(searchText.value === router.currentRoute.value?.query?.searchText)
+	  {
+		  useSearchStore().triggerSearch();
+			return false;
+	  }
     router.push(`/search?searchText=${searchText.value}`)
   }
   else{

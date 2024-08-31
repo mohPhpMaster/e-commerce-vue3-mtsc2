@@ -94,7 +94,7 @@
                 <div class="row align-items-center">
                   <div class="col-md-6">
                       <div class="tp-footer-copyright">
-                        <p>© {{new Date().getFullYear()}} All Rights Reserved  |  Vue nuxt Template by <nuxt-link href="/">Themepure</nuxt-link>.</p>
+                        <p>© 2024 All Rights Reserved  |  By <a href="https://mtsc.tech/" target="_blank">Modern Technology Solution Company</a>.</p>
                       </div>
                   </div>
                   <div class="col-md-6">

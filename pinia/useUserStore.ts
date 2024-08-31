@@ -7,17 +7,21 @@ import type {IUserLoginFormValues} from "@/types/user-login-form-values-d-t";
 export const useUserStore = defineStore('user', () => {
     const initialized = ref(false);
     const user = ref<IUser>({} as IUser);
+    const cookies = useCookie<IUser>('user',{
+        // parseJSON: true,
+        persist: true,
+        watch: true
+    });
 
-    const isLoggedIn = computed(() => !!user.value?.token);
-    const token = computed(() => user.value?.token);
+    const isLoggedIn = () => !!user.value?.token;
+    const token = () => user.value?.token;
 
     const login = async (user_data: IUserLoginFormValues): Promise<Ref<IUser>> => {
         return api.userLoginData(user_data)
             .then((loggedUser: IUser) => {
                 setUser(loggedUser);
-
                 return user;
-            })
+            });
     }
 
     const logout = async () => {
@@ -28,26 +32,29 @@ export const useUserStore = defineStore('user', () => {
             });
     }
 
-    const refresh = (): Ref<IUser> => {
-        return $axios.hasToken() ?
-            $axios
-            .get('profile')
-            .then((response: { data: { data: IUser } }) => {
-                const userData = response?.data?.data || [];
-                setUser({
-                    ...userData,
-                    token: userData?.token || token.value
-                });
+    const refresh = async (): Promise<Ref<IUser>> => {
+        if ($axios.hasToken()) {
+            await fetchProfile();
+        }
+        return user;
+    }
 
-                return user;
-            }) : Promise.resolve(user);
+    const fetchProfile = async () => {
+        if ($axios.hasToken()) {
+            const response = await $axios.get('profile');
+            const userData = response?.data?.data || {};
+            setUser({
+                ...userData,
+                token: userData?.token || token()
+            });
+        }
     }
 
     const setUser = ($user: IUser) => {
-        localStorage.setItem('user', JSON.stringify($user));
+        cookies.value = $user;
         initializeUser();
 
-        if (!isLoggedIn.value) {
+        if (!isLoggedIn()) {
             logout();
         }
 
@@ -55,17 +62,21 @@ export const useUserStore = defineStore('user', () => {
     };
 
     const clearUser = () => {
-        localStorage.removeItem('user');
+        cookies.value = {};
         initializeUser();
     };
 
-    const initializeUser = (refresh_user: boolean = false): Ref<IUser> => {
-        const storedUser = localStorage.getItem('user');
-        user.value = storedUser ? JSON.parse(storedUser) : ({} as IUser);
-        initialized.value = true;
+    const initializeUser = async (): Promise<Ref<IUser>> => {
+        const storedUser = cookies.value;
+        user.value = storedUser ? storedUser : ({} as IUser);
         $axios.setToken(user.value?.token);
 
-        return refresh_user ? refresh() : user;
+        if (!initialized.value) {
+            initialized.value = true;
+            await refresh();
+        }
+
+        return user;
     };
 
     const guestUser = (): boolean => {
@@ -74,7 +85,7 @@ export const useUserStore = defineStore('user', () => {
             return false;
         }
 
-        if (initialized.value && isLoggedIn.value) {
+        if (initialized.value && isLoggedIn()) {
             useRouter().push('/');
             return false;
         }
@@ -88,7 +99,7 @@ export const useUserStore = defineStore('user', () => {
             return false;
         }
 
-        if (initialized.value && !isLoggedIn.value) {
+        if (initialized.value && !isLoggedIn()) {
             useRouter().push('/login');
             return false;
         }
@@ -109,5 +120,5 @@ export const useUserStore = defineStore('user', () => {
         needUser,
         guestUser,
         refresh
-    }
-})
+    };
+});

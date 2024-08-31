@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import {useUserStore} from "@/pinia/userStore";
+import {useUserStore} from "@/pinia/useUserStore";
 import {api} from "@/plugins/api";
 
 useSeoMeta({ title: "Profile Page" });

@@ -28,16 +28,16 @@
 	  <!-- quantity -->
     <td class="tp-cart-quantity col-1">
       <div class="tp-product-quantity mt-10 mb-10 mx-2">
-        <span class="tp-cart-minus" @click.stop.prevent="cartStore.quantityDecrement(item?.differents)">
+        <span class="tp-cart-minus" @click.stop.prevent="cartStore.quantityDecrement(item)">
           <svg-minus />
         </span>
 				<input
 						v-model="item.quantity"
 						class="tp-cart-input"
 						type="text"
-						@change="cartStore.quantitySet(item?.differents, $event.target.valueAsNumber)"
+						@change="cartStore.quantitySet(item, $event.target.value || 1)"
 				>
-        <span class="tp-cart-plus" @click.stop.prevent="cartStore.quantityIncrement(item?.differents)">
+        <span class="tp-cart-plus" @click.stop.prevent="cartStore.quantityIncrement(item)">
           <svg-plus-sm />
         </span>
       </div>
@@ -46,7 +46,7 @@
     <td class="tp-cart-action col-1">
       <button
 		      class="tp-cart-action-btn btn-link btn-outline-danger px-2"
-		      @click="cartStore.removeCartProduct(item?.differents)"
+		      @click="cartStore.removeCartProduct(item)"
       >
         <span><svg-close2 /></span>
       </button>
@@ -58,9 +58,8 @@
 import {useCartStore} from "@/pinia/useCartStore";
 import toolsService from "@/services/toolsService";
 import type {ICartItem} from "@/types/cart-item-d-t";
+import currency from "@/services/currencyService";
 
-// Currency Formatter
-const currency = useSiteSettings().currency;
 const cartStore = useCartStore();
 
 const props = defineProps<{ item: ICartItem }>();

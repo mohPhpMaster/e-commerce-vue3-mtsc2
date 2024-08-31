@@ -109,11 +109,9 @@ import type {IProduct} from "@/types/product-d-t";
 import type {IProductAccessories} from "@/types/product-accessories-d-t";
 import type {IProductAccessoriesGroups} from "@/types/product-accessories-groups-d-t";
 import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
+import currency from "@/services/currencyService";
 
 const emit = defineEmits(['updated'])
-
-// Currency Formatter
-const currency = useSiteSettings().currency;
 
 // Props
 const props = defineProps<{

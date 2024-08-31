@@ -36,9 +36,9 @@
    </div>
 
 	  <!-- Product Countdown -->
-  <div v-if="different?.offerDate?.endDate">
-    <product-details-countdown :product="different" />
-  </div>
+    <div v-if="different?.offerDate?.endDate">
+	    <product-details-countdown :product="different" />
+	  </div>
 
 	  <!-- Actions (Quantity, Add to Cart) -->
     <div class="tp-product-details-action-wrapper">
@@ -57,6 +57,7 @@
           </div>
           <div class="tp-product-details-add-to-cart mb-15 w-100">
           <button
+		          :data-bs-dismiss="isShowBottom ? '' : 'modal'"
 		          class="tp-product-details-add-to-cart-btn w-100"
 		          @click="addToCart(mainProduct)"
           >
@@ -70,11 +71,11 @@
 	  <!-- Additional Information (Tags, Category, Social, etc.) -->
     <div v-if="isShowBottom">
       <product-details-differents-accessories
-		      v-bind="$props"
 		      :different="different"
-		      :productAccessories="productAccessories"
-		      @updated="accessoryProductUpdated"
+		      :product="mainProduct"
+		      :accessories="accessories"
 		      @clicked="differentProductClicked"
+		      @updated="accessoryProductUpdated"
       />
 
       <div class="tp-product-details-query">
@@ -121,6 +122,8 @@ import type {IProductAccessories} from "@/types/product-accessories-d-t";
 import {$axios} from "@/plugins/axiosInstance";
 import {convertProductAccessoriesResponse} from "@/plugins/data/product-accessories-groups-data";
 import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
+import currency from "@/services/currencyService";
+import type {IProductAccessoriesData} from "@/types/selected-accessories-data-d-t";
 
 const cartStore = useCartStore();
 const route = useRoute();
@@ -132,23 +135,32 @@ const props = withDefaults(defineProps<{ product: IProduct; mainProduct: IProduc
 	isShowBottom: true,
 })
 const different = ref<IProduct>(props?.product);
-const accessories = useState('accessories', () => [] as IProductAccessoriesGroups[]);
-
-const currency = useSiteSettings().currency;
-
-const productAccessoriesLoader = () => $axios.get(`products/${toolsService.id(props.mainProduct)}/accessories_groups`)
-		.then(res => (res?.data?.data || []).map(convertProductAccessoriesResponse));
+const accessories = ref<IProductAccessoriesData[]>([] as IProductAccessoriesData[]);
 
 const {
 	data: productAccessories,
 	error: productAccessoriesError,
 	pending: productAccessoriesPending,
-	refresh: productAccessoriesRefresh,
-} = await useLazyAsyncData(`products-${props.mainProduct?.id}-accessories`, productAccessoriesLoader, {
-	watch: [props.mainProduct, props.product, route],
-})
+	execute: productAccessoriesExecute,
+} = useLazyAsyncData(
+		`products-${props.mainProduct?.id}-accessories`,
+		() => {
+			if (!props.isShowBottom) return Promise.resolve([]);
+
+			return $axios.get(`products/${toolsService.id(props.mainProduct)}/accessories_groups`).then(res => (res?.data?.data || []).map(convertProductAccessoriesResponse));
+		},
+		{
+			watch: [props.mainProduct, props.product, route],
+		}
+)
 
 const addToCart = (product: IProduct) => {
+	if (!props.isShowBottom)
+	{
+		cartStore.openCartProduct(product, t('Add To Cart'));
+		return false;
+	}
+
 	let requiredAccessories = productAccessories.value.filter((accessory) => accessory?.is_required);
 	// let requiredAccessories = productAccessories.value.slice(0,1);
 	if (!requiredAccessories.every((accessory) => (accessory.id in accessories.value))) {
@@ -185,15 +197,14 @@ const differentProductClicked = ($product: IProduct) => {
 }
 
 const accessoryProductUpdated = ($group: IProductAccessories, $accessory: IProductAccessoriesGroups, $productAccessories: IProductAccessoriesGroups[]) => {
-	accessories.value = {
+	let _value = [
 		...accessories.value,
-		[$group.id]: $accessory
-	}
+	]
+	_value[$group.id] = $accessory
+	accessories.value = _value
 	if (!$accessory?.id) {
 		delete accessories.value[$group.id]
 	}
-
-	console.log(188, accessories.value, $productAccessories)
 }
 
 watch(
@@ -203,18 +214,5 @@ watch(
 			accessories.value = [] as IProductAccessoriesGroups[]
 			// console.log(251, different.value)
 		}
-)
-
-watch(
-		() => props.mainProduct,
-		(newStatus, oldStatus) => {
-			if (route.query?.different && Number(route.query?.different) !== Number(different.value?.id)) {
-				if (productDifferents.value?.length) {
-					different.value = productDifferents.value.find((p) => Number(p?.id) === Number(route.query?.different))
-				}
-			}
-			different.value = different.value || props?.product || props?.mainProduct;
-			// console.log(266, different.value)
-		}
-)
+);
 </script>

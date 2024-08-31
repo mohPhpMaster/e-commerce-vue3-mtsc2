@@ -10,7 +10,7 @@
           <div class="tp-product-action-item-2 d-flex flex-column">
           <button
             v-if="!isItemInCart($product)"
-            @click="cartStore.openCartProduct($product)"
+            @click="cartStore.openCartProduct($product, $t('Add To Cart'))"
             type="button" :class="`tp-product-action-btn-2 tp-product-add-cart-btn ${isItemInCart($product)? 'active': ''}`"
           >
             <svg-add-cart />
@@ -30,7 +30,7 @@
             class="tp-product-action-btn-2 tp-product-quick-view-btn"
             data-bs-toggle="modal"
             :data-bs-target="`#${utilityStore.modalId}`"
-            @click="utilityStore.handleOpenModal(`product-modal-${$product.id}`,$product)"
+            @click="utilityStore.handleOpenModal(`product-modal-${$product.id}`,$product, mini || false)"
           >
             <svg-quick-view />
             <span class="tp-product-tooltip tp-product-tooltip-right">{{ $t('Quick View') }}</span>
@@ -94,15 +94,14 @@ import { useWishlistStore } from '@/pinia/useWishlistStore';
 import toolsService from "@/services/toolsService";
 import type {IProduct} from "@/types/product-d-t";
 import {api} from "@/plugins/api";
+import currency from "@/services/currencyService";
 
-const props = defineProps<{product:IProduct}>();
+const props = defineProps<{product:IProduct; mini?: boolean}>();
 const cartStore = useCartStore();
 
 const wishlistStore = useWishlistStore();
 const utilityStore = useUtilityStore();
 
-// Currency Formatter
-const currency = useSiteSettings().currency;
 const compareStore = useCompareStore();
 
 const $product = ref<IProduct>(JSON.parse(JSON.stringify(props?.product)));

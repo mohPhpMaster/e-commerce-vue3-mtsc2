@@ -1,7 +1,7 @@
 <template>
   <div v-if="!pending && category?.id">
       <!-- breadcrumb start -->
-<!--      <breadcrumb :title="category?.parentName" :subtitle="category?.parentName" />-->
+	  <!--      <breadcrumb :title="category?.parentName" :subtitle="category?.parentName" />-->
       <category-details-breadcrumb :category="category" />
 	  <!-- breadcrumb end -->
 
@@ -13,39 +13,37 @@
 
 <script lang="ts" setup>
 import {api} from "@/plugins/api";
+import toolsService from "@/services/toolsService";
 
+const route = useRoute();
 // const category = ref<ICategory | undefined>(undefined);
-const propCategory = computed(() => useRoute()?.params?.category);
+const propCategory = computed(() => route.params?.category);
+const {title} = useSiteSettings();
 
-useSeoMeta({title: "Category Details Page"});
+function setTitle(p) {
+	if (p && Object.keys(p).length) {
+		nextTick(function () {
+			useSeoMeta({title: title(toolsService.parseCategoryName(p), route.query?.page)});
+		});
+	}
+}
 
-const {data: category, pending} = useLazyAsyncData(`categories_${propCategory?.value}`, () => api.categoryData({
-	slug: propCategory?.value,
-	// plain: true
-}).then(data => {
-	return data?.[0];
-}));
-// category.value = data.value?.[0];
+const {data: category, pending, error, refresh} = useLazyAsyncData(
+		`categories_${propCategory?.value}`,
+		() => api.categoryData({
+			slug: propCategory?.value,
+			page: route.query?.page || 1
+		})
+		.then(data => data?.[0])
+		.then(data => {
+			if (process.client) {
+				setTitle(data)
+			}
 
-// const {data, pending, error, refresh} = useLazyAsyncData<string[]>('categories', () =>
-// 		api.categoryData({
-// 			slug: propCategory?.value,
-// 		})
-// 				.then(data => {
-// 					category.value = data?.[0];
-//
-// 					return data;
-// 				})
-// );
-
-// const get_data = (name: string = 'default') => {
-// 	if (_data.value[name]) {
-// 		return _data.value[name]
-// 	}
-//
-// 	let categories = categoryStore.loadCategories({name})
-// 	console.log(27, {categories, _data,name});
-// 	debugger
-// 	return _data
-// }
+			return data;
+		}),
+		{
+			watch: [route]
+		}
+);
 </script>

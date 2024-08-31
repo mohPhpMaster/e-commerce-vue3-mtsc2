@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import {useUserStore} from "@/pinia/userStore";
+import {useUserStore} from "@/pinia/useUserStore";
 
 useSeoMeta({ title: "Forgot Page" });
 

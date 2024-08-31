@@ -10,8 +10,12 @@
                     <span class="breadcrumb-icon me-1">
                       <svg-dot/>
                     </span>
-                    <span><a href="/" @click="useRouter().push('/')">{{ $t('Home') }}</a></span>
-                    <span v-if="product?.parentCategory"><a href="#" @click="toolsService.gotoCategory(product?.parentCategory)">{{product.parentCategory?.parentName}}</a></span>
+                    <span>
+	                    <nuxt-link href="/">{{ $t('Home') }}</nuxt-link>
+                    </span>
+                    <span v-if="product?.parentCategory">
+	                    <nuxt-link :href="toolsService.getCategoryUrl(product?.parentCategory)">{{ toolsService.parseCategoryName(product.parentCategory) }}</nuxt-link>
+                    </span>
                     <span>{{ toolsService.parseProductName(product) }}</span>
                 </div>
               </div>

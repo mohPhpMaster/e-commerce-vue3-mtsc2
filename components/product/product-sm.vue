@@ -25,9 +25,9 @@
 <script lang="ts" setup>
 import type {IProduct} from '@/types/product-d-t';
 import toolsService from "@/services/toolsService";
+import currency from "@/services/currencyService";
 
 const route = useRoute();
-const currency = useSiteSettings().currency;
 const emit = defineEmits(['clicked'])
 
 const props = defineProps<{ product: IProduct, current: IProduct }>()

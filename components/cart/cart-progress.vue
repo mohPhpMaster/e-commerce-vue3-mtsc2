@@ -23,9 +23,8 @@
 
 <script setup lang="ts">
 import { useCartStore } from '@/pinia/useCartStore';
+import currency from "@/services/currencyService";
 
-// Currency Formatter
-const currency = useSiteSettings().currency;
 const cartStore = useCartStore()
 const freeShippingThreshold = ref<number>(100);
 const progress = computed(() => (cartStore.totalPriceQuantity.total / freeShippingThreshold.value) * 100);

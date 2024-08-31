@@ -19,6 +19,7 @@ export async function productData({
                                       query = undefined,
                                       search = undefined,
                                       plain = false,
+                                      pagination = false,
                                       toURL = false,
                                   }: IFetchProductOptions = {}): Promise<IProduct[]> {
     try {
@@ -53,6 +54,11 @@ export async function productData({
         // const response: { data: { data: IProductResponse[] } } = await import("@/data/products.json").then(x => ({ data: x.default }));
         // console.log(55, response);
         if (plain) {
+            if (pagination)
+            {
+                return response?.data || [];
+            }
+
             return (response?.data?.data || []);
         }
         const products = response?.data?.data || [];

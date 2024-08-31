@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted,watch } from "vue";
+import {calcStartIndexByPage} from "@/services/calcPageService";
 const emit = defineEmits(["handlePaginate"]);
 const route = useRoute();
 const router = useRouter();
@@ -31,13 +32,14 @@ const router = useRouter();
 type ItemDataType<T> = {
   data: T[];
   itemsPerPage: number;
+	total?: number
 };
 const props = defineProps<ItemDataType<any>>();
 const currentPage = ref<number>(Number(route?.query?.page || 1));
 const totalPages = computed(() =>
-  Math.ceil(props.data.length / props.itemsPerPage)
+  (props?.total ? Math.ceil(props.total / props.itemsPerPage) : 0) || Math.ceil(props.data.length / props.itemsPerPage)
 );
-const startIndex = computed(() => (currentPage.value - 1) * props.itemsPerPage);
+const startIndex = computed(() => calcStartIndexByPage(currentPage.value, props.itemsPerPage));
 const endIndex = computed(() => startIndex.value + props.itemsPerPage);
 
 const setPage = (idx: number) => {

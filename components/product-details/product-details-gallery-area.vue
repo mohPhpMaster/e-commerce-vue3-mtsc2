@@ -11,7 +11,7 @@
           <!-- col end -->
           <div class="col-xl-5 col-lg-6">
             <!-- product details wrapper -->
-            <product-details-wrapper :product="product" />
+            <product-details-wrapper :main-product="product" :product="product" />
             <!-- product details wrapper -->
           </div>
         </div>

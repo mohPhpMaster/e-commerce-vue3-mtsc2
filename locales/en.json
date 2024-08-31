@@ -1,6 +1,6 @@
 {
   "defaults": {
-    "title": "Shop"
+    "title": "Shop3"
   },
   "Guaranteed safe & secure checkout": "Guaranteed safe \n & secure checkout",
   "Add $:amount more to qualify for free shipping": "Add {amount} more to qualify for free shipping",
@@ -17,6 +17,8 @@
     "max": "Maximum length is ${max} characters"
   },
   "Home": "Home",
+  "Back to Home": "Back to Home",
+  "Login to :siteTitle": "Login to {siteTitle}",
   "Hello": "Hello",
   "Please rate": "Please rate",
   "Comment": "Comment",
@@ -25,11 +27,16 @@
   "Email": "Email",
   "Password": "Password",
   "Message": "Message",
+  "Sign in with": "Sign in with",
   "Sign in": "Sign in",
   "Sign up": "Sign up",
   "Sign out": "Sign out",
   "Register": "Register",
   "Login": "Login",
+  "Forgot Password?": "Forgot Password?",
+  "Don’t have an account?": "Don’t have an account?",
+  "Create a free account": "Create a free account",
+  "or Sign in with": "or Sign in with",
   "Invalid username or password": "Invalid username or password",
   "Login successfully": "Login successfully",
   "Register successfully": "Register successfully",
@@ -38,6 +45,8 @@
   "All fields are Required": "All fields are Required",
   "Customer reviews": "Customer reviews",
   "Search for products keywords ...": "Search for products keywords ...",
+  "Search Page": "Search Page",
+  "Search for (:search)": "Search for ({search})",
   "Search": "Search",
   "Logged out successfully": "Logged out successfully",
   "Select product": "Select product",
@@ -131,5 +140,10 @@
   "Remove all": "Remove all",
   "Showing :start-:end of :total results": "Showing {start}-{end} of {total} results",
   "Please select all required accessories": "Please select all required accessories",
-  "Shop by Brands": "Shop by Brands"
+  "Shop by Brands": "Shop by Brands",
+  "Whoops, this is embarassing. Looks like the page you were looking for wasn't found.": "Whoops, this is embarassing. Looks like the page you were looking for wasn't found.",
+  "Error Page": "Error Page",
+  "Page :number": "Page {number}",
+  "Load More Products": "Load More Products",
+  "No More Products": "No More Products"
 }

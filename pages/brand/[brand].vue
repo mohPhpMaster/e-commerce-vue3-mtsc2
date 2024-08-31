@@ -12,36 +12,40 @@
 
 <script lang="ts" setup>
 import {api} from "@/plugins/api";
+import toolsService from "@/services/toolsService";
 
+const route = useRoute();
 // const propBrand = () => useRoute()?.params?.brand;
-const propBrand = computed(() => useRoute()?.params?.brand);
+const propBrand = computed(() => route.params?.brand);
+const {title} = useSiteSettings();
 
-useSeoMeta({title: "Brand Details Page"});
+function setTitle(p) {
+	if (p && Object.keys(p).length) {
+		nextTick(function () {
+			useSeoMeta({title: title(toolsService.parseBrandName(p), route.query?.page)});
+		});
+	}
+}
 
-const page = ref(1)
-const {data: brand, pending} = await useAsyncData(
+const {data: brand, pending, error, refresh} = useLazyAsyncData(
 		`brand-${propBrand.value}`,
 		() => $fetch(`brands/${propBrand.value}`, {
-			baseURL: useSiteSettings().siteSettings.apiURL,
+			baseURL: useSiteSettings().settings.apiURL,
 			responseType: 'json',
 			parseResponse: (res) => JSON.parse(res)?.data?.[0],
 			params: {
-				page: page.value
+				page: route.query?.page || 1
 			}
-		}), {
-			watch: [page]
-		}
-)
+		})
+		.then(data => {
+			if (process.client) {
+				setTitle(data)
+			}
 
-// const {data: brand, pending} = useLazyAsyncData(`brands-${propBrand?.value}`, () => api.brandData({
-// 	slug: propBrand.value,
-// 	plain: true
-// }, {
-// 	initialData: {},
-// 	transform: (data) => data?.[0],
-// 	watch: [productStore.product_data],
-// }).then(data => {
-// 	console.log(28,data)
-// 	return data;
-// }))
+			return data;
+		}),
+		{
+			watch: [route]
+		}
+);
 </script>

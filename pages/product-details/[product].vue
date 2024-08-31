@@ -17,35 +17,54 @@
 <script lang="ts" setup>
 import {useProductStore} from "@/pinia/useProductStore";
 import type {IProduct} from "@/types/product-d-t";
+import toolsService from "@/services/toolsService";
+import {api} from "@/plugins/api";
+import {convertProductResponse} from "@/plugins/data/product-data";
 
 const productStore = useProductStore();
 const route = useRoute();
-// let product = computed(() => productStore.product_data?.[0]);
+const {title} = useSiteSettings();
 
-useSeoMeta({title: "Product Details Page"});
+function setTitle(p) {
+	if (p && Object.keys(p).length) {
+		nextTick(function () {
+			useSeoMeta({title: title(toolsService.parseProductName(p, true), route.query?.page)});
+		});
+	}
+}
 
-const {data: product, pending} = useLazyAsyncData(`product-${route.params.product}`, () => productStore.loadProducts({
-	slug: route.params.product,
+const noImageUrl = useNuxtApp().$settings.noImageUrl;
+const {data: product, pending} = useLazyAsyncData(
+		`product-${route.params.product}`,
+		() => api.productData({
+			slug: route.params.product,
+			plain: true
+		})
+				.then((products: IProduct[]) => {
+					products = products.map(x => convertProductResponse(x, noImageUrl));
+					productStore.setData(products);
+					return products?.[0];
+				})
+				.then((product: IProduct) => {
+					if (product && product?.images?.length > 0) {
+						productStore.handleImageActive(product.images[0]);
+					}
+
+					if (process.client)
+					{
+						setTitle(product)
+					}
+					// await refreshNuxtData([`product-${product?.id}-differents`, `product-${product?.id}-accessories`]);
+					return product;
+				}),
+		{
+			initialData: productStore.product_data?.[0],
+			watch: [route],
+		}
+);
+
+onMounted(() => {
+	setTitle(product.value)
 })
-		.then(async (products: IProduct[]) => {
-			if (products.value?.[0] && products.value?.[0]?.images?.length > 0) {
-				productStore.activeImg = products.value?.[0]?.images?.[0];
-			}
-
-			// await refreshNuxtData([`products-${products.value?.[0]?.id}-differents`, `products-${products.value?.[0]?.id}-accessories`]);
-			return products.value?.[0];
-		}), {
-	initialData: productStore.product_data?.[0],
-	watch: [route],
-});
-// onMounted(() => {
-// 	productStore
-// 			.loadProducts()
-// 			.then((products: IProduct[]) => {
-// 				if (products?.[0] && products?.[0]?.images?.length > 0) {
-// 					productStore.activeImg = products?.[0]?.images?.[0];
-// 				}
-// 			});
-// });
 
 </script>

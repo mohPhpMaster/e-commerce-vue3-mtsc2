@@ -37,7 +37,7 @@
         <div class="col-xl-12">
           <div class="row">
             <div v-for="item in products" :key="item.id" class="col-xl-3 col-lg-4 col-sm-6">
-              <product-single :product="item"></product-single>
+              <product-single :product="item" :mini="true"></product-single>
             </div>
           </div>
         </div>

@@ -107,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import {useUserStore} from "@/pinia/userStore";
+import {useUserStore} from "@/pinia/useUserStore";
 import type {IUser} from "@/types/user-d-t";
 
 const {t} = useI18n()

@@ -1,6 +1,6 @@
 <template>
   <template v-if="userStore.initialized">
-	  <template v-if="userStore.isLoggedIn">
+	  <template v-if="userStore.isLoggedIn()">
 	    <nuxt-link href="/profile" class="d-flex align-items-center">
 	        <div class="tp-header-login-icon-5">
 	          <span>
@@ -22,11 +22,10 @@
 </template>
 
 <script setup lang="ts">
-import {useUserStore} from '@/pinia/userStore'
+import {useUserStore} from '@/pinia/useUserStore'
 
 const userStore = useUserStore()
-const data = ref({
-})
+const data = ref({})
 
 // const login = async () => {
 // 	await userStore.login({

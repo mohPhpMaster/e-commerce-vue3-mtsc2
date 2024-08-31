@@ -5,7 +5,7 @@
     <div class="tp-login-option-item has-google">
       <a href="#">
         <img src="/images/icon/login/google.svg" alt="" />
-        {{$t('Sign in with')}} google
+        {{$t('Sign in with')}} Google
       </a>
     </div>
     <div class="tp-login-option-item has-google">

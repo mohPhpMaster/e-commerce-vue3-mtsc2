@@ -37,26 +37,12 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Scrollbar,Pagination,Navigation } from "swiper/modules";
 import toolsService from "@/services/toolsService";
-import {useBrandFeaturedStore} from "@/pinia/useBrandFeaturedStore";
-import type {IBrand} from "@/types/brand-d-t";
 import {$axios} from "@/plugins/axiosInstance";
 import {convertBrandResponse} from "@/plugins/data/brand-data";
-
-// const props = defineProps<{}>()
 
 const {data: brand_items, pending, error, refresh} = useLazyAsyncData<string[]>('brands/featured', () =>
 		$axios.get('brands/featured').then(res => (res?.data?.data || []).map(convertBrandResponse))
 );
-// const {loadBrandsFeatured} = useBrandFeaturedStore();
-// let brand_featured_data = ref<IBrand[]>([]);
-// const brand_items: Ref<IBrand[]> = ref([]);
-
-// onMounted(() => {
-// 	loadBrandsFeatured()
-// 			.then((data) => {
-// 				brand_items.value = data
-// 			})
-// })
 
 const slider_setting = {
     slidesPerView: 5,

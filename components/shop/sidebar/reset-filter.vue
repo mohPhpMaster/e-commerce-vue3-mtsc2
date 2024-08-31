@@ -45,7 +45,8 @@ const handleFilterReset = () => {
     router.push('/shop-1600')
   }
   else {
-    router.push('/shop')
+    router.push(router.currentRoute.value.path)
+	  window.scrollTo(0, 0);
   }
 }
 

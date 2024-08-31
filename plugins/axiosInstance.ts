@@ -46,8 +46,27 @@ export const $axios = {
 };
 
 export default defineNuxtPlugin(() => {
+    const {start, stop} = useLoading();
     $axios.options.baseURL = toolsService.getApiUrl();
     $axios.defaults.baseURL = $axios.instance.defaults.baseURL = $axios.options.baseURL;
+
+    // Request interceptor
+    $axios.instance.interceptors.request.use(config => {
+        start();
+        return config
+    }, error => {
+        stop();
+        return Promise.reject(error)
+    })
+
+    // Response interceptor
+    $axios.instance.interceptors.response.use(response => {
+        stop();
+        return response
+    }, error => {
+        stop();
+        return Promise.reject(error)
+    })
 
     return {
         provide: {

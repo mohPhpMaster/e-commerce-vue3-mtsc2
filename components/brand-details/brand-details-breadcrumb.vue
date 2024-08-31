@@ -10,7 +10,9 @@
                     <span class="breadcrumb-icon me-1">
                       <svg-dot/>
                     </span>
-                    <span><a href="/" @click="useRouter().push('/')">{{ $t('Home') }}</a></span>
+                    <span>
+	                    <nuxt-link href="/">{{ $t('Home') }}</nuxt-link>
+                    </span>
 <!--                    <span><a href="#" @click="toolsService.gotoBrand(brand)">{{toolsService.parseBrandName(brand)}}</a></span>-->
                     <span>{{ toolsService.parseBrandName(brand) }}</span>
                 </div>

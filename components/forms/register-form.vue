@@ -59,7 +59,7 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import {useUserStore} from "@/pinia/userStore";
+import {useUserStore} from "@/pinia/useUserStore";
 import type {IUserRegisterResponse} from "@/types/user-register-response-d-t";
 import {toast} from "vue3-toastify";
 import {$axios} from "@/plugins/axiosInstance";

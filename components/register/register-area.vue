@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import {useUserStore} from "@/pinia/userStore";
+import {useUserStore} from "@/pinia/useUserStore";
 
 useUserStore().guestUser();
 </script>

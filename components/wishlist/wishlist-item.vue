@@ -14,7 +14,7 @@
     <td class="tp-cart-price"><span>{{ currency(item.price) }}</span></td>
 
     <td class="tp-cart-add-to-cart">
-      <button v-if="!isItemInCart(item)" @click="cartStore.openCartProduct(item)" type="button" class="tp-btn tp-btn-2 tp-btn-blue">
+      <button v-if="!isItemInCart(item)" @click="cartStore.openCartProduct(item, $t('Add To Cart'))" type="button" class="tp-btn tp-btn-2 tp-btn-blue">
         {{ $t('Add To Cart') }}
       </button>
       <nuxt-link v-if="isItemInCart(item)" :href="`/cart`" class="tp-btn tp-btn-2 tp-btn-blue">
@@ -37,11 +37,11 @@ import { useCartStore } from "@/pinia/useCartStore";
 import { type IProduct } from '@/types/product-d-t';
 import toolsService from "@/services/toolsService";
 import type {ICartItem} from "@/types/cart-item-d-t";
+import currency from "@/services/currencyService";
+
 const wishlistStore = useWishlistStore();
 const cartStore = useCartStore();
 
-// Currency Formatter
-const currency = useSiteSettings().currency;
 const props = defineProps<{item:IProduct}>()
 
 function isItemInCart(product: IProduct) {

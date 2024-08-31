@@ -12,6 +12,7 @@ export const useCartStore = defineStore("cart_product", () => {
     const route = useRoute();
     let cart_products = ref<ICartItem[]>([]);
     let cart_product = ref<IProduct>({} as IProduct);
+    let cart_title = ref<string | null>(t("Add To Cart"));
     let orderQuantity = ref<number>(1);
     let cartOffcanvas = ref<boolean>(false);
     let cart_modal_status = ref<boolean>(false);
@@ -32,44 +33,19 @@ export const useCartStore = defineStore("cart_product", () => {
         cart_modal_status.value = false;
     }
 
-    // add_cart_product
-    const openCartProduct = (payload: IProduct) => {
-        // const isExist = cart_products.value.some((i) => i?.differents?.id === payload.id);
+    const openCartProduct = (payload: IProduct, title?: string = null) => {
         if (payload.quantity === 0) {
             toast.error(`Out of stock ${payload.name}`);
             return;
         }
-        // else if (!isExist) {
-        const newItem = {
+
+        cart_product.value = {
             ...payload,
             quantity: orderQuantity.value || 1,
         };
-        // cart_products.value.push(newItem);
-        cart_product.value = newItem;
+        title && (cart_title.value = title);
+
         openCart();
-        // toast.success(`${payload.name} added to cart`);
-        // } else {
-        //     cart_products.value.map((item) => {
-        //         if (item.id === payload.id) {
-        //             if (typeof item.orderQuantity !== "undefined") {
-        //                 if (Number(item.quantity) >= item.orderQuantity + orderQuantity.value) {
-        //                     item.orderQuantity =
-        //                         orderQuantity.value !== 1
-        //                             ? orderQuantity.value + item.orderQuantity
-        //                             : item.orderQuantity + Number(orderQuantity.value || 1);
-        //                     toast.success(
-        //                         `${orderQuantity.value} ${item.name} added to cart`
-        //                     );
-        //                 } else {
-        //                     toast.error(`No more quantity available for this product!`);
-        //                     orderQuantity.value = 1;
-        //                 }
-        //             }
-        //         }
-        //         return {...item};
-        //     });
-        // }
-        // localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
     };
 
     const addToCart = (cart: ICartItem) => {
@@ -77,7 +53,7 @@ export const useCartStore = defineStore("cart_product", () => {
         if (cart_modal_status.value) {
             closeCart();
         }
-        const searchForItem = (i, $index): boolean|number => (
+        const searchForItem = (i, $index): boolean | number => (
             (i?.differents?.id === cart?.differents?.id) &&
             (i?.accessories && cart?.accessories && i.accessories.length === cart.accessories.length) &&
             i?.accessories.every((a: ISelectedAccessories, index) => {
@@ -121,46 +97,85 @@ export const useCartStore = defineStore("cart_product", () => {
                 : (orderQuantity.value = 1);
     }
 
-    // quantityDecrement
-    const quantityDecrement = (payload: IProduct) => {
-        cart_products.value.forEach((item: ICartItem) => {
-            if (item?.differents?.id === payload.id) {
-                if (typeof item.quantity !== "undefined") {
-                    if (item.quantity > 1) {
-                        quantitySet(payload, item.quantity - 1);
-                    } else {
-                        removeCartProduct(item?.differents);
+    const cartProductByPayload = (payload: ICartItem, cb: Function) => {
+        return (p: ICartItem, index: number) => {
+            if (p?.differents?.id === payload?.differents?.id) {
+                let accessories = [];
+                for (const _accessory: ISelectedAccessories of payload?.accessories) {
+                    accessories.push(
+                        p?.accessories?.find((a: ISelectedAccessories) => a?.group?.id === _accessory?.group?.id && a?.accessory?.id === _accessory?.accessory?.id)
+                    )
+                }
+
+                accessories = accessories.filter(x => x);
+                if ((accessories.length === p?.accessories?.length) && (accessories.length === payload?.accessories?.length))
+                {
+                    if (cb)
+                    {
+                        return cb(p, index) || true;
                     }
+
+                    return true
+                }
+
+                return false
+            }
+
+            return false;
+        };
+    };
+
+    const quantityDecrement = (payload: IProduct) => {
+        cart_products.value.forEach(cartProductByPayload(payload, (item: ICartItem) => {
+            if (typeof item.quantity !== "undefined") {
+                if (item.quantity > 1) {
+                    quantitySet(payload, (item.quantity || 1) - 1);
+                } else {
+                    removeCartProduct(item);
                 }
             }
-        });
+        }))
     };
 
     const quantityIncrement = (payload: IProduct) => {
-        cart_products.value.forEach((item: ICartItem) => {
-            if (item?.differents?.id === payload.id) {
-                if (typeof item.quantity !== "undefined") {
-                    quantitySet(payload, item.quantity + 1);
-                }
-            }
-        });
+        quantitySet(payload, (item: ICartItem) => (item.quantity || 1) + 1);
     };
 
-    const quantitySet = (payload: IProduct, quantity: number) => {
-        cart_products.value.map((item: ICartItem) => {
-            if (item?.differents?.id === payload.id) {
-                if (typeof item.quantity !== "undefined") {
-                    item.quantity = quantity;
-                }
+    const quantitySet = (payload: IProduct, quantity: number|Function) => {
+        quantity = (typeof quantity !== "function") && isNaN(quantity) ? 1 : quantity;
+        cart_products.value.forEach((cartProductByPayload(payload, (item: ICartItem) => {
+            if (typeof quantity === "function") {
+                item.quantity = Number(quantity(item));
+            } else {
+                item.quantity = Number(quantity);
             }
-            return {...item};
-        });
+
+            return item;
+        })))
         localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
         toast.info(`Quantity For ${toolsService.parseProductName(payload, true)} updated to ${quantity} `);
     };
 
+    const filterCartProductByPayload = (payload: ICartItem) => {
+        return (p: ICartItem) => {
+            if (p?.differents?.id !== payload?.differents?.id) {
+                return true;
+            }
+
+            let accessories = [];
+            for (const _accessory: ISelectedAccessories of payload?.accessories) {
+                accessories.push(
+                    p?.accessories?.find((a: ISelectedAccessories) => a?.group?.id === _accessory?.group?.id && a?.accessory?.id === _accessory?.accessory?.id)
+                )
+            }
+
+            accessories = accessories.filter(x => x);
+            return !((accessories.length === p?.accessories?.length) && (accessories.length === payload?.accessories?.length));
+        };
+    };
+
     // remover_cart_products
-    const removeCartProduct = (payload: IProduct) => {
+    const removeCartProduct = (payload: IProduct | ICartItem) => {
         swal({
             title: t("Are you sure?"),
             text: t("You won't be able to revert this!"),
@@ -170,9 +185,7 @@ export const useCartStore = defineStore("cart_product", () => {
         })
             .then((result?: boolean) => {
                 if (result) {
-                    cart_products.value = cart_products.value.filter(
-                        (p) => p?.differents?.id !== payload.id
-                    );
+                    cart_products.value = cart_products.value.filter(filterCartProductByPayload(payload));
                     localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
                     toast.error(`${toolsService.parseProductName(payload, true)} removed from cart`);
                 }
@@ -281,6 +294,7 @@ export const useCartStore = defineStore("cart_product", () => {
         cart_modal_status,
         cart_modal_qty,
         cart_product,
+        cart_title,
         incrementCartQty,
         decrementCartQty,
         openCart,

@@ -11,10 +11,10 @@
         <div class="col-xl-6 col-lg-8">
           <div class="tp-login-wrapper">
             <div class="tp-login-top text-center mb-30">
-              <h3 class="tp-login-title">Login to Shofi.</h3>
+              <h3 class="tp-login-title">{{ $t("Login to :siteTitle", { siteTitle: $settings?.siteTitle || "" }) }}</h3>
               <p>
-                Don’t have an account?
-                <span><nuxt-link href="/register">Create a free account</nuxt-link></span>
+								{{ $t("Don’t have an account?") }}
+                <span><nuxt-link href="/register">{{ $t("Create a free account") }}</nuxt-link></span>
               </p>
             </div>
             <div class="tp-login-option">
@@ -22,7 +22,7 @@
               <login-social />
               <!-- social login end -->
               <div class="tp-login-mail text-center mb-40">
-                <p>or Sign in with <a href="#">Email</a></p>
+                <p>{{ $t("or Sign in with") }} <a href="#">{{ $t("Email") }}</a></p>
               </div>
               <!-- form start -->
               <forms-login-form />
@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import {useUserStore} from "@/pinia/userStore";
+import {useUserStore} from "@/pinia/useUserStore";
 
 useUserStore().guestUser();
 </script>

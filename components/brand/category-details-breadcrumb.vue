@@ -8,7 +8,9 @@
                     <span class="breadcrumb-icon me-1">
                       <svg-dot/>
                     </span>
-                    <span><a href="#" @click="router.push('/')">Home</a></span>
+                    <span>
+	                    <nuxt-link href="/">{{ $t('Home') }}</nuxt-link>
+                    </span>
                     <span>{{ toolsService.parseCategoryName(category) }}</span>
                 </div>
               </div>

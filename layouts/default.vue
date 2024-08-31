@@ -1,7 +1,7 @@
 <template>
     <Html :dir="head.htmlAttrs.dir" :lang="head.htmlAttrs.lang">
       <Head>
-        <Title>{{ title }}</Title>
+        <title v-if="title !== undefined">{{ title }}</title>
         <template v-for="link in head.link" :key="link.id">
           <Link :id="link.id" :href="link.href" :hreflang="link.hreflang" :rel="link.rel" />
         </template>
@@ -22,12 +22,28 @@
 </template>
 
 <script setup lang="ts">
+const {stop} = useLoading()
 const route = useRoute()
 const {t} = useI18n()
 const head = useLocaleHead({
 	addDirAttribute: true,
 	identifierAttribute: 'id',
-	addSeoAttributes: true
+	addSeoAttributes: true,
 })
-const title = computed(() => t(route.meta.title ?? 'defaults.title'));
+const siteTitle = useNuxtApp().$settings.siteTitle;
+useHead({
+	titleTemplate: (t) => {
+		return t
+				? `${t} - ${siteTitle}`
+				: siteTitle
+	}
+})
+
+const title = computed(() => {
+	return route.meta.title || undefined
+})
+
+onMounted(() => {
+    stop()
+})
 </script>

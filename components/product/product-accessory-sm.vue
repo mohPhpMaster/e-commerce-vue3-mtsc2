@@ -3,12 +3,12 @@
         <button
 		        id="groupSelect"
 		        ref="groupSelect"
+		        :title="selectedAccessory?.id ? selectedAccessory?.name : $t('Choose')"
 		        aria-expanded="false"
 		        aria-haspopup="true"
 		        class="tp-btn tp-btn-sm dropdown-toggle px-3 w-100 py-2 text-truncate "
 		        data-bs-toggle="dropdown"
 		        type="button"
-		        :title="selectedAccessory?.id ? selectedAccessory?.name : $t('Choose')"
         >
           {{ selectedAccessory?.id ? selectedAccessory?.name : $t("Choose") }}
         </button>
@@ -16,27 +16,27 @@
         <div aria-labelledby="groupSelect" class="dropdown-menu w-100 p-3">
           <input
 		          v-model="searchTerm"
+		          :placeholder="$t('Search...')"
 		          autofocus
 		          class="form-control mb-2 input-group-search"
-		          :placeholder="$t('Search...')"
 		          type="text"
           />
           <a
 		          v-show="!searchTerm"
-		          href="void(0)"
-		          class="dropdown-item text-truncate"
-		          @click.prevent="resetAccessory()"
 		          :title="$t('Choose')"
+		          class="dropdown-item text-truncate"
+		          href="void(0)"
+		          @click.prevent="resetAccessory()"
           >
             {{ $t("Choose") }}
           </a>
           <a
 		          v-for="(accessory, index) in filteredAccessories"
 		          :key="index"
-		          href="void(0)"
-		          class="dropdown-item text-truncate"
-		          @click.prevent="selectAccessory(accessory)"
 		          :title="accessory?.name"
+		          class="dropdown-item text-truncate"
+		          href="void(0)"
+		          @click.prevent="selectAccessory(accessory)"
           >
             {{ accessory?.name }}
           </a>
@@ -44,16 +44,16 @@
       </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type {IProductAccessoriesGroups} from "@/types/product-accessories-groups-d-t";
-import {computed, nextTick, ref} from "vue";
+import {computed, ref} from "vue";
+import type {IProductAccessoriesData} from "@/types/selected-accessories-data-d-t";
 
-const currency = useSiteSettings().currency;
 const emit = defineEmits(['updated'])
 
-const props = defineProps<{ accessories:IProductAccessoriesGroups[]}>()
+const props = defineProps<{ accessories: IProductAccessoriesGroups[], selected?: IProductAccessoriesGroups|IProductAccessoriesData }>()
 
-const selectedAccessory = ref<IProductAccessoriesGroups>({} as IProductAccessoriesGroups);
+const selectedAccessory = ref<IProductAccessoriesGroups>(props.selected || {} as IProductAccessoriesGroups);
 const searchTerm = ref<string>("");
 
 // Computed properties
@@ -75,5 +75,4 @@ const selectAccessory = (v: IProductAccessoriesGroups) => {
 	selectedAccessory.value = v;
 	emit('updated', v);
 };
-
 </script>

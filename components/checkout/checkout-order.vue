@@ -25,7 +25,7 @@
               <span>{{ $t('Shipping') }}</span>
               <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
                 <span v-for="(_fee, index) in shippingStore.fees.value" :key="_fee.id">
-                    <input :id="_fee.name" type="radio" name="shipping" :checked="_fee?.is_default || false">
+                    <input :id="_fee.name" type="radio" name="shipping" :checked="shippingStore.shouldSelectFee(_fee)">
                     <label @click="shippingStore.handleShippingCost(_fee.value)" :for="_fee.name">{{ _fee.name }}<span v-if="!['free',0].includes(_fee.value)">: {{ currency(_fee.value) }}</span></label>
                 </span>
               </div>
@@ -70,10 +70,11 @@
 import {useCartStore} from '@/pinia/useCartStore';
 import toolsService from "@/services/toolsService";
 import {useUtilityStore} from "@/pinia/useUtilityStore";
+import currency from "@/services/currencyService";
+
 // import {useFeesStore} from "@/pinia/useFeesStore";
 
 const cartStore = useCartStore();
-const currency = useSiteSettings().currency;
 // const feeStore = useFeesStore();
 const shippingStore = useShipping();
 let payment_name = ref<string>('');

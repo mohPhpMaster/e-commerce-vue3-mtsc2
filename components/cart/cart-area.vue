@@ -27,7 +27,7 @@
             <div class="tp-cart-bottom mr-30">
               <div class="row align-items-end">
                   <div class="col-xl-6 col-md-8">
-                    <div class="tp-cart-coupon">
+                    <div class="tp-cart-coupon" v-if="showCouponCodeArea">
                         <form @submit.prevent="handleCouponSubmit">
                           <div class="tp-cart-coupon-input-box">
                               <label>{{ $t('Coupon Code:') }}</label>
@@ -59,7 +59,7 @@
                   <h4 class="tp-cart-checkout-shipping-title">{{ $t('Shipping') }}</h4>
                   <div class="tp-cart-checkout-shipping-option-wrapper">
                     <div class="tp-cart-checkout-shipping-option" v-for="(_fee, index) in shippingStore.fees.value" :key="index">
-                        <input :id="_fee.name" type="radio" name="shipping" :checked="_fee?.is_default || false">
+                        <input :id="_fee.name" type="radio" name="shipping" :checked="shippingStore.shouldSelectFee(_fee)">
                         <label @click="shippingStore.setSelectedFee(_fee)" :for="_fee.name">{{ _fee.name }}<span v-if="!['free',0].includes(_fee.value)">: {{ currency(_fee.value) }}</span></label>
                     </div>
                   </div>
@@ -80,14 +80,13 @@
 
 <script setup lang="ts">
 import { useCartStore } from "@/pinia/useCartStore";
-import {useUtilityStore} from "@/pinia/useUtilityStore";
-// import {useFeesStore} from "@/pinia/useFeesStore";
-// import {useShipping} from useShipping();
+import currency from "@/services/currencyService";
 
 const {t} = useI18n();
-const currency = useSiteSettings().currency;
 const cartStore = useCartStore();
 const shippingStore = useShipping();
+
+const showCouponCodeArea = ref(false);
 let couponCode = ref<string>('');
 
 const handleCouponSubmit = () => {

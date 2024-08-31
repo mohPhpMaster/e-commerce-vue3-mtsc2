@@ -14,7 +14,13 @@ export async function siteSettingsData(): Promise<ISiteSettings> {
 }
 
 export function convertSiteSettingsResponse(settings: ISiteSettingsResponse): ISiteSettings {
-    return settings;
+    return {
+        currency: settings?.currency || '',
+        noImageUrl: settings?.noImageUrl || '',
+        apiURL: settings?.apiURL || '',
+        perPage: settings?.perPage || 9,
+        siteTitle: settings?.siteTitle || '',
+    };
 }
 
 export default siteSettingsData;

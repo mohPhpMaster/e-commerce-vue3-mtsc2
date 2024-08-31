@@ -10,5 +10,7 @@ export function useSticky() {
     }
   }
   onMounted(() => window.addEventListener("scroll", handleSticky))
+  onUnmounted(() => window.removeEventListener("scroll", handleSticky))
+
   return { isSticky }
 }

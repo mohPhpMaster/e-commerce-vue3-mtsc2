@@ -67,7 +67,7 @@
 
         <p>{{ item.description.slice(0, 100) }}</p>
         <div class="tp-product-list-add-to-cart">
-          <button v-if="!isItemInCart(item)" @click="cartStore.openCartProduct(item)" class="tp-product-list-add-to-cart-btn">{{ $t('Add To Cart') }}</button>
+          <button v-if="!isItemInCart(item)" @click="cartStore.openCartProduct(item, $t('Add To Cart'))" class="tp-product-list-add-to-cart-btn">{{ $t('Add To Cart') }}</button>
           <nuxt-link to="/cart" v-if="isItemInCart(item)" class="tp-product-list-add-to-cart-btn">
 						{{ $t('View Cart') }}
           </nuxt-link>
@@ -84,6 +84,7 @@ import { useCompareStore } from "@/pinia/useCompareStore";
 import { useCartStore } from "@/pinia/useCartStore";
 import { useWishlistStore } from "@/pinia/useWishlistStore";
 import toolsService from "@/services/toolsService";
+import currency from "@/services/currencyService";
 
 const props = defineProps<{ item: IProduct }>();
 
@@ -91,7 +92,6 @@ const compareStore = useCompareStore();
 const cartStore = useCartStore();
 const wishlistStore = useWishlistStore();
 const utilityStore = useUtilityStore();
-const currency = useSiteSettings().currency;
 
 function isItemInWishlist(product: IProduct) {
   return wishlistStore.wishlists.some((prd) => prd.id === product.id);

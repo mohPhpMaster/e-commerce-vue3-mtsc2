@@ -1,14 +1,22 @@
 <template>
-	<div class="tp-product-details-differents-accessories">
+	<div  class="tp-product-details-differents-accessories">
     <div class="row">
-      <div v-for="productDifferent in productDifferents" :key="productDifferent.id" class="col-12 col-xxl-6 pb-3">
+	    <product-loading-sm v-if="productDifferentsPending" />
+      <div
+		      v-for="productDifferent in productDifferents"
+		      v-else
+		      :key="productDifferent.id"
+		      class="col-12 col-xxl-6 pb-3"
+      >
         <product-sm :current="different" :product="productDifferent" @clicked="emit('clicked', $event)" />
       </div>
     </div>
     <div class="row">
-      <div v-for="(productAccessory, i) in productAccessories" :key="productAccessory.id" class="col-12 pb-3">
+	    <product-accessory-group-loading-sm v-if="productAccessoriesPending" />
+      <div v-for="(productAccessory, i) in productAccessories" v-else :key="productAccessory.id" class="col-12 pb-3">
         <product-accessory-group-sm
 		        :group="productAccessory"
+		        :selected="accessories?.[Number(productAccessory.id)]?.accessory"
 		        @updated="emit('updated', productAccessory, $event,productAccessories)"
         />
       </div>
@@ -16,64 +24,86 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {$axios} from "@/plugins/axiosInstance.js";
 import toolsService from "@/services/toolsService.js";
-import {convertProductDifferentsResponse} from "@/plugins/data/product-differents-data.js";
-import {convertProductAccessoriesResponse} from "@/plugins/data/product-accessories-groups-data.js";
 import type {IProduct} from "@/types/product-d-t";
+import {convertProductDifferentsResponse} from "@/plugins/data/product-differents-data.js";
+import {convertProductAccessoriesResponse} from "@/plugins/data/product-accessories-groups-data";
+import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
+import type {IProductAccessoriesData} from "@/types/selected-accessories-data-d-t";
 
 const route = useRoute();
 const router = useRouter();
 const {t} = useI18n();
-const emit = defineEmits(['updated','clicked'])
-const currency = useSiteSettings().currency;
+const emit = defineEmits(['updated', 'clicked', 'onLoading']);
 
 const props = withDefaults(defineProps<{
-	productAccessories?: IProductAccessoriesGroups[];
+	// productAccessories?: IProductAccessoriesGroups[];
+	accessories?: ISelectedAccessories[]|IProductAccessoriesData[];
 	different?: IProduct;
 	product: IProduct;
-	mainProduct: IProduct;
-	isShowBottom?: boolean
 }>(), {
-	isShowBottom: true,
+	different: (d) => d.product,
 })
-
-const productDifferentsLoader = () => $axios.get(`products/${toolsService.id(props.mainProduct)}/differents`).then(res => {
-	let data = (res?.data?.data || []).map(convertProductDifferentsResponse);
-	data.unshift(props?.mainProduct);
-	return data
-});
-
 
 const {
 	data: productDifferents,
 	error: productDifferentsError,
 	pending: productDifferentsPending,
 	refresh: productDifferentsRefresh,
-} = await useLazyAsyncData(`products-${props.mainProduct?.id}-differents`, productDifferentsLoader, {
-	watch: [props.mainProduct, props.different, route],
+} = useAsyncData(
+		`products-${props.product?.id}-differents`,
+		() => !Object.keys(props.product).length ? [] : $axios.get(`products/${toolsService.id(props.product)}/differents`).then(res => {
+			let data = (res?.data?.data || []).map(convertProductDifferentsResponse);
+			data.unshift(props?.product);
+			return data
+		}),
+		{
+			watch: [props.product, props.different, route],
+		}
+)
+
+const {
+	data: productAccessories,
+	error: productAccessoriesError,
+	pending: productAccessoriesPending,
+	refresh: productAccessoriesRefresh,
+	execute: productAccessoriesExecute
+} = useAsyncData(
+		`products-${props.product?.id}-accessories`,
+		() => !Object.keys(props.product).length ? [] : $axios.get(`products/${toolsService.id(props.product)}/accessories_groups`)
+				.then(res => (res?.data?.data || []).map(convertProductAccessoriesResponse)),
+		{
+			watch: [props.product, route],
+		}
+)
+
+const loadingPending = computed(() => {
+	return props.loading?.pending || productDifferentsPending.value || productAccessoriesPending.value
 })
 
-// const productAccessoriesLoader = () => $axios.get(`products/${toolsService.id(props.mainProduct)}/accessories_groups`)
-// 		.then(res => (res?.data?.data || []).map(convertProductAccessoriesResponse));
-//
-// const {
-// 	data: productAccessories,
-// 	error: productAccessoriesError,
-// 	pending: productAccessoriesPending,
-// 	refresh: productAccessoriesRefresh,
-// } = await useLazyAsyncData(`products-${props.mainProduct?.id}-accessories`, productAccessoriesLoader, {
-// 	watch: [props.mainProduct, props.different, route],
-// })
-
 onMounted(async () => {
-	if (!productDifferents.value) {
-		await productDifferentsRefresh()
+	if (Object.keys(props.product).length) {
+		if (!productDifferents.value) await productDifferentsRefresh()
+		if (!productAccessories.value) await productAccessoriesRefresh()
 	}
-	// if (!productAccessories.value) {
-	// 	await productAccessoriesRefresh()
-	// }
 });
 
+watch(
+		() => props.product,
+		async (newVal) => {
+			if (Object.keys(newVal).length) {
+				productAccessoriesRefresh()
+				productDifferentsRefresh()
+			}
+		}
+)
+
+watch(
+		[productAccessoriesPending, productDifferentsPending],
+		([accessoriesPending, differentsPending]) => {
+			emit('onLoading', accessoriesPending || differentsPending)
+		}
+)
 </script>
