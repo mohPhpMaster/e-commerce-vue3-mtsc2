@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "id": "35",
+      "name": "brand 2",
+      "slug": "brand-2",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/brands\/images\/15_banner_4.png"
+    }
+  ],
+  "status": "success",
+  "message": "brand retrieved successfully"
+}

@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "id": 33,
+      "name": "brand 1",
+      "slug": "brand-1",
+      "imageUrl": "https://i.ibb.co/Ydf3C1H/brand-1.png"
+    },
+    {
+      "id": 35,
+      "name": "brand 2",
+      "slug": "brand-2",
+      "imageUrl": "https://i.ibb.co/GTzWqnP/brand-2.png"
+    },
+    {
+      "id": 36,
+      "name": "Brand3",
+      "slug": "brand3",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/public\/uploads\/brands\/images\/15_a6859afb-b2bd-4735-8af2-281eec556add.jpeg"
+    }
+  ],
+  "status": "success",
+  "message": "categories retrieved successfully"
+}

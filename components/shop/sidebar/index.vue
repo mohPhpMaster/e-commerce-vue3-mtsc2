@@ -21,16 +21,9 @@
       <shop-sidebar-filter-categories/>
       <!-- filter categories end -->
     </div>
-    <!-- product rating -->
-    <div class="tp-shop-widget mb-50">
-      <h3 class="tp-shop-widget-title">{{ $t('Top Rated Products') }}</h3>
-      <!-- filter top-product start -->
-<!--      <shop-sidebar-top-product />-->
-      <!-- filter top-product end -->
-    </div>
     <!-- brand -->
     <div class="tp-shop-widget mb-50">
-      <h3 class="tp-shop-widget-title">{{ $t('Popular Brands') }}</h3>
+      <h3 class="tp-shop-widget-title">{{ $t('Brands') }}</h3>
       <!-- filter brand start -->
       <shop-sidebar-filter-brand/>
       <!-- filter brand end -->

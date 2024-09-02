@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Ready Made Cigar Pouches",
+      "slug": "Ready-Made-Cigar-Pouches",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_8b6ffd4d-25f1-400d-b717-fa7174df1e7d.jpg.1641372791.jpg",
+      "sub_categories": {
+        "data": [
+          {
+            "id": 21,
+            "name": "1111",
+            "slug": "1111",
+            "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_akumulator_Xtar_18650_3_6V_Li_ion_3000mAh_z_zabezpieczeniem-3.jpg.1620400941.jpg"
+          }
+        ]
+      }
+    }
+  ],
+  "status": "success",
+  "message": "categories  retrieved successfully"
+}

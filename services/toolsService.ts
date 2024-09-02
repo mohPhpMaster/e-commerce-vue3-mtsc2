@@ -1,9 +1,8 @@
-import type {ICategory} from "@/types/category-d-t";
-import type {ISubCategory} from "@/types/sub-category-d-t";
 import type {IProduct} from "@/types/product-d-t";
 import type {IMenuItem} from "@/types/menu-d-t";
 import type {IDropdownMenu} from "@/types/dropdown-menu-d-t";
-import type {IBrand} from "@/types/brand-d-t";
+import type {TCategory, TCategoryResponse} from "@/types/category-t";
+import type {TBrand, TBrandResponse} from "@/types/brand-t";
 
 const idKey = ["slug", "sku"];
 
@@ -48,7 +47,7 @@ export default {
     parseMenuName(menu: IMenuItem | IDropdownMenu): string {
         return menu?.title || "";
     },
-    parseCategoryName(category?: ICategory | ISubCategory, $default: string = ''): string {
+    parseCategoryName(category?: TCategory|TCategoryResponse, $default: string = ''): string {
         return category && (
             ("name" in category && category?.name) ||
             ("parentName" in category && category?.parentName) ||
@@ -98,7 +97,7 @@ export default {
         // 				: `${product?.description.substring(0, 100)}...`
         // ).replace(/\n/g, '<br>')
     },
-    parseBrandName(brand: IBrand): string {
+    parseBrandName(brand: TBrand|TBrandResponse): string {
         return String(brand?.name || brand?.id || '');
     },
     normalizeLineEndings(text: string): string {
@@ -107,10 +106,10 @@ export default {
     normalizeLineEndingsToHtml(text?: string): string {
         return this.normalizeLineEndings(text || "").replace(/\n/g, '<br>');
     },
-    gotoCategory(category: ICategory): void {
+    gotoCategory(category: TCategory|TCategoryResponse): void {
         useRouter().push(this.getCategoryUrl(category));
     },
-    gotoBrand(brand: IBrand): void {
+    gotoBrand(brand: TBrand|TBrandResponse): void {
         useRouter().push(this.getBrandUrl(brand));
     },
     gotoProduct(product: IProduct): void {
@@ -131,10 +130,10 @@ export default {
 
         return `/product-details/${this.parseId(product, product?.sku)}${suffix}`;
     },
-    getCategoryUrl(category: ICategory): string {
+    getCategoryUrl(category: TCategory|TCategoryResponse): string {
         return `/category/${this.parseId(category, category?.slug)}`;
     },
-    getBrandUrl(brand: IBrand): string {
+    getBrandUrl(brand: TBrand|TBrandResponse): string {
         return `/brand/${this.parseId(brand, brand?.slug)}`;
     },
     getDefaultNoImageUrl(): string {

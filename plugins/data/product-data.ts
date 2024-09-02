@@ -7,6 +7,7 @@ import type {ICategory} from "@/types/category-d-t";
 import type {IBrand} from "@/types/brand-d-t";
 import type {IBrandResponse} from "@/types/brand-response-d-t";
 import type {IFetchProductOptions} from "@/types/fetch-product-options-d-t";
+import {useProductFilterStore} from "@/pinia/useProductFilterStore";
 
 export async function productData({
                                       prepend = [],
@@ -21,6 +22,7 @@ export async function productData({
                                       plain = false,
                                       pagination = false,
                                       toURL = false,
+                                      baseUrl = undefined,
                                   }: IFetchProductOptions = {}): Promise<IProduct[]> {
     try {
         page = Number(page) || 1;
@@ -28,8 +30,15 @@ export async function productData({
         slug = slug || '';
         query = query || '';
         search = search || '';
+
+        const filterStore = useProductFilterStore();
+        let $category = filterStore.fetchRouterProductCategory() || "";
+        $category = $category ? `&category=${$category}` : '';
+        let $sortingOption = filterStore.fetchRouterSelectedSortingOption() || "";
+        $sortingOption = $sortingOption ? `&sorting=${$sortingOption}` : '';
+
         let url = `products`;
-        let url_suffix = `?page=${page}&query=${query}&search=${search}`;
+        let url_suffix = `?page=${page}&query=${query}&search=${search}${$category}${$sortingOption}`;
         let converter: Function = (o: []) => o.map(x=>convertProductResponse(x));
 
         if (category) {
@@ -49,7 +58,13 @@ export async function productData({
         if (toURL) {
             return url;
         }
-        const response: { data: { data: IProductResponse[] } } = await $axios.get(url);
+
+        let $options = {};
+        if (baseUrl) {
+            $options["baseURL"] = baseUrl;
+        }
+
+        const response: { data: { data: IProductResponse[] } } = await $axios.get(url, $options);
         // console.log(52, url)
         // const response: { data: { data: IProductResponse[] } } = await import("@/data/products.json").then(x => ({ data: x.default }));
         // console.log(55, response);

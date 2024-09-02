@@ -1,0 +1,18 @@
+{
+  "data": [],
+  "links": {
+    "first": "https:\/\/mobark.mtsc.tech\/api\/brands\/brand-3\/products?page=1",
+    "last": null,
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": null,
+    "path": "https:\/\/mobark.mtsc.tech\/api\/brands\/brand-3\/products",
+    "per_page": 25,
+    "to": null
+  },
+  "status": "success",
+  "message": "brands  retrieved successfully"
+}

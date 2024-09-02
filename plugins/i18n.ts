@@ -1,14 +1,26 @@
 export default defineNuxtPlugin(nuxtApp => {
-    nuxtApp.$axios.defaults.headers.language = nuxtApp?.$i18n.locale.value || nuxtApp.$axios.defaults.headers.language || 'en';
+    const setLanguageHeader = (locale: string) => {
+        nuxtApp.$axios.defaults.headers.language = locale || 'en';
+    };
 
-    // nuxtApp.hook('i18n:beforeLocaleSwitch', ({oldLocale, newLocale, initialSetup, context}) => {
-    //     console.log(4, 'i18n:beforeLocaleSwitch', oldLocale, newLocale, initialSetup)
-    // })
+    setLanguageHeader(nuxtApp?.$i18n.locale.value || 'en');
 
-    nuxtApp.hook('i18n:localeSwitched', ({oldLocale, newLocale}) => {
-        nuxtApp.$axios.defaults.headers.language = newLocale || 'en';
-        reloadNuxtApp({force: true});
-
-        // console.log(9, 'i18n:localeSwitched', oldLocale, newLocale, nuxtApp?.$axios.defaults.headers.language)
+    nuxtApp.hook('i18n:beforeLocaleSwitch', ({oldLocale, newLocale, initialSetup, context}) => {
+        // console.log(4, 'i18n:beforeLocaleSwitch', oldLocale, newLocale, initialSetup)
+        // clearNuxtState();
+        useLoading().start();
+        scrollToTop()
+            .then(() => {
+                setLanguageHeader(newLocale);
+                reloadNuxtApp({force: true});
+            })
+        // refreshNuxtData();
     })
+
+    // nuxtApp.hook('i18n:localeSwitched', ({oldLocale, newLocale}) => {
+    //     setLanguageHeader(newLocale);
+    //     reloadNuxtApp({force: true});
+    // refreshNuxtData();
+    // console.log(9, 'i18n:localeSwitched', oldLocale, newLocale, nuxtApp?.$axios.defaults.headers.language)
+    // })
 })

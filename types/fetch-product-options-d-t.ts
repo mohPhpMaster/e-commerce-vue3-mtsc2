@@ -16,4 +16,5 @@ export type IFetchProductOptions = {
     toURL?: boolean;
     product?: IProduct,
     query?: string,
+    baseUrl?: string,
 };

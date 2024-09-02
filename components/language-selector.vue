@@ -1,6 +1,6 @@
 <template>
-  <div class="offcanvas__select language">
-    <div class="offcanvas__lang d-flex align-items-center justify-content-md-end">
+  <div class="offcanvas__select language d-none d-md-block my-3">
+    <div class="offcanvas__lang d-flex align-items-center justify-content-center justify-content-md-center">
       <div class="offcanvas__lang-img mr-15">
         <img alt="language-flag" :src="localeServices.selectedLanguageFlag" class="language-flag"/>
       </div>

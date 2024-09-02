@@ -8,13 +8,17 @@ export async function categoryData({
                                        append = [],
                                        page = 1,
                                        slug = "",
-                                    plain = false,
+                                       plain = false,
+                                       url = false,
+                                       baseUrl = undefined
                                    }: {
     prepend?: ICategory[];
     append?: ICategory[];
     page?: number;
     slug?: string;
     plain?: boolean;
+    url?: boolean;
+    baseUrl?: string;
 } = {}): Promise<ICategory[]> {
     try {
         if (page) {
@@ -27,8 +31,18 @@ export async function categoryData({
             slug = slug ? `/${slug}` : "";
         }
 
-        const url = `categories${slug}?${page ? `page=${page}` : ""}`;
-        const response: { data: { data: ICategoryResponse[] } } = await $axios.get(url);
+        const $url = `categories${slug}?${page ? `page=${page}` : ""}`;
+        if (url) {
+            return $url;
+        }
+
+        let $options = {};
+        if (baseUrl)
+        {
+            $options["baseURL"] = baseUrl;
+        }
+
+        const response: { data: { data: ICategoryResponse[] } } = await $axios.get($url, $options);
         if (plain) {
             return (response?.data?.data || []).map(convertCategoryResponse);
         }
@@ -51,7 +65,7 @@ export function convertCategoryResponse(
         url: `/category/${category.slug}`,
         img: category.imageUrl,
         parentName: category?.name,
-        products: (category?.products?.data || []).map(x=>convertProductResponse(x)),
+        products: (category?.products?.data || []).map(x => convertProductResponse(x)),
         children: (category?.sub_categories?.data || []).map(
             convertCategoryResponse
         ),

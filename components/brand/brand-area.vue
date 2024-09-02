@@ -1,6 +1,6 @@
 <template>
   <section class="tp-category-area pt-110 pb-110">
-    <div class="container">
+    <div class="container" v-if="!pending">
         <div class="row">
           <div class="col-xl-12">
               <div class="tp-section-title-wrapper-5 mb-50 text-center">

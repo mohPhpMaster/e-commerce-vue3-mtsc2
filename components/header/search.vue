@@ -1,5 +1,5 @@
 <template>
-  <section :class="`tp-search-area tp-search-style-brown ${utilityStore.openSearchBar ? 'opened' : ''}`" >
+  <section :class="`tp-search-area tp-search-style-brown ${utilityStore.openSearchBar ? 'opened' : ''}`">
     <div class="container">
       <div class="row">
         <div class="col-xl-12">
@@ -9,7 +9,13 @@
             </div>
             <form @submit.prevent="handleSubmit">
               <div class="tp-search-input mb-10">
-                <input type="text" class="search-bar-input-search" :placeholder="$t('Search for products keywords ...')" v-model="searchText" autofocus />
+                <input
+		                v-model="searchText"
+		                :placeholder="$t('Search for products keywords ...')"
+		                autofocus
+		                class="search-bar-input-search"
+		                type="text"
+                />
                 <button type="submit"><i class="flaticon-search-1"></i></button>
               </div>
             </form>
@@ -20,17 +26,18 @@
   </section>
 
   <div
-    @click="utilityStore.handleOpenSearchBar()"
-    :class="`body-overlay ${utilityStore.openSearchBar ? 'opened' : ''}`"
+		  :class="`body-overlay ${utilityStore.openSearchBar ? 'opened' : ''}`"
+		  @click="utilityStore.handleOpenSearchBar()"
   ></div>
 </template>
 
-<script setup lang="ts">
-import { useUtilityStore } from "@/pinia/useUtilityStore";
+<script lang="ts" setup>
+import {useUtilityStore} from "@/pinia/useUtilityStore";
 import {useSearchStore} from "@/pinia/useSearchStore";
+
 const route = useRoute();
 const router = useRouter();
-let searchText = ref<string>(useRoute()?.query?.searchText);
+let searchText = ref<string>(route?.query?.searchText);
 const utilityStore = useUtilityStore();
 
 // handleSubmit
@@ -42,9 +49,16 @@ const handleSubmit = () => {
 			useSearchStore().triggerSearch();
 			return false;
 		}
-    router.push(`/search?searchText=${searchText.value}`);
-  } else {
-    router.push(`/search`);
-  }
+		router.push(`/search?searchText=${searchText.value}`);
+	} else {
+		router.push(`/search`);
+	}
 };
+
+watch(
+		() => route.query,
+		() => {
+			searchText.value = router.currentRoute.value?.query?.searchText
+		}
+)
 </script>

@@ -119,4 +119,7 @@ export default defineNuxtConfig({
     devtools: {
         enable: false
     },
+
+    ssr: true,
+    sourcemap: true,
 })

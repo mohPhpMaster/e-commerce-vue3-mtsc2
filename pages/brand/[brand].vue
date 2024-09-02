@@ -1,7 +1,8 @@
 <template>
-  <div v-if="!pending && brand?.id">
+  <div v-if="!pending && brand">
 	  <!-- breadcrumb start -->
-    <brand-details-breadcrumb :brand="brand" />
+    <brand-details-breadcrumb v-if="brand?.id" :brand="brand" />
+    <breadcrumb v-else :title="propBrand" :subtitle="propBrand" />
 	  <!-- breadcrumb end -->
 
 	  <!-- shop area start -->
@@ -11,13 +12,12 @@
 </template>
 
 <script lang="ts" setup>
-import {api} from "@/plugins/api";
 import toolsService from "@/services/toolsService";
 
 const route = useRoute();
 // const propBrand = () => useRoute()?.params?.brand;
 const propBrand = computed(() => route.params?.brand);
-const {title} = useSiteSettings();
+const {title, settings} = useSiteSettings();
 
 function setTitle(p) {
 	if (p && Object.keys(p).length) {
@@ -27,16 +27,24 @@ function setTitle(p) {
 	}
 }
 
-const {data: brand, pending, error, refresh} = useLazyAsyncData(
+const {data: brand, pending, error, refresh, execute} = useLazyAsyncData(
 		`brand-${propBrand.value}`,
 		() => $fetch(`brands/${propBrand.value}`, {
-			baseURL: useSiteSettings().settings.apiURL,
+			baseURL: settings.apiURL,
 			responseType: 'json',
-			parseResponse: (res) => JSON.parse(res)?.data?.[0],
+			parseResponse: (res) => JSON.parse(res)?.data,
 			params: {
 				page: route.query?.page || 1
 			}
 		})
+		.then(data => {
+			if (!data || data?.length === 0) {
+				return [[]];
+			}
+
+			return data;
+		})
+		.then(data => data?.[0])
 		.then(data => {
 			if (process.client) {
 				setTitle(data)
@@ -45,7 +53,28 @@ const {data: brand, pending, error, refresh} = useLazyAsyncData(
 			return data;
 		}),
 		{
-			watch: [route]
+			watch: [route],
+			immediate: false
 		}
 );
+
+await execute();
+
+if (brand.value && brand.value?.id) {
+	setTitle(brand.value)
+}
+
+if (
+		(error?.value && error?.value?.message === 'EMPTY')
+		// || !(brand?.value && brand?.value?.id)
+) {
+	showError({
+		statusCode: 404,
+		statusMessage: useI18n().t('Brand not found'),
+		data: 'EMPTY',
+		error: error?.value || new Error('EMPTY'),
+		url: route.href,
+		fatal: true
+	});
+}
 </script>

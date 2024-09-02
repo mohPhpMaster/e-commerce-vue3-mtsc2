@@ -1,0 +1,60 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Ready Made Cigar Pouches",
+      "slug": "Ready-Made-Cigar-Pouches",
+      "products": 19
+    },
+    {
+      "id": 13,
+      "name": "Empty Pod & Ready Pod",
+      "slug": "Empty-Pod-&-Ready-Pod",
+      "products": 1
+    },
+    {
+      "id": 20,
+      "name": "SaltNIC Necotine",
+      "slug": "SaltNIC-Necotine",
+      "products": 0
+    },
+    {
+      "id": 24,
+      "name": "Disposable Pod",
+      "slug": "Disposable-Pod",
+      "products": 0
+    },
+    {
+      "id": 25,
+      "name": "Ready Pods",
+      "slug": "Ready-Pods",
+      "products": 0
+    },
+    {
+      "id": 26,
+      "name": "Vape Device",
+      "slug": "Vape-Device",
+      "products": 0
+    },
+    {
+      "id": 27,
+      "name": "Vape Coils",
+      "slug": "Vape-Coils",
+      "products": 0
+    },
+    {
+      "id": 29,
+      "name": "Batteries",
+      "slug": "Batteries",
+      "products": 0
+    },
+    {
+      "id": 28,
+      "name": "test 225",
+      "slug": "test-225",
+      "products": 0
+    }
+  ],
+  "status": "success",
+  "message": "categories retrieved successfully"
+}

@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "id": "66",
+      "name": "Pod smoke Rpm40 with 2 coils",
+      "slug": "Pod-smoke-Rpm40-with-2-coils",
+      "price": "138",
+      "discount": 0,
+      "label": "",
+      "brand": "brand 2",
+      "brand_id": 35,
+      "quantity": 1,
+      "rating": "1",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_3.jpg.1639407032.jpg",
+      "different": "NO",
+      "description": "Pod smoke Rpm40 with 2 coils\r\n\r\nContains a red calf RPM40 pod with coilin\r\nCapacity: 4.3 ml\r\n\r\nResistance:\r\n0.3 ohms\r\n0.4 ohms"
+    },
+    {
+      "id": "66",
+      "name": "Pod smoke Rpm40 with 2 coils",
+      "slug": "Pod-smoke-Rpm40-with-2-coils",
+      "price": "138",
+      "discount": 0,
+      "label": "",
+      "brand": "brand 2",
+      "brand_id": 35,
+      "quantity": 1,
+      "rating": "1",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_3.jpg.1639407032.jpg",
+      "different": "NO",
+      "description": "Pod smoke Rpm40 with 2 coils\r\n\r\nContains a red calf RPM40 pod with coilin\r\nCapacity: 4.3 ml\r\n\r\nResistance:\r\n0.3 ohms\r\n0.4 ohms"
+    }
+  ],
+  "links": {
+    "first": "https:\/\/mobark.mtsc.tech\/api\/brands\/brand-2\/products?page=1",
+    "last": null,
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "path": "https:\/\/mobark.mtsc.tech\/api\/brands\/brand-2\/products",
+    "per_page": 25,
+    "to": 1
+  },
+  "status": "success",
+  "message": "brands  retrieved successfully"
+}

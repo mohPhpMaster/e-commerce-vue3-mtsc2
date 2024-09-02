@@ -26,6 +26,14 @@ export const useLocaleStore = defineStore('locale', () => {
         return locales().find((l) => l.code === locale())?.name;
     };
 
+    const selectedLanguageIso = (): string => {
+        return locales().find((l) => l.code === locale())?.iso;
+    };
+
+    const selectedLocale = () => {
+        return locales().find((l) => l.code === locale());
+    };
+
     const changeLanguage = async (language: string) => {
         i18n().value.setLocale(language);
         i18n().value.setLocaleCookie(language);
@@ -46,7 +54,9 @@ export const useLocaleStore = defineStore('locale', () => {
         locales,
         locale,
         selectedLanguageName,
+        selectedLanguageIso,
         selectedLanguage,
+        selectedLocale,
         changeLanguage,
         checkLanguage,
         i18n,

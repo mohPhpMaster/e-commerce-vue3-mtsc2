@@ -2,13 +2,16 @@
   <div class="tp-shop-widget-content">
     <div class="tp-shop-widget-categories">
       <ul>
-        <li v-for="category in category_data" :key="category.id">
+        <li v-for="category in (category_data as ICategoryFilter[])" :key="category?.id">
           <a
-            @click.prevent="toolsService.gotoCategory(category)"
-            :class="`pointer ${isActiveQuery(category) ? 'active' : ''}`"
+		          :class="{
+								active: isActiveQuery(category)
+							}"
+		          class="pointer"
+		          @click.prevent="store.handleProductCategoryChangeAndFilter(category?.id)"
           >
             {{ toolsService.parseCategoryName(category) }}
-            <span>{{ category?.products?.length }}</span>
+            <span v-if="typeof category?.products === 'number'">{{ category?.products }}</span>
           </a>
         </li>
       </ul>
@@ -16,29 +19,52 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { useCategoryStore} from '@/pinia/useCategoryStore';
-import {onMounted} from "vue";
-import {api} from "@/plugins/api";
+<script lang="ts" setup>
 import toolsService from "@/services/toolsService";
+import {$axios} from "@/plugins/axiosInstance";
+import type {ICategoryFilter} from "@/types/category-filter-d-t";
+import type {TCategoryFilter} from "@/types/category-t";
+import {useProductFilterStore} from "@/pinia/useProductFilterStore";
 
-const categoryStore = useCategoryStore();
-// const category_data = ref<ICategory[]>([] as ICategory[]);
+const store = useProductFilterStore();
 const router = useRouter();
 const route = useRoute();
-const activeQuery = computed(() => route.query.category);
+const activeQuery = ref(store.productCategory);
 
-// handle category route
-const isActiveQuery = (category: ICategory) => activeQuery.value === category.parentName.toLowerCase().replace('&', '').split(' ').join('-');
+const isActiveQuery = (category: TCategoryFilter) => activeQuery.value === category?.id;
 
-const {data: category_data, pending, error, refresh} = useLazyAsyncData<string[]>('categories', () =>
-		api.categoryData({
-			page: categoryStore.currentPage,
-			slug: ""
-		})
-				.then(data => {
+const {
+	data: category_data,
+	pending: category_pending,
+	error: category_error,
+	refresh: category_refresh,
+	execute: category_execute
+} = useLazyAsyncData(
+		`categories-filter`,
+		() => $axios.get(`categories-filter?filter=1`, {baseURL: "http://localhost:3000/api"})
+				.then(res => (res?.data?.data || []).map(convertCategoryFilterResponse))
+				.then((data): ICategoryFilter[] => (!data || data?.length === 0) ? [] : data),
+		{
+			watch: [route],
+			immediate: false
+		}
+);
 
-					return data;
-				})
+await category_execute();
+
+const fetchRouterProductCategory = () => {
+	store.fetchRouterProductCategory()
+	activeQuery.value = store.productCategory;
+};
+
+onMounted(() => {
+	fetchRouterProductCategory();
+})
+
+watch(
+		() => route.query,
+		(n) => {
+			fetchRouterProductCategory();
+		}
 );
 </script>

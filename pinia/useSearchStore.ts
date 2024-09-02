@@ -14,9 +14,15 @@ export const useSearchStore = defineStore("search", () => {
 
     const triggerSearch = () => {
         loading.value = true;
-        return store.loadProducts({search: router.currentRoute.value?.query?.searchText || '',})
+        let searchText = router.currentRoute.value?.query?.searchText || ''
+
+        return (
+            searchText ?
+                store.loadProducts({search: searchText,}) :
+                Promise.resolve([])
+        )
             .then(data => {
-                window.scrollTo(0, 0);
+                scrollToTop();
                 product_data.value = data?.value;
                 loading.value = false
 

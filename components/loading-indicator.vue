@@ -1,8 +1,9 @@
 <template>
-  <div v-if="loading.status() === true" class="loading-overlay">
-    <div class="spinner"></div>
+  <div v-if="loadingStatus()" class="loading-overlay">
+    <div class="spinner-sm d-block d-md-none" />
+    <div class="spinner d-none d-md-block" />
   </div>
-  <LazyNuxtLoadingIndicator v-else :skip="['error']" />
+  <NuxtLoadingIndicator v-else :skip="['error']" />
 </template>
 
 <script setup lang="ts">
@@ -11,6 +12,10 @@ const loading = useLoading();
 const props = withDefaults(defineProps<{
 	disabled?: boolean
 }>(), {disabled: false});
+
+const loadingStatus = () => {
+	return loading.status() === true
+};
 
 if (props.disabled) {
 	loading.disable();
@@ -26,25 +31,72 @@ if (props.disabled) {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: rgba(103, 142, 97, 0.8);
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	z-index: 9999;
+	flex-direction: column;
+	background: #678E61 url(/images/logo/logo.svg) no-repeat bottom;
+	opacity: .8;
 }
 
 .spinner {
-	border: 4px solid rgba(0, 0, 0, 0.1);
-	border-left-color: #fff;
+	border: solid 6px transparent;
 	border-radius: 50%;
-	width: 40px;
-	height: 40px;
-	animation: spin 1s linear infinite;
+	box-sizing: border-box;
+	border-top-color: #000;
+	border-left-color: #000;
+	border-bottom-color: #efefef;
+	border-right-color: #efefef;
+	width: 48px;
+	height: 48px;
+	animation: spin 400ms linear infinite;
 }
 
 @keyframes spin {
 	to {
 		transform: rotate(360deg);
+	}
+}
+
+
+.spinner-sm {
+	display: block;
+	position: fixed;
+	z-index: 1031;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 18px;
+	height: 18px;
+	box-sizing: border-box;
+	border: solid 2px transparent;
+	border-top-color: #000;
+	border-left-color: #000;
+	border-bottom-color: #efefef;
+	border-right-color: #efefef;
+	border-radius: 50%;
+	-webkit-animation: loader 450ms linear infinite;
+	animation: loader 450ms linear infinite;
+}
+
+@-webkit-keyframes loader {
+	0% {
+		-webkit-transform: translate(-50%, -50%) rotate(0deg);
+	}
+
+	100% {
+		-webkit-transform: translate(-50%, -50%) rotate(360deg);
+	}
+}
+
+@keyframes loader {
+	0% {
+		transform: translate(-50%, -50%) rotate(0deg);
+	}
+
+	100% {
+		transform: translate(-50%, -50%) rotate(360deg);
 	}
 }
 </style>

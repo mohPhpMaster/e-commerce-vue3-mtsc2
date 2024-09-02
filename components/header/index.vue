@@ -113,14 +113,14 @@ import { useWishlistStore } from '@/pinia/useWishlistStore';
 import { useUtilityStore} from '@/pinia/useUtilityStore';
 import {useCompareStore} from "@/pinia/useCompareStore";
 import {useSearchStore} from "@/pinia/useSearchStore";
+import {useProductFilterStore} from "@/pinia/useProductFilterStore";
 
 const {isSticky} = useSticky();
 const router = useRouter();
 const route = useRoute();
+const store = useProductFilterStore();
 
-const {data: topCategories, pending, error, refresh} = useLazyAsyncData('topCategories', () =>
-		useTopCategories().loadTopCategories()
-);
+const {data: topCategories, pending, error, refresh} = useLazyAsyncData('topCategories', loadTopCategories);
 
 let isActive = ref<boolean>(false);
 let searchText = ref<string>(route?.query?.searchText);
@@ -140,14 +140,22 @@ const handleSubmit = () => {
 		  useSearchStore().triggerSearch();
 			return false;
 	  }
-    router.push(`/search?searchText=${searchText.value}`)
+
+		router.push({
+			path: '/search',
+			query: {
+				searchText: searchText.value
+			}
+		});
   }
   else{
+		store.handleResetFilter();
     router.push(`/search`)
   }
 }
 
 watch(() => route.href, () => {
   isActive.value = false;
+	searchText.value = router.currentRoute.value?.query?.searchText
 })
 </script>

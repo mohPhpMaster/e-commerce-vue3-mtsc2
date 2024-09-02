@@ -27,6 +27,8 @@
   "Email": "Email",
   "Password": "Password",
   "Message": "Message",
+  "Sign in with google": "Sign in with google",
+  "Sign in with facebook": "Sign in with facebook",
   "Sign in with": "Sign in with",
   "Sign in": "Sign in",
   "Sign up": "Sign up",
@@ -124,6 +126,7 @@
   "Top Rated Products": "Top Rated Products",
   "Close": "Close",
   "Price Filter": "Price Filter",
+  "Brands": "Brands",
   "Popular Brands": "Popular Brands",
   "No Wishlist Items Found": "No Wishlist Items Found",
   "Are you sure?": "Are you sure?",
@@ -145,5 +148,14 @@
   "Error Page": "Error Page",
   "Page :number": "Page {number}",
   "Load More Products": "Load More Products",
-  "No More Products": "No More Products"
+  "No More Products": "No More Products",
+  "Category not found": "Category not found",
+  "No Products Found": "No Products Found",
+  "Login Page": "Login Page",
+  "Default Sorting": "Default Sorting",
+  "Low to High": "Low to High",
+  "High to Low": "High to Low",
+  "New Added": "New Added",
+  "On Sale": "On Sale",
+  "Reset Filters": "Reset Filters"
 }

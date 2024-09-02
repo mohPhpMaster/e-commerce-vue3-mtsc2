@@ -46,7 +46,7 @@ const setPage = (idx: number) => {
   if (idx <= 0 || idx > totalPages.value) {
     return;
   }
-  window.scrollTo(0, 0);
+	scrollToTop();
   currentPage.value = idx;
 	const query = {...route.query, page: idx};
 	router.push({query});

@@ -1,0 +1,485 @@
+{
+    "data": [
+        {
+            "id": "277",
+            "name": "Diapple Grape Berry 30 ml",
+            "slug": "Diapple-Grape-Berry-30-ml",
+            "price": "90",
+            "discount": 0,
+            "label": "",
+            "brand": "",
+            "brand_id": "",
+            "quantity": 1,
+            "rating": "1",
+            "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_Federico_Veronesi_Lions-cover-image-e359a4e.webp",
+            "different": "50 MG",
+            "description": "Diapple Grape Berry 30 ml\r\n\r\nThe taste of grapes with a touch of delicious and subtle berries\r\n\r\nVolume: 30 ml\r\nNicotine: 30 mg \/ 50 mg\r\nComposition: VG50\/PG50\r\nBrand: Diapple\r\nMade in Bahrain\r\n\r\nDiapple Grape Berry is a wonderful blend of grape flavor with berries that adds a sense of coolness and freshness when smoking an electronic cigarette",
+            "differents": {
+                "data": []
+            },
+            "accessories": {
+                "data": [
+                    {
+                        "id": 2,
+                        "name": "Diapple Grape Berry 30 ml",
+                        "is_required": "0",
+                        "group_id": 36,
+                        "group": "group 4",
+                        "qty": 1,
+                        "price": "90.00",
+                        "discount": "0"
+                    },
+                    {
+                        "id": 5,
+                        "name": "Diapple Grape Berry 30 ml",
+                        "is_required": "0",
+                        "group_id": 33,
+                        "group": "batteries",
+                        "qty": 2,
+                        "price": "90.00",
+                        "discount": "0"
+                    },
+                    {
+                        "id": 4,
+                        "name": "Diapple Grape Berry 30 ml",
+                        "is_required": "0",
+                        "group_id": 36,
+                        "group": "group 4",
+                        "qty": 1,
+                        "price": "90.00",
+                        "discount": "0"
+                    }
+                ]
+            },
+            "related": {
+                "data": []
+            },
+            "images": {
+                "data": [
+                    "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_15_8b6ffd4d-25f1-400d-b717-fa7174df1e7d.jpg.1641372791.jpg",
+                    "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_15_akumulator_Xtar_18650_3_6V_Li_ion_3000mAh_z_zabezpieczeniem-3.jpg.1620400941.jpg",
+                    "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_images.jpeg",
+                    "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_15_4.jpg"
+                ]
+            }
+        },
+        {
+            "id": "5",
+            "name": "UWELL CALIBURN G2",
+            "slug": "UWELL-CALIBURN-G2",
+            "price": "0",
+            "discount": 0,
+            "label": "",
+            "brand": "Brand3",
+            "brand_id": 36,
+            "quantity": 1,
+            "rating": "1",
+            "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_\u064a\u0648 \u0645\u0648\u0632.jpeg.1638448607.jpeg",
+            "different": "Black",
+            "description": "UWELL CALIBURN G2\r\n\r\nThe device works with a pull mechanism via a button or an automatic sensor that is easy to use. It gives an ignition power of 18 watts.\r\nThe ventilation opening can be controlled and convenient top filling\r\n\r\nSpecifications:\r\n\r\nBattery: 750 mAh\r\nCoils: 1.2 - 0.8 ohms\r\n\r\nCompatible pods with the device and coils:\r\n\r\nCompatible with G2 pods\r\nCompatible with Caliburn G and G2 coils\r\n\r\nProduct box:\r\n\r\n* U-Well Caliburn G2 tumbler\r\n* Coil Mesh H 1.2 Caliburn G2 is pre-installed\r\n* Coil Mesh H 0.8 Caliburn G2\r\n* User's Manual\r\n*Type C charging cable",
+            "differents": {
+                "data": []
+            },
+            "accessories": {
+                "data": []
+            },
+            "related": {
+                "data": []
+            },
+            "images": {
+                "data": [
+                    "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_4.jpg",
+                    "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_VOOPOO-Drag-X-Plus-Box-Kit_06_C4jXy.jpeg.1625490559.jpeg"
+                ]
+            }
+        },
+        {
+            "id": "1",
+            "name": "UWELL CALIBURN KOKO AK2",
+            "slug": "UWELL-CALIBURN-KOKO-AK2",
+            "price": "69",
+            "discount": 0,
+            "label": "",
+            "brand": "brand 1",
+            "brand_id": 33,
+            "quantity": 1,
+            "rating": "1",
+            "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_11.jpg.1639407520.jpg",
+            "different": "Black",
+            "description": "UWELL CALIBURN KOKO AK2\r\n\r\nThe device works with a retracting mechanism using an easy-to-use button made of durable aluminium\r\nSlim in shape, easy to carry in a purse or bag. It works on a pod system and is easy to pack\r\n\r\nSpecifications:\r\n\r\nBattery: 520 mAh\r\nPods: 1.0 ohm\r\n\r\nCompatible Pods Together Device:\r\n\r\nCompatible with A2 pods\r\n\r\nProduct box:\r\n\r\n* the device\r\n* Two-baud number 1,0\r\n* Explanation booklet\r\n* Charger cord",
+            "differents": {
+                "data": [
+                    {
+                        "id": 17,
+                        "name": "Geekvape WENAX M1",
+                        "slug": "Geekvape-WENAX-M1",
+                        "price": "0",
+                        "discount": "0",
+                        "label": null,
+                        "brand": null,
+                        "brand_id": null,
+                        "quantity": 1,
+                        "rating": "1",
+                        "imageUrl": "",
+                        "different": "silver",
+                        "description": "Geekvape WENAX M1\r\n\r\nThe Geek Vape brand is considered one of the best leading vaping companies in the field of manufacturing vape cigarette vaping devices in the world. The Winx M1 vaping device also stands out and gives you a very high taste of flavor. It is also characterized by its elegant and elegant shape and delivers nicotine in the desired manner.\r\n\r\nSpecifications:\r\n\r\nBattery: 800 mAh\r\nResistance: 0.8 - 1.2 ohms\r\nPod capacity: 2 ml\r\n\r\nCompatible pods with the device:\r\n\r\nCompatible with Winx M1 pods\r\n\r\nProduct box:\r\n\r\n* Winx M1 siphon device\r\n*Baud 1.2 ohm\r\n* User's Manual\r\n* Charger type C"
+                    },
+                    {
+                        "id": 18,
+                        "name": "Geekvape WENAX M1",
+                        "slug": "Geekvape-WENAX-M1",
+                        "price": "0",
+                        "discount": "0",
+                        "label": null,
+                        "brand": null,
+                        "brand_id": null,
+                        "quantity": 1,
+                        "rating": "1",
+                        "imageUrl": "",
+                        "different": "Red",
+                        "description": "Geekvape WENAX M1\r\n\r\nThe Geek Vape brand is considered one of the best leading vaping companies in the field of manufacturing vape cigarette vaping devices in the world. The Winx M1 vaping device also stands out and gives you a very high taste of flavor. It is also characterized by its elegant and elegant shape and delivers nicotine in the desired manner.\r\n\r\nSpecifications:\r\n\r\nBattery: 800 mAh\r\nResistance: 0.8 - 1.2 ohms\r\nPod capacity: 2 ml\r\n\r\nCompatible pods with the device:\r\n\r\nCompatible with Winx M1 pods\r\n\r\nProduct box:\r\n\r\n* Winx M1 siphon device\r\n*Baud 1.2 ohm\r\n* User's Manual\r\n* Charger type C"
+                    },
+                    {
+                        "id": 20,
+                        "name": "Geekvape WENAX K1",
+                        "slug": "Geekvape-WENAX-K1",
+                        "price": "0",
+                        "discount": "0",
+                        "label": null,
+                        "brand": null,
+                        "brand_id": null,
+                        "quantity": 1,
+                        "rating": "1",
+                        "imageUrl": "",
+                        "different": "Red",
+                        "description": "Geek Vape Winx K1\r\n\r\nWe present the Geek Vape Winx K1 Pod Device, the ideal choice for you to experience a new beginning in smoking electronic shisha, with great vapes of Salt Nicotine flavors.\r\nIt is capable of a maximum output of 16 watts, easy to fill from the side\r\n\r\nSpecifications:\r\n\r\nBattery: 600 mAh\r\nResistance: 0.8 - 1.2 ohms\r\nPod capacity: 2 ml\r\n\r\nCompatible pods with the device:\r\n\r\nCompatible with Winx K1 pods\r\n\r\nProduct box:\r\n\r\n* Winx K1 siphon device\r\n* Baud 1.2 0.8 ohm\r\n* User's Manual\r\n* Charger type C"
+                    },
+                    {
+                        "id": 21,
+                        "name": "Geekvape WENAX K1",
+                        "slug": "Geekvape-WENAX-K1",
+                        "price": "0",
+                        "discount": "0",
+                        "label": null,
+                        "brand": null,
+                        "brand_id": null,
+                        "quantity": 1,
+                        "rating": "1",
+                        "imageUrl": "",
+                        "different": "Blue",
+                        "description": "Geek Vape Winx K1\r\n\r\nWe present the Geek Vape Winx K1 Pod Device, the ideal choice for you to experience a new beginning in smoking electronic shisha, with great vapes of Salt Nicotine flavors.\r\nIt is capable of a maximum output of 16 watts, easy to fill from the side\r\n\r\nSpecifications:\r\n\r\nBattery: 600 mAh\r\nResistance: 0.8 - 1.2 ohms\r\nPod capacity: 2 ml\r\n\r\nCompatible pods with the device:\r\n\r\nCompatible with Winx K1 pods\r\n\r\nProduct box:\r\n\r\n* Winx K1 siphon device\r\n* Baud 1.2 0.8 ohm\r\n* User's Manual\r\n* Charger type C"
+                    },
+                    {
+                        "id": 22,
+                        "name": "Geekvape WENAX K1",
+                        "slug": "Geekvape-WENAX-K1",
+                        "price": "0",
+                        "discount": "0",
+                        "label": null,
+                        "brand": null,
+                        "brand_id": null,
+                        "quantity": 1,
+                        "rating": "1",
+                        "imageUrl": "",
+                        "different": "Light Blue",
+                        "description": "Geek Vape Winx K1\r\n\r\nWe present the Geek Vape Winx K1 Pod Device, the ideal choice for you to experience a new beginning in smoking electronic shisha, with great vapes of Salt Nicotine flavors.\r\nIt is capable of a maximum output of 16 watts, easy to fill from the side\r\n\r\nSpecifications:\r\n\r\nBattery: 600 mAh\r\nResistance: 0.8 - 1.2 ohms\r\nPod capacity: 2 ml\r\n\r\nCompatible pods with the device:\r\n\r\nCompatible with Winx K1 pods\r\n\r\nProduct box:\r\n\r\n* Winx K1 siphon device\r\n* Baud 1.2 0.8 ohm\r\n* User's Manual\r\n* Charger type C"
+                    },
+                    {
+                        "id": 55,
+                        "name": "Voopoo Drag 3 Kit 177W",
+                        "slug": "Voopoo-Drag-3-Kit-177W",
+                        "price": "0",
+                        "discount": "0",
+                        "label": null,
+                        "brand": null,
+                        "brand_id": null,
+                        "quantity": 1,
+                        "rating": "1",
+                        "imageUrl": "",
+                        "different": "Sandy Brown",
+                        "description": "Voopoo Drag 3 Kit 177W\r\n\r\nInnovative GENE.FIT chip and FIT mode\r\n1.08 inch TFT color screen\r\nConvertible TPP Pod Tank\r\nMultiple protections ensure safety\r\nTPP-DM2 and TPP-DM1 Mesh and Natural Cotton Coils produce huge clouds and great flavour\r\n\r\nWhat are the main characteristics:\r\n\r\n1 x Brand: Voopoo\r\n1 x Tank Capacity: 5.5ml\r\n1 x Coil Resistance: 0.15ohm \/ 0.2ohm\r\n1x Power Range: 5W-177W\r\n1x Charging: USB C\r\n\r\nContents:\r\n\r\n1 x Voopoo Drag 3 Kit 177W\r\n1 x Drag 3 Tank (TPP)\r\n1 x Drag 3 Coil 0.2 ohm (40W-60W installed)\r\n1 x Drag 3 Coil 0.15 ohm (60W-80W Backup)\r\n1 x USB C Cable\r\n1 x User Manual\r\n1 x Warranty Card\r\n\r\nNB:\r\n\r\nPlease read the user manual carefully before using this device"
+                    },
+                    {
+                        "id": 57,
+                        "name": "Voopoo Drag 3 Kit 177W",
+                        "slug": "Voopoo-Drag-3-Kit-177W",
+                        "price": "0",
+                        "discount": "0",
+                        "label": null,
+                        "brand": null,
+                        "brand_id": null,
+                        "quantity": 1,
+                        "rating": "1",
+                        "imageUrl": "",
+                        "different": "Prusslan Blue",
+                        "description": "Voopoo Drag 3 Kit 177W\r\n\r\nInnovative GENE.FIT chip and FIT mode\r\n1.08 inch TFT color screen\r\nConvertible TPP Pod Tank\r\nMultiple protections ensure safety\r\nTPP-DM2 and TPP-DM1 Mesh and Natural Cotton Coils produce huge clouds and great flavour\r\n\r\nWhat are the main characteristics:\r\n\r\n1 x Brand: Voopoo\r\n1 x Tank Capacity: 5.5ml\r\n1 x Coil Resistance: 0.15ohm \/ 0.2ohm\r\n1x Power Range: 5W-177W\r\n1x Charging: USB C\r\n\r\nContents:\r\n\r\n1 x Voopoo Drag 3 Kit 177W\r\n1 x Drag 3 Tank (TPP)\r\n1 x Drag 3 Coil 0.2 ohm (40W-60W installed)\r\n1 x Drag 3 Coil 0.15 ohm (60W-80W Backup)\r\n1 x USB C Cable\r\n1 x User Manual\r\n1 x Warranty Card\r\n\r\nNB:\r\n\r\nPlease read the user manual carefully before using this device"
+                    }
+                ]
+            },
+            "accessories": {
+                "data": [
+                    {
+                        "id": 54,
+                        "name": "UWELL CALIBURN KOKO AK2",
+                        "is_required": "0",
+                        "group_id": 33,
+                        "group": "batteries",
+                        "qty": 2,
+                        "price": "69.00",
+                        "discount": "0"
+                    },
+                    {
+                        "id": 53,
+                        "name": "UWELL CALIBURN KOKO AK2",
+                        "is_required": "0",
+                        "group_id": 33,
+                        "group": "batteries",
+                        "qty": 2,
+                        "price": "69.00",
+                        "discount": "0"
+                    },
+                    {
+                        "id": 6,
+                        "name": "UWELL CALIBURN KOKO AK2",
+                        "is_required": "0",
+                        "group_id": 34,
+                        "group": "group 2",
+                        "qty": 1,
+                        "price": "69.00",
+                        "discount": "0"
+                    }
+                ]
+            },
+            "related": {
+                "data": []
+            },
+            "images": {
+                "data": [
+                    "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_8b6ffd4d-25f1-400d-b717-fa7174df1e7d.jpg.1641372791.jpg",
+                    "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_\u0631\u0645\u0627\u0646.jpeg.1644926453.jpeg"
+                ]
+            }
+        },
+        {
+            "id": "65",
+            "name": "E8 pod",
+            "slug": "E8-pod",
+            "price": "30",
+            "discount": 0,
+            "label": "",
+            "brand": "Brand3",
+            "brand_id": 36,
+            "quantity": 1,
+            "rating": "1",
+            "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_VOOPOO-Drag-X-Plus-Box-Kit_06_C4jXy.jpeg.1625490559.jpeg",
+            "different": "NO",
+            "description": "E8 pod\r\n\r\nQuantity: 3 Pod\r\nCapacity: 1.2ml\r\nResistance: 1.5 ohms\r\nWatts: 10 watts\r\n\r\nNote: Leave the pod for 5 minutes to flavor before use",
+            "differents": {
+                "data": []
+            },
+            "accessories": {
+                "data": []
+            },
+            "related": {
+                "data": []
+            },
+            "images": {
+                "data": []
+            }
+        },
+        {
+            "id": "66",
+            "name": "Pod smoke Rpm40 with 2 coils",
+            "slug": "Pod-smoke-Rpm40-with-2-coils",
+            "price": "138",
+            "discount": 0,
+            "label": "",
+            "brand": "brand 2",
+            "brand_id": 35,
+            "quantity": 1,
+            "rating": "1",
+            "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_3.jpg.1639407032.jpg",
+            "different": "NO",
+            "description": "Pod smoke Rpm40 with 2 coils\r\n\r\nContains a red calf RPM40 pod with coilin\r\nCapacity: 4.3 ml\r\n\r\nResistance:\r\n0.3 ohms\r\n0.4 ohms",
+            "differents": {
+                "data": []
+            },
+            "accessories": {
+                "data": []
+            },
+            "related": {
+                "data": []
+            },
+            "images": {
+                "data": []
+            }
+        },
+        {
+            "id": "67",
+            "name": "Pod Smok Novo X",
+            "slug": "Pod-Smok-Novo-X",
+            "price": "46",
+            "discount": 0,
+            "label": "",
+            "brand": "brand 1",
+            "brand_id": 33,
+            "quantity": 1,
+            "rating": "1",
+            "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/products\/images\/15_Vaporeso_Xros_Nano.png.1647799394.png",
+            "different": "NO",
+            "description": "Pod Smok Novo X \r\n\r\nQuantity: 3 Pod \r\nCapacity: 2 ml \r\nResistance: 0.8 ohm \r\nWatts: 18 watts \r\n\r\nNote: Leave the pod for 5 minutes to flavor before use",
+            "differents": {
+                "data": []
+            },
+            "accessories": {
+                "data": []
+            },
+            "related": {
+                "data": []
+            },
+            "images": {
+                "data": []
+            }
+        },
+        {
+            "id": "287",
+            "name": "aa2",
+            "slug": "aa2",
+            "price": "123.22",
+            "discount": 0,
+            "label": "",
+            "brand": "brand 1",
+            "brand_id": 33,
+            "quantity": 1,
+            "rating": "1",
+            "imageUrl": "",
+            "different": "d",
+            "description": "aad",
+            "differents": {
+                "data": []
+            },
+            "accessories": {
+                "data": []
+            },
+            "related": {
+                "data": []
+            },
+            "images": {
+                "data": []
+            }
+        },
+        {
+            "id": "53",
+            "name": "Sony batteries",
+            "slug": "Sony-batteries",
+            "price": "0",
+            "discount": 0,
+            "label": "",
+            "brand": "",
+            "brand_id": "",
+            "quantity": 1,
+            "rating": "1",
+            "imageUrl": "",
+            "different": "NO",
+            "description": "Sony VTC6 Original Battery\r\n\r\nDischarge current 30A high drain\r\nRechargeable battery\r\nQuick details\r\nPlace of origin: Japan\r\nBrand Name: SONY\r\nModel number: US18650VTC6\r\nType: Li-Ion\r\nNominal voltage: 3.6v\r\nWeight: 51g\r\nNominal capacity: 3120mAh\r\nDischarge current: 30A\r\n\r\nNote: The price includes one (1) battery.",
+            "differents": {
+                "data": []
+            },
+            "accessories": {
+                "data": []
+            },
+            "related": {
+                "data": []
+            },
+            "images": {
+                "data": []
+            }
+        },
+        {
+            "id": "54",
+            "name": "Battery Efest 3500 mAh",
+            "slug": "Battery-Efest-3500-mAh",
+            "price": "0",
+            "discount": 0,
+            "label": "",
+            "brand": "",
+            "brand_id": "",
+            "quantity": 1,
+            "rating": "1",
+            "imageUrl": "",
+            "different": "NO",
+            "description": "Battery Efest 3500 mAh\r\n\r\nCapacity: 3500 mAh\r\nVoltage: 3.7V\r\nSize: 18650\r\nDischarge end voltage: 2.5V\r\nStandard charging current: 1.25A\r\nCharging voltage: 4.20 + -0.05V\r\nThe highest continuous discharge current: 25A\r\nThe highest short-peak discharge: 35A\r\n\r\nNote: The price includes (1) battery",
+            "differents": {
+                "data": []
+            },
+            "accessories": {
+                "data": []
+            },
+            "related": {
+                "data": []
+            },
+            "images": {
+                "data": []
+            }
+        }
+    ],
+    "links": {
+        "first": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products?page=1",
+        "last": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products?page=6",
+        "prev": null,
+        "next": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products?page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 6,
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products?page=2",
+                "label": "2",
+                "active": false
+            },
+            {
+                "url": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products?page=3",
+                "label": "3",
+                "active": false
+            },
+            {
+                "url": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products?page=4",
+                "label": "4",
+                "active": false
+            },
+            {
+                "url": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products?page=5",
+                "label": "5",
+                "active": false
+            },
+            {
+                "url": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products?page=6",
+                "label": "6",
+                "active": false
+            },
+            {
+                "url": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products?page=2",
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "path": "https:\/\/mobark.mtsc.tech\/api\/categories\/Ready-Made-Cigar-Pouches\/products",
+        "per_page": 9,
+        "to": 9,
+        "total": 49
+    },
+    "status": "success",
+    "message": "category products retrieved successfully"
+}

@@ -68,7 +68,6 @@ import type {IProduct} from "@/types/product-d-t";
 import type {IProductAccessories} from "@/types/product-accessories-d-t";
 import type {ICartItem} from "@/types/cart-item-d-t";
 import type {IProductAccessoriesGroups} from "@/types/product-accessories-groups-d-t";
-import {loading} from "@nuxt/ui-templates";
 import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
 
 const props = defineProps<{
@@ -83,6 +82,7 @@ const router = useRouter();
 const route = useRoute();
 const {t} = useI18n();
 const store = useCartStore();
+const globalLoading = useLoading();
 
 const cartModalStatus = computed(() => store.cart_modal_status);
 const cartModalQty = computed(() => store.orderQuantity);
@@ -126,9 +126,11 @@ const close = () => {
 	store.cart_product = {} as IProduct;
 	different.value = {} as IProduct;
 	accessories.value = [] as IProductAccessoriesGroups[]
+	globalLoading.enable();
 };
 
 const open = async () => {
+	globalLoading.disable();
 	different.value = Object.keys(different.value).length ? different.value : product.value;
 	modalStatus.value = true;
 

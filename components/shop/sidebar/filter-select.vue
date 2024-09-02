@@ -1,23 +1,37 @@
 <template>
     <div class="tp-shop-top-select text-md-end">
       <ui-nice-select
-        :options="[
-          { value: 'default-sorting', text: 'Default Sorting' },
-          { value: 'low-to-hight', text: 'Low to Hight' },
-          { value: 'high-to-low', text: 'High to Low' },
-          { value: 'new-added', text: 'New Added' },
-          { value: 'on-sale', text: 'On Sale' },
-        ]"
-        name="Select Category"
-        :default-current="0"
-        @onChange="handleSelect"
+		      ref="niceSelectRef"
+		      :default-current="store.getSelectedSortingOptionIndex()"
+		      :options="store.getSortingOptions()"
+		      name="Select Category"
+		      @onChange="handleSelect"
       />
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
+import {useProductFilterStore} from "@/pinia/useProductFilterStore";
+
 const emit = defineEmits(['handleSelectFilter'])
+
+const {t} = useI18n();
+const router = useRouter();
+const route = useRoute();
+const store = useProductFilterStore();
+const niceSelectRef = ref<HTMLElement | null>(null);
+
 const handleSelect = (e: { value: string; text: string }) => {
-  emit('handleSelectFilter', e);
+	store.handleSortingOptionChangeAndFilter(e)
+	emit('handleSelectFilter', e, store.getSelectedSortingOptionIndex());
 };
+
+onMounted(() => {
+	store.fetchRouterSelectedSortingOption();
+})
+
+watch(
+		() => [store.sortingOption, router.currentRoute.value?.query],
+		() => niceSelectRef.value.current = store.getSelectedSortingOption()
+);
 </script>

@@ -27,6 +27,8 @@
   "Email": "البريد الألكتروني",
   "Password": "كلمة المرور",
   "Message": "الرسالة",
+  "Sign in with google": "تسجيل الدخول باستخدام جوجل",
+  "Sign in with facebook": "تسجيل الدخول باستخدام فيسبوك",
   "Sign in with": "تسجيل الدخول باستخدام",
   "Sign in": "تسجيل الدخول",
   "Sign up": "سجل",
@@ -124,6 +126,7 @@
   "Top Rated Products": "المنتجات الاعلى تقييمًا",
   "Close": "إغلاق",
   "Price Filter": "تصفية السعر",
+  "Brands": "الماركات",
   "Popular Brands": "الماركات المشهورة",
   "No Wishlist Items Found": "لم يتم العثور على عناصر المفضلة",
   "Are you sure?": "هل انت متأكد؟",
@@ -145,5 +148,14 @@
   "Error Page": "خطأ",
   "Page :number": "الصفحة {number}",
   "Load More Products": "تحميل المزيد من المنتجات",
-  "No More Products": "لا يوجد المزيد من المنتجات"
+  "No More Products": "لا يوجد المزيد من المنتجات",
+  "Category not found": "لم يتم العثور على القسم",
+  "No Products Found": "لم يتم العثور على منتجات",
+  "Login Page": "صفحة تسجيل الدخول",
+  "Default Sorting": "الترتيب الافتراضي",
+  "Low to High": "من الادنى الى الاعلى",
+  "High to Low": "من الاعلى الى الادنى",
+  "New Added": "اضيف حديثا",
+  "On Sale": "عليه عرض",
+  "Reset Filters": "اعادة تعيين الفلتر"
 }

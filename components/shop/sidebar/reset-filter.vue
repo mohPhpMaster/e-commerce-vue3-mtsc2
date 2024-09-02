@@ -1,11 +1,11 @@
 <template>
    <div class="tp-shop-widget mb-50">
-      <h3 class="tp-shop-widget-title">Reset Filter</h3>
+      <h3 class="tp-shop-widget-title">{{ $t('Reset Filters') }}</h3>
       <button
         @click="handleFilterReset"
         class="tp-btn"
       >
-        Reset Filter
+				{{ $t('Reset Filters') }}
       </button>
     </div>
 </template>
@@ -26,6 +26,11 @@ const props = defineProps<{
 
 const handleFilterReset = () => {
   store.handleResetFilter()
+
+	router.push(router.currentRoute.value.path)
+	scrollToTop();
+	return false;
+
   if(props.filter_dropdown){
     router.push('/shop-filter-dropdown')
   }

@@ -15,6 +15,7 @@
               </p>
   
               <nuxt-link href="/" class="tp-error-btn">{{ $t("Back to Home") }}</nuxt-link>
+<!--              <nuxt-link href="#" @click.prevent="handleError" class="tp-error-btn ml-2">Clear errors</nuxt-link>-->
             </div>
           </div>
         </div>
@@ -27,5 +28,10 @@
 const { t } = useI18n();
 const {title} = useSiteSettings();
 useSeoMeta({ title: t("Error Page") });
-defineProps(["error"]);
+const props = defineProps(["error"]);
+// if (props?.error?.data === 'EMPTY')
+// {
+// 	clearError()
+// }
+const handleError = () => clearError({redirect: '/'})
 </script>

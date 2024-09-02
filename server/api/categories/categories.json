@@ -1,0 +1,114 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Ready Made Cigar Pouches",
+      "slug": "Ready-Made-Cigar-Pouches",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_8b6ffd4d-25f1-400d-b717-fa7174df1e7d.jpg.1641372791.jpg",
+      "sub_categories": {
+        "data": [
+          {
+            "id": 21,
+            "name": "1111",
+            "slug": "1111",
+            "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_akumulator_Xtar_18650_3_6V_Li_ion_3000mAh_z_zabezpieczeniem-3.jpg.1620400941.jpg"
+          }
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "name": "Empty Pod & Ready Pod",
+      "slug": "Empty-Pod-&-Ready-Pod",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_akumulator_Xtar_18650_3_6V_Li_ion_3000mAh_z_zabezpieczeniem-3.jpg.1620400941.jpg",
+      "sub_categories": {
+        "data": [
+          {
+            "id": 22,
+            "name": "\u0642\u0633\u0645 -5",
+            "slug": "\u0642\u0633\u0645--5",
+            "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_akumulator_Xtar_18650_3_6V_Li_ion_3000mAh_z_zabezpieczeniem-3.jpg.1620400941.jpg"
+          }
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "name": "SaltNIC Necotine",
+      "slug": "SaltNIC-Necotine",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_akumulator_Xtar_18650_3_6V_Li_ion_3000mAh_z_zabezpieczeniem-3.jpg.1620400941.jpg",
+      "sub_categories": {
+        "data": []
+      }
+    },
+    {
+      "id": 24,
+      "name": "Disposable Pod",
+      "slug": "Disposable-Pod",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_akumulator_Xtar_18650_3_6V_Li_ion_3000mAh_z_zabezpieczeniem-3.jpg.1620400941.jpg",
+      "sub_categories": {
+        "data": []
+      }
+    },
+    {
+      "id": 25,
+      "name": "Ready Pods",
+      "slug": "Ready-Pods",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_akumulator_Xtar_18650_3_6V_Li_ion_3000mAh_z_zabezpieczeniem-3.jpg.1620400941.jpg",
+      "sub_categories": {
+        "data": []
+      }
+    },
+    {
+      "id": 26,
+      "name": "Vape Device",
+      "slug": "Vape-Device",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_akumulator_Xtar_18650_3_6V_Li_ion_3000mAh_z_zabezpieczeniem-3.jpg.1620400941.jpg",
+      "sub_categories": {
+        "data": []
+      }
+    },
+    {
+      "id": 27,
+      "name": "Vape Coils",
+      "slug": "Vape-Coils",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/uploads\/categories\/images\/15_akumulator_Xtar_18650_3_6V_Li_ion_3000mAh_z_zabezpieczeniem-3.jpg.1620400941.jpg",
+      "sub_categories": {
+        "data": []
+      }
+    },
+    {
+      "id": 29,
+      "name": "Batteries",
+      "slug": "Batteries",
+      "imageUrl": "",
+      "sub_categories": {
+        "data": []
+      }
+    },
+    {
+      "id": 28,
+      "name": "test 225",
+      "slug": "test-225",
+      "imageUrl": "https:\/\/mobark.mtsc.tech\/15_logo-mtsc.png",
+      "sub_categories": {
+        "data": []
+      }
+    }
+  ],
+  "links": {
+    "first": "https:\/\/mobark.mtsc.tech\/api\/categories?page=1",
+    "last": null,
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "path": "https:\/\/mobark.mtsc.tech\/api\/categories",
+    "per_page": 25,
+    "to": 9
+  },
+  "status": "success",
+  "message": "categories retrieved successfully"
+}

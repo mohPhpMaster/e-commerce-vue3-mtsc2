@@ -1,5 +1,5 @@
 <template>
-  <section class="tp-shop-area pb-120">
+  <section class="tp-shop-area pb-120" v-if="!pending">
     <div class="container">
       <div class="row">
         <div class="col-xl-3 col-lg-4">
@@ -36,13 +36,13 @@
                     <div class="tp-shop-top-result">
 	                    <p>
 <!--                        {{ $t('Showing ') }}{{ items_pagination_mode === 1 ? (displayedProducts.length ? 1 : 0) : (startIndex + 1) }}–{{ items_pagination_mode === 1 ? Number(displayedProducts?.length || 0) : (startIndex + filteredProducts.slice(startIndex, endIndex).length) }}{{ $t(' of ') }}{{ filteredProducts?.length || 0 }}{{ $t(' results') }}-->
-<!--		                    {{-->
-<!--			                    $t('Showing :start-:end of :total results', {-->
-<!--				                    start: items_pagination_mode === 1 ? (filteredProducts?.length ? 1 : 0) : (startIndex + 1),-->
-<!--				                    end: items_pagination_mode === 1 ? (filteredProducts.slice(startIndex, endIndex)?.length || filteredProducts?.length || 0) : (startIndex + filteredProducts.slice(startIndex, endIndex)?.length),-->
-<!--				                    total: filteredProducts?.length || 0,-->
-<!--			                    })-->
-<!--		                    }}-->
+		                    <!--		                    {{-->
+		                    <!--			                    $t('Showing :start-:end of :total results', {-->
+		                    <!--				                    start: items_pagination_mode === 1 ? (filteredProducts?.length ? 1 : 0) : (startIndex + 1),-->
+		                    <!--				                    end: items_pagination_mode === 1 ? (filteredProducts.slice(startIndex, endIndex)?.length || filteredProducts?.length || 0) : (startIndex + filteredProducts.slice(startIndex, endIndex)?.length),-->
+		                    <!--				                    total: filteredProducts?.length || 0,-->
+		                    <!--			                    })-->
+		                    <!--		                    }}-->
 		                    {{
 			                    $t('Showing :start-:end of :total results', {
 				                    start: showingStartLabel(),
@@ -55,15 +55,18 @@
                   </div>
                 </div>
                 <div class="col-xl-6">
-                  <shop-sidebar-filter-select
-		                  v-if="filteredProducts?.length"
-		                  @handle-select-filter="store.handleSelectFilter"
-                  />
+                  <shop-sidebar-filter-select v-if="filteredProducts?.length" />
                 </div>
               </div>
             </div>
             <div class="tp-shop-items-wrapper tp-shop-item-primary">
-              <div v-if="displayStyle === 'grid'">
+	            <div v-if="displayedProducts.length === 0" class="container">
+					      <div class='text-center pt-50'>
+					        <h5>{{ $t('No Products Found') }}</h5>
+					        <nuxt-link href="/" class="tp-cart-checkout-btn mt-20">{{ $t('Back to Home') }}</nuxt-link>
+					      </div>
+	            </div>
+              <div v-else-if="displayStyle === 'grid'">
                 <div class="row infinite-container">
                   <div
 		                  v-for="product in displayedProducts"
@@ -75,7 +78,7 @@
                 </div>
               </div>
 
-              <div v-if="displayStyle === 'list'">
+              <div v-else-if="displayStyle === 'list'">
                 <div class="row">
                   <div class="col-xl-12">
                     <product-list-item
@@ -106,6 +109,7 @@
       </div>
     </div>
   </section>
+	<loading-skeleton v-else />
 </template>
 
 <script lang="ts" setup>
@@ -169,16 +173,14 @@ const displayedProducts = computed(() => {
 });
 const displayStyle = ref<string>(propListStyle.value);
 
-function setTitle(p) {
-	if (p && Object.keys(p).length) {
-		nextTick(function () {
-			useSeoMeta({
-				title: title(
-						props?.category?.id ? toolsService.parseCategoryName(p) : props?.brand?.id ? toolsService.parseBrandName(p) : ""
-						, router.currentRoute.value?.query?.page)
-			});
+function setTitle() {
+	nextTick(function () {
+		useSeoMeta({
+			title: title(
+					props?.category?.id ? toolsService.parseCategoryName(props?.category) : props?.brand?.id ? toolsService.parseBrandName(props?.brand) : ""
+					, router.currentRoute.value?.query?.page)
 		});
-	}
+	});
 }
 
 const displayStyleStore = (style?: string): string => {
@@ -216,6 +218,10 @@ function handlePagination(data: IProduct[], start: number, end: number = undefin
 	endIndex.value = end;
 	store.handlePageChange(start);
 	store.setData(data);
+
+	if (process.client) {
+		setTitle()
+	}
 }
 
 const {data, pending, refresh} = useLazyAsyncData(
@@ -226,8 +232,18 @@ const {data, pending, refresh} = useLazyAsyncData(
 					(
 							!router.currentRoute.value?.params?.category &&
 							!router.currentRoute.value?.params?.brand
+					) ||
+					(
+							props?.category && props?.category?.slug && router.currentRoute.value?.params?.category !== props?.category?.slug
 					)
 			) {
+				meta.value = undefined;
+				handlePagination(
+						[],
+						0,
+						0
+				)
+
 				return [];
 			}
 
@@ -236,8 +252,10 @@ const {data, pending, refresh} = useLazyAsyncData(
 				brand: props?.brand,
 				page: Number(router.currentRoute.value?.query?.page || 1),
 				plain: true,
-				pagination: true
+				pagination: true,
+				// baseUrl: "http://localhost:3000/api"
 			};
+
 			store.updateProductOptions(opt);
 			return api.productData(opt)
 					.then(({data, meta: $meta}) => {
