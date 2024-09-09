@@ -1,0 +1,33 @@
+{
+  "data": {
+    "name": "store1",
+    "currency": "SR",
+    "perPage": 25,
+    "perRow": 3,
+    "slider_show": 33,
+    "email": "palraed@gmail.com",
+    "facebook": "facebook.com",
+    "twitter": "twitter.com",
+    "instagram": "insta.com",
+    "keywords": "الكلمات المفتاحية انجليزي",
+    "description": "الوصف انجليزي",
+    "phone": "0599601687",
+    "copy_right": "COPYRIGHT",
+    "logo": "https://mobark.mtsc.tech/uploads/website/images/15_ju.jpg",
+    "favicon": "https://mobark.mtsc.tech/uploads/website/images/15_1.png",
+    "website_color": "#000000",
+    "hover_color": "#008000",
+    "prices_color": "#130113",
+    "prices_background_color": "#808000",
+    "placingColorWhenPlacingMouseOnTheTopMenu": "#80ff80",
+    "navbar_text_color": "#80ff00",
+    "category_text_color": "#ff80c0",
+    "footer_text_color": "#8080c0",
+    "footer_color": "#ff8040",
+    "category_text_color_title": "#400080",
+    "category_background_color_title": "#800000",
+    "navbar_color": "#fc8e83"
+  },
+  "status": "success",
+  "message": "site settings retrieved successfully"
+}

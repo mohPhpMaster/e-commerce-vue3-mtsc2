@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import {$axios} from "@/plugins/axiosInstance.js";
+import {$axios} from "@/plugins/00.axiosInstance";
 import toolsService from "@/services/toolsService.js";
 import type {IProduct} from "@/types/product-d-t";
 import {convertProductDifferentsResponse} from "@/plugins/data/product-differents-data.js";

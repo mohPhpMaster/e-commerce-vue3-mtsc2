@@ -34,10 +34,13 @@
 <script lang="ts" setup>
 import {useUtilityStore} from "@/pinia/useUtilityStore";
 import {useSearchStore} from "@/pinia/useSearchStore";
+import {useProductFilterStore} from "@/pinia/useProductFilterStore";
+
+const store = useProductFilterStore();
 
 const route = useRoute();
 const router = useRouter();
-let searchText = ref<string>(route?.query?.searchText);
+const searchText = ref<string>(route?.query?.searchText);
 const utilityStore = useUtilityStore();
 
 // handleSubmit
@@ -49,8 +52,16 @@ const handleSubmit = () => {
 			useSearchStore().triggerSearch();
 			return false;
 		}
-		router.push(`/search?searchText=${searchText.value}`);
+
+		router.push({
+			path: '/search',
+			query: {
+				...router.currentRoute.value?.query,
+				searchText: searchText.value
+			}
+		});
 	} else {
+		store.handleResetFilter();
 		router.push(`/search`);
 	}
 };

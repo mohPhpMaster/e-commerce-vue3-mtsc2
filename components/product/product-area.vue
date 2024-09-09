@@ -22,10 +22,10 @@
             >
               <nav>
                 <div class="nav nav-tabs justify-content-center tp-product-tab tp-tab-menu p-relative" id="nav-tab">
-                    <button @click="toolsService.gotoCategory(category)" :class="`nav-link active`" id="nav_active">
+                    <nuxt-link :href="toolsService.getCategoryUrl(category)" @click="toolsService.gotoCategory(category)" :class="`nav-link active`" id="nav_active">
                       {{ category?.parentName }}
                       <span class="tp-product-tab-tooltip" v-if="products?.length > 0">{{ products?.length }}</span>
-                    </button>
+                    </nuxt-link>
                   <span id="productTabMarker" class="tp-tab-line d-none d-sm-inline-block"></span>
                 </div>
               </nav>

@@ -1,7 +1,7 @@
 <template>
   <main>
     <!-- hero area start -->
-    <hero-area></hero-area>
+    <hero-area v-if="$settings?.sliderShow"></hero-area>
     <!-- hero area end -->
 
     <!-- product area start -->
@@ -23,12 +23,12 @@
 </template>
 
 <script setup lang="ts">
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import {convertCategoryFeaturedResponse} from "@/plugins/data/category-featured-data";
 
-useSeoMeta({
-	title: ''
-});
+// useSeoMeta({
+// 	title: ''
+// });
 
 const {data: category_data, pending, error, refresh} = useLazyAsyncData<string[]>('categories/featured', () =>
 		$axios.get('categories/featured').then(res => (res?.data?.data || []).map(convertCategoryFeaturedResponse))

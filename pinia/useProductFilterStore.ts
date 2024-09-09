@@ -4,18 +4,21 @@ import {useProductStore} from "@/pinia/useProductStore";
 import type {IFetchProductOptions} from "@/types/fetch-product-options-d-t";
 import type {IProduct} from "@/types/product-d-t";
 
-const _LOG = false;
-
 export const useProductFilterStore = defineStore("product_filter", () => {
     const {t} = useI18n();
     const route = useRoute();
     const router = useRouter();
+    const productStore = useProductStore();
 
-    const defaultSortingOption = ref<string>("default-sorting");
+    const product_data = ref<IProduct[]>(productStore?.product_data || []);
+    // todo: what max value should be?
+    const maxProductPrice = computed(() => 50000);
+
+    const defaultSortingOption = ref<string>("");
     const sortingOption = ref<string>(defaultSortingOption.value);
     const getSortingOptions = () => {
         return [
-            {value: 'default-sorting', text: t('Default Sorting')},
+            {value: '', text: t('Default Sorting')},
             {value: 'low-to-high', text: t('Low to High')},
             {value: 'high-to-low', text: t('High to Low')},
             {value: 'new-added', text: t('New Added')},
@@ -35,19 +38,21 @@ export const useProductFilterStore = defineStore("product_filter", () => {
     const fetchRouterSelectedSortingOption = () => {
         let q = router.currentRoute.value?.query;
 
-        if (q.hasOwnProperty('sorting')) {
-            sortingOption.value = q.sorting;
-        }
+        sortingOption.value = q.hasOwnProperty('sorting') ? q.sorting : defaultSortingOption.value;
 
         return sortingOption.value;
     };
     const handleSortingOptionFilter = () => {
-        router.push({
-            query: {
-                ...router.currentRoute.value?.query,
-                sorting: sortingOption.value,
-            }
-        })
+        let query = {
+            ...router.currentRoute.value?.query,
+            sorting: sortingOption.value,
+        }
+
+        if (query.sorting === defaultSortingOption.value) {
+            delete query.sorting;
+        }
+
+        router.push({query})
     };
     const handleSortingOptionChange = (e: { value: string; text: string }) => {
         sortingOption.value = e.value;
@@ -59,8 +64,8 @@ export const useProductFilterStore = defineStore("product_filter", () => {
         handleSortingOptionFilter();
     };
 
-    const defaultProductStatusOption = ref<number|null>(null);
-    const productStatus = ref<number|null>(defaultProductStatusOption.value);
+    const defaultProductStatusOption = ref<number | null>(null);
+    const productStatus = ref<number | null>(defaultProductStatusOption.value);
     const getProductStatusOptions = () => {
         return [
             t("On Sale"),
@@ -84,7 +89,7 @@ export const useProductFilterStore = defineStore("product_filter", () => {
             }
         })
     };
-    const handleProductStatusChange = (e: number|null) => {
+    const handleProductStatusChange = (e: number | null) => {
         productStatus.value = e;
 
         return productStatus.value;
@@ -94,8 +99,8 @@ export const useProductFilterStore = defineStore("product_filter", () => {
         handleProductStatusFilter();
     };
 
-    const defaultProductCategory = ref<number|null>(null);
-    const productCategory = ref<number|null>(defaultProductCategory.value);
+    const defaultProductCategory = ref<number | null>(null);
+    const productCategory = ref<number | null>(defaultProductCategory.value);
     const fetchRouterProductCategory = () => {
         let q = router.currentRoute.value?.query;
 
@@ -113,7 +118,7 @@ export const useProductFilterStore = defineStore("product_filter", () => {
             }
         })
     };
-    const handleProductCategoryChange = (e: number|null) => {
+    const handleProductCategoryChange = (e: number | null) => {
         productCategory.value = e;
 
         return productCategory.value;
@@ -123,8 +128,8 @@ export const useProductFilterStore = defineStore("product_filter", () => {
         handleProductCategoryFilter();
     };
 
-    const defaultProductBrand = ref<number|null>(null);
-    const productBrand = ref<number|null>(defaultProductBrand.value);
+    const defaultProductBrand = ref<number | null>(null);
+    const productBrand = ref<number | null>(defaultProductBrand.value);
     const fetchRouterProductBrand = () => {
         let q = router.currentRoute.value?.query;
 
@@ -142,7 +147,7 @@ export const useProductFilterStore = defineStore("product_filter", () => {
             }
         })
     };
-    const handleProductBrandChange = (e: number|null) => {
+    const handleProductBrandChange = (e: number | null) => {
         productBrand.value = e;
 
         return productBrand.value;
@@ -152,38 +157,12 @@ export const useProductFilterStore = defineStore("product_filter", () => {
         handleProductBrandFilter();
     };
 
-
-    const productStore = useProductStore();
-    const product_data = ref<IProduct[]>(productStore?.product_data || []);
-
-    const maxProductPrice = computed(() => {
-            _LOG && console.warn(15 + ':useProductFilterStore:maxProductPrice')
-            return 50000;
-            return product_data.value?.reduce((max, product) => {
-                return Number(product?.net || 0) > max
-                    ? Number(product?.net || 0)
-                    : max;
-            }, 0);
-        }
-    );
-
-    let priceValues = ref([0, maxProductPrice.value]);
-
-    const handlePageChange = (value: number) => {
-        _LOG && console.warn(27 + ':useProductFilterStore:handlePageChange', value)
-        productStore.updateCurrentPage(Math.ceil((value + 9) / 9));
-    };
-
-    const handlePriceChange = (value: number[]) => {
-        _LOG && console.warn(32 + ':useProductFilterStore:handlePriceChange', value)
-        priceValues.value = value;
-    };
-
+    const priceValues = ref([0, maxProductPrice.value]);
+    const handlePriceChange = (value: number[]) => priceValues.value = value;
     const handlePriceChangeAndFilter = (value: number[]) => {
         handlePriceChange(value);
         handlePriceFilter();
     };
-
     const handlePriceFilter = () => {
         router.push({
             query: {
@@ -193,7 +172,6 @@ export const useProductFilterStore = defineStore("product_filter", () => {
             }
         })
     };
-
     const fetchRouterPriceValues = () => {
         let q = router.currentRoute.value?.query;
         let v: [number, number] = [...priceValues.value];
@@ -212,28 +190,23 @@ export const useProductFilterStore = defineStore("product_filter", () => {
     };
 
     const handleResetFilter = () => {
-        _LOG && console.warn(37 + ':useProductFilterStore:handleResetFilter')
         productBrand.value = defaultProductBrand.value;
         productCategory.value = defaultProductCategory.value;
         productStatus.value = defaultProductStatusOption.value;
         priceValues.value = [0, maxProductPrice.value];
         sortingOption.value = defaultSortingOption.value;
     };
-
-    const loadProducts = (args?: IFetchProductOptions): Promise<IProduct[]> => {
-        _LOG && console.warn(42 + ':useProductFilterStore:loadProducts', args || {})
-        return productStore.loadProducts(args).then((data) => {
-            if (args?.pagination) {
-                product_data.value = data.value.data;
-            } else {
-                product_data.value = data.value;
+    const handlePageChange = (value: number) => productStore.updateCurrentPage(Math.ceil((value + 9) / 9));
+    const loadProducts = (args?: IFetchProductOptions): Promise<IProduct[]> =>
+        productStore.loadProducts(args).then((data) => {
+                product_data.value = args?.pagination ? data.value.data : data.value;
+                return data;
             }
-            return data;
-        })
-    }
+        )
 
     const filterProducts = (filtered: IProduct[]) => {
-        _LOG && console.warn(50 + ':useProductFilterStore:filterProducts', {filtered, product_data})
+        filtered = filtered || [];
+
         // Apply route-based filters (price, status, etc.)
         if (route.query.minPrice && route.query.maxPrice) {
             filtered = filtered.filter(
@@ -279,23 +252,12 @@ export const useProductFilterStore = defineStore("product_filter", () => {
 
         return filtered;
     };
-    const filteredProducts = computed(() => {
-        let filtered = [...(product_data.value || [])];
-        _LOG && console.warn(48 + ':useProductFilterStore:filteredProducts', {filtered, product_data})
 
-        return filterProducts(filtered);
-    });
+    const filteredProducts = computed(() => filterProducts([...(product_data.value || [])]));
 
     return {
         product_data,
-        loadProducts,
-
         maxProductPrice,
-        priceValues,
-        fetchRouterPriceValues,
-        handlePriceFilter,
-        handlePriceChange,
-        handlePriceChangeAndFilter,
 
         sortingOption,
         defaultSortingOption,
@@ -323,7 +285,6 @@ export const useProductFilterStore = defineStore("product_filter", () => {
         handleProductCategoryChangeAndFilter,
         fetchRouterProductCategory,
 
-
         productBrand,
         defaultProductBrand,
         handleProductBrandFilter,
@@ -331,12 +292,18 @@ export const useProductFilterStore = defineStore("product_filter", () => {
         handleProductBrandChangeAndFilter,
         fetchRouterProductBrand,
 
+        priceValues,
+        fetchRouterPriceValues,
+        handlePriceFilter,
+        handlePriceChange,
+        handlePriceChangeAndFilter,
+
+        handleResetFilter,
+        handlePageChange,
+        loadProducts,
         filteredProducts,
         filterProducts,
 
-        handleResetFilter,
-
-        handlePageChange,
         updateCurrentPage: productStore.updateCurrentPage,
         currentProductOptions: productStore.currentProductOptions,
         updateProductOptions: (options: IFetchProductOptions) => {

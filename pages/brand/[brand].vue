@@ -13,45 +13,60 @@
 
 <script lang="ts" setup>
 import toolsService from "@/services/toolsService";
+import {convertBrandResponse} from "@/plugins/data/brand-data";
 
 const route = useRoute();
-// const propBrand = () => useRoute()?.params?.brand;
-const propBrand = computed(() => route.params?.brand);
+const router = useRouter();
+const propBrand = computed(() => (router.currentRoute.value?.params?.brand));
 const {title, settings} = useSiteSettings();
-
+const {updateSlugOnLocale} = useNuxtApp().$settings;
+// todo:
 function setTitle(p) {
 	if (p && Object.keys(p).length) {
 		nextTick(function () {
-			useSeoMeta({title: title(toolsService.parseBrandName(p), route.query?.page)});
+			useSeoMeta({
+				title: title(toolsService.parseBrandName(p), route.query?.page),
+				// todo:
+				description: p?.seo_description,
+				keywords: p?.seo_keywords,
+			});
 		});
 	}
 }
 
 const {data: brand, pending, error, refresh, execute} = useLazyAsyncData(
-		`brand-${propBrand.value}`,
-		() => $fetch(`brands/${propBrand.value}`, {
-			baseURL: settings.apiURL,
-			responseType: 'json',
-			parseResponse: (res) => JSON.parse(res)?.data,
-			params: {
-				page: route.query?.page || 1
-			}
-		})
-		.then(data => {
-			if (!data || data?.length === 0) {
-				return [[]];
+		`brands_${propBrand.value}`,
+		() => {
+			if (brand.value && brand.value?.slug && propBrand.value !== brand.value?.slug) {
+				return {};
 			}
 
-			return data;
-		})
-		.then(data => data?.[0])
-		.then(data => {
-			if (process.client) {
-				setTitle(data)
-			}
+			return useF(`brands/${propBrand.value}`, {
+				params: {
+					page: route.query?.page || 1
+				},
+				parseResponse: (res) => (JSON.parse(res)?.data || []).map(convertBrandResponse),
+			})
+					.then(({error, data, /*execute, */status}) => {
+						if (!data || data.value?.length === 0) {
+							return [[]];
+						}
 
-			return data;
-		}),
+						return data.value;
+					})
+					.then(data => data?.[0])
+					.then(data => {
+						if (updateSlugOnLocale === true && (data?.slug && data?.slug !== propBrand.value)) {
+							return navigateTo({params: {brand: data.slug}, query: route.query});
+						}
+
+						if (process.client) {
+							setTitle(data)
+						}
+
+						return data;
+					});
+		},
 		{
 			watch: [route],
 			immediate: false
@@ -77,4 +92,14 @@ if (
 		fatal: true
 	});
 }
+
+watch(
+		() => router.currentRoute.value?.params,
+		(n) => {
+			if (brand.value && brand.value?.slug && propBrand.value !== brand.value?.slug) {
+				brand.value = undefined;
+				// refresh();
+			}
+		}
+);
 </script>

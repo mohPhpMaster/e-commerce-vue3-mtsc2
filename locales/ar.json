@@ -1,7 +1,4 @@
 {
-  "defaults": {
-    "title": "متجر"
-  },
   "Guaranteed safe & secure checkout": "آمنة مضمونة \n & الشراء الآمن",
   "Add $:amount more to qualify for free shipping": "أضف {amount} إضافية للتأهل للشحن المجاني",
   "You are eligible for free shipping": "انت متأهل للشحن المجاني",
@@ -157,5 +154,15 @@
   "High to Low": "من الاعلى الى الادنى",
   "New Added": "اضيف حديثا",
   "On Sale": "عليه عرض",
-  "Reset Filters": "اعادة تعيين الفلتر"
+  "Reset Filters": "اعادة تعيين الفلتر",
+  "Whatsapp": "واتساب",
+  "Facebook": "فيس بوك",
+  "Twitter": "تويتر",
+  "Instagram": "انستجرام",
+  "Linkedin": "لينكدان",
+  "Youtube": "يوتيوب",
+  "Vimeo": "فيميو",
+  "Phone": "رقم الاتصال",
+  "Talk To Us": "تحدث معنا",
+  "Got Questions? Call us": "لديك سؤال؟ تواصل معنا"
 }

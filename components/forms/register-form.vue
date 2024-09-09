@@ -62,7 +62,7 @@ import * as yup from 'yup';
 import {useUserStore} from "@/pinia/useUserStore";
 import type {IUserRegisterResponse} from "@/types/user-register-response-d-t";
 import {toast} from "vue3-toastify";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import formDataService from "@/services/formDataService";
 import type {IUserRegisterFormValues} from "@/types/user-register-form-values-d-t";
 

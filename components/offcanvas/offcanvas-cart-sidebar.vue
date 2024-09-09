@@ -17,7 +17,7 @@
         <div class="cartmini__shipping">
           <cart-progress />
         </div>
-        <div v-if="cartStore.cart_products.length > 0" class="cartmini__widget">
+        <div v-if="cartStore.cart_products?.length > 0" class="cartmini__widget">
           <div v-for="item in cartStore.cart_products" :key="item?.differents?.id" class="cartmini__widget-item">
             <div class="cartmini__thumb">
               <nuxt-link :to="toolsService.getProductUrl(item?.differents,true)"
@@ -52,7 +52,7 @@
         </div>
         <!-- if no item in cart  -->
         <div
-          v-if="cartStore.cart_products.length === 0"
+          v-if="cartStore.cart_products?.length === 0"
           class="cartmini__empty text-center"
         >
           <img
@@ -63,7 +63,7 @@
           <nuxt-link href="/" class="tp-btn">{{ $t('Shop Now') }}</nuxt-link>
         </div>
       </div>
-      <div v-if="cartStore.cart_products.length > 0" class="cartmini__checkout">
+      <div v-if="cartStore.cart_products?.length > 0" class="cartmini__checkout">
         <div class="cartmini__checkout-title mb-30">
           <h4>{{ $t('Subtotal:') }}</h4>
           <span>{{ currency(cartStore.totalPriceQuantity.total) }}</span>

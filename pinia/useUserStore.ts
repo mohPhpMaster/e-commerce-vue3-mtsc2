@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import {type IUser} from "@/types/user-d-t";
 import {api} from "@/plugins/api";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import type {IUserLoginFormValues} from "@/types/user-login-form-values-d-t";
 
 export const useUserStore = defineStore('user', () => {

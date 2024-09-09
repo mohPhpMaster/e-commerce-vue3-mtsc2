@@ -1,6 +1,6 @@
 import type {IBrand} from "@/types/brand-d-t";
 import type {IBrandResponse} from "@/types/brand-response-d-t";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import {convertProductResponse} from "@/plugins/data/product-data";
 
 export async function brandData({prepend = [], append = [], page = 1, slug = ''}: {

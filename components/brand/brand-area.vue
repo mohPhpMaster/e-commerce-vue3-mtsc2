@@ -17,12 +17,12 @@
               <div class="tp-category-slider-5">
                 <swiper v-bind="slider_setting" :modules="[Scrollbar,Pagination,Navigation]" class="tp-category-slider-active-5 swiper-container mb-50">
                       <swiper-slide v-for="item in brand_items" :key="item.id" class="tp-category-item-5 p-relative z-index-1 fix" data-bg-color="#E5EFE2">
-                          <a @click="toolsService.gotoBrand(item)" class="pointer">
+                          <nuxt-link :href="toolsService.getBrandUrl(item)" class="pointer">
                             <div class="tp-category-thumb-5 include-bg" :style="`background-image:url(${item.imageUrl})`"></div>
                             <div class="tp-category-content-5">
                                 <h3 class="tp-category-title-5">{{ toolsService.parseBrandName(item) }}</h3>
                             </div>
-                          </a>
+                          </nuxt-link>
                       </swiper-slide>
                 </swiper>
                 <div class="tp-category-5-swiper-scrollbar tp-swiper-scrollbar"></div>
@@ -37,7 +37,7 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Scrollbar,Pagination,Navigation } from "swiper/modules";
 import toolsService from "@/services/toolsService";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import {convertBrandResponse} from "@/plugins/data/brand-data";
 
 const {data: brand_items, pending, error, refresh} = useLazyAsyncData<string[]>('brands/featured', () =>

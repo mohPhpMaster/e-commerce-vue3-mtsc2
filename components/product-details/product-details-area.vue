@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { type IProduct } from '@/types/product-d-t';
-import toolsService from "../../services/toolsService";
+import toolsService from "@/services/toolsService";
 const props = defineProps<{ product: IProduct; }>()
 const route = useRoute();
 

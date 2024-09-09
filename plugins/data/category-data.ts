@@ -1,6 +1,6 @@
 import type {ICategory} from "@/types/category-d-t";
 import type {ICategoryResponse} from "@/types/category-response-d-t";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import {convertProductResponse} from "@/plugins/data/product-data";
 
 export async function categoryData({
@@ -65,6 +65,8 @@ export function convertCategoryResponse(
         url: `/category/${category.slug}`,
         img: category.imageUrl,
         parentName: category?.name,
+        seo_description: category?.seo_description,
+        seo_keywords: category?.seo_keywords,
         products: (category?.products?.data || []).map(x => convertProductResponse(x)),
         children: (category?.sub_categories?.data || []).map(
             convertCategoryResponse

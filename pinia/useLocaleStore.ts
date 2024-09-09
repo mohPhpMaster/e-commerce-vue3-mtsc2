@@ -2,20 +2,42 @@ import {defineStore} from 'pinia';
 
 export const useLocaleStore = defineStore('locale', () => {
     const $i18n = ref();
+    const {$i18n: _i18n, $translations: _translations, $locales: _locales, $locale: _locale} = useNuxtApp();
+    Object.keys(_translations.value).forEach((key) => {
+        _translations.value.hasOwnProperty(key) && _i18n.mergeLocaleMessage(key, _translations.value[key])
+    });
 
     const selectedLanguage = (): string => {
-        return useNuxtApp()?.$i18n?.getLocaleCookie() || useNuxtApp()?.$i18n.defaultLocale || 'en';
+        return useNuxtApp()?.$i18n?.getLocaleCookie() || useNuxtApp()?.$i18n.defaultLocale || _locale || 'en';
     };
 
     const i18n = (): ReturnType<typeof useI18n> => {
+        const _selectedLanguage = selectedLanguage();
+
         $i18n.value = $i18n.value || useI18n({
-            locale: selectedLanguage(),
+            locale: _selectedLanguage,
         });
+
+        (_selectedLanguage in _translations.value) && $i18n.value.mergeLocaleMessage(_selectedLanguage, _translations.value[_selectedLanguage]);
+
         return $i18n;
     };
 
     const locales = (): [] => {
-        return i18n().value.locales;
+        let $_locales = [];
+
+        return [
+            ..._locales,
+            ...i18n().value.locales,
+        ].filter((l) => {
+            if ($_locales.includes(l?.iso || l.name))
+            {
+                return false;
+            }
+
+            $_locales.push(l?.iso || l.name);
+            return true;
+        });
     };
 
     const locale = (): string => {
@@ -60,6 +82,10 @@ export const useLocaleStore = defineStore('locale', () => {
         changeLanguage,
         checkLanguage,
         i18n,
+        _i18n,
+        _translations,
+        _locales,
+        _locale,
         selectedLanguageFlag: computed(()=> {
             return `/images/icon/${selectedLanguage()}.svg`;
         }),

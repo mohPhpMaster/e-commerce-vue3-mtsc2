@@ -6,6 +6,8 @@ export interface IProductResponse {
     id: string;
     name: string;
     description: string;
+    seo_description?: string;
+    seo_keywords?: string;
     label: string;
     slug: string;
     brand: string;

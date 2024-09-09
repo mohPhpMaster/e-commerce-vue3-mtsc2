@@ -1,4 +1,4 @@
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import type {ICartFee} from "@/types/cart-fee-d-t";
 import type {ICartFeeResponse} from "@/types/cart-fee-response-d-t";
 

@@ -7,7 +7,7 @@
 		      :class="{ 'tp-shop-widget-brand-item-selected': isActiveQuery(item) }"
 		      class="tp-shop-widget-brand-item"
       >
-        <nuxt-link @click.prevent="handleBrandRoute(item?.id)">
+        <nuxt-link :href="toolsService.getBrandUrl(item)" @click.prevent="handleBrandRoute(item?.id)">
 	        <img
 			        v-if="item?.imageUrl"
 			        :src="item?.imageUrl"
@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import {useProductFilterStore} from "@/pinia/useProductFilterStore";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import type {IBrandFilter} from "@/types/brand-filter-d-t";
 import type {TBrandFilter} from "@/types/brand-t";
 import toolsService from "@/services/toolsService";
@@ -36,7 +36,7 @@ const route = useRoute();
 const activeQuery = ref(store.productBrand);
 
 const isActiveQuery = (brand: TBrandFilter) => activeQuery.value === brand?.id;
-
+const currentPath = computed(() => router.currentRoute.value.path);
 
 const handleBrandRoute = (value: number) => store.handleProductBrandChangeAndFilter(value);
 
@@ -52,7 +52,7 @@ const {
 				.then(res => (res?.data?.data || []).map(convertBrandFilterResponse))
 				.then((data): IBrandFilter[] => (!data || data?.length === 0) ? [] : data),
 		{
-			watch: [route],
+			watch: [currentPath],
 			immediate: true
 		}
 );

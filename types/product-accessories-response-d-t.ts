@@ -7,6 +7,4 @@ export interface IProductAccessoriesResponse {
     accessories?: {
         data: IProductAccessoriesGroupsResponse[];
     } | undefined;
-    price?: string;
-    discount?: number | string;
 }

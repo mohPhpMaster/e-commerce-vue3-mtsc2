@@ -1,4 +1,4 @@
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import type {IUserAddresses} from "@/types/user-addresses-d-t";
 import type {IUserAddressesResponse} from "@/types/user-addresses-response-d-t";
 

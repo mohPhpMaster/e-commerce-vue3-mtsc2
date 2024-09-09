@@ -1,6 +1,6 @@
 // import type {IUserLoginResponse} from "@/types/user-login-response-d-t";
 import type {IUserLoginFormValues} from "@/types/user-login-form-values-d-t";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import formDataService from "@/services/formDataService";
 import type {IUser} from "@/types/user-d-t";
 

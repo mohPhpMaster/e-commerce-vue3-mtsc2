@@ -31,7 +31,9 @@ onMounted(() => {
 })
 
 watch(
-		() => [store.sortingOption, router.currentRoute.value?.query],
-		() => niceSelectRef.value.current = store.getSelectedSortingOption()
+		() => [store.sortingOption, route.query],
+		() => {
+			return niceSelectRef.value.current = store.getSelectedSortingOption();
+		}
 );
 </script>

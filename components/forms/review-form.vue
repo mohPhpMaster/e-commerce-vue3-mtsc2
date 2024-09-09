@@ -70,7 +70,7 @@
 <script lang="ts" setup>
 import {Field, useForm} from 'vee-validate';
 import * as yup from 'yup';
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import toolsService from "@/services/toolsService";
 import type {IProduct} from "@/types/product-d-t";
 import formDataService from "@/services/formDataService";

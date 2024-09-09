@@ -1,6 +1,6 @@
 import type {IProduct} from "@/types/product-d-t";
 import type {IProductResponse} from "@/types/product-response-d-t";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import toolsService from "@/services/toolsService";
 import {convertCategoryResponse} from "@/plugins/data/category-data";
 import type {ICategory} from "@/types/category-d-t";
@@ -63,7 +63,6 @@ export async function productData({
         if (baseUrl) {
             $options["baseURL"] = baseUrl;
         }
-
         const response: { data: { data: IProductResponse[] } } = await $axios.get(url, $options);
         // console.log(52, url)
         // const response: { data: { data: IProductResponse[] } } = await import("@/data/products.json").then(x => ({ data: x.default }));
@@ -123,7 +122,9 @@ export function convertProductResponse(product: IProductResponse, noImage?: stri
         brand: product?.brand?.trim(),
         top_rated: undefined,
         sell_count: undefined,
-        offerDate: undefined
+        offerDate: undefined,
+        seo_description: product?.seo_description,
+        seo_keywords: product?.seo_keywords,
     };
 }
 

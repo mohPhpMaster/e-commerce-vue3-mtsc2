@@ -8,23 +8,25 @@
 						'has-dropdown': item.children?.length
           }"
           >
-            <a class="pointer" @click="toolsService.gotoCategory(item)">
+            <nuxt-link :to="toolsService.getCategoryUrl(item)" class="pointer" @click="toolsService.gotoCategory(item)">
               <span v-if="item.img">
                 <img
 		                :src="item.img"
 		                :title="toolsService.parseCategoryName(item)"
 		                style="width: 35px; height: 35px; object-fit: cover; border-radius: 50%;"
+                    alt="Category Image"
                 />
               </span>
               {{ toolsService.parseCategoryName(item) }}
-            </a>
+            </nuxt-link>
 
             <ul v-if="item.children" class="tp-submenu">
               <li v-for="(child, i) in item.children" :key="i">
-                <a
+                <nuxt-link
 		                class="pointer"
+		                :to="toolsService.getCategoryUrl(child as ICategory)"
 		                @click="toolsService.gotoCategory(child as ICategory)"
-                >{{ toolsService.parseCategoryName(child) }}</a>
+                >{{ toolsService.parseCategoryName(child) }}</nuxt-link>
               </li>
             </ul>
           </li>

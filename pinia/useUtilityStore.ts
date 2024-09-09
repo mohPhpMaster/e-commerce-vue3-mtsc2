@@ -6,7 +6,7 @@ import {type IProduct} from '@/types/product-d-t';
 import {useProductStore} from "@/pinia/useProductStore";
 import type {ISiteSettings} from "@/types/site-settings-d-t";
 import {api} from "@/plugins/api";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import {convertCategoryFeaturedResponse} from "@/plugins/data/category-featured-data";
 import {convertSiteSettingsResponse} from "@/plugins/data/site-settings-data";
 
@@ -84,7 +84,7 @@ export const useUtilityStore = defineStore("utility", () => {
                 document.body.removeAttribute('style');
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
 

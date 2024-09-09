@@ -1,5 +1,5 @@
 import type {IProduct} from "@/types/product-d-t";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import toolsService from "@/services/toolsService";
 import type {ICategory} from "@/types/category-d-t";
 import type {IBrand} from "@/types/brand-d-t";

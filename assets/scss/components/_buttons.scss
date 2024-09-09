@@ -11,11 +11,12 @@
 	display: inline-block;
 	padding: 9px 48px;
 	border-radius: 24px;
-	background-color: var(--tp-theme-green);
+	background-color: var(--tp-theme-primary);
 
 	&:hover{
-		background-color: #42603D;
-		color: var(--tp-common-white);
+		background-color: rgba(0, 0, 0, 0.09) !important;
+		//border: 1px var(--tp-theme-primary) solid;
+		color: var(--tp-hover-color) !important;
 	}
 
 	

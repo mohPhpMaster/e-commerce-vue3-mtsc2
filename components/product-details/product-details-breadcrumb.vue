@@ -33,8 +33,8 @@ import type {ICategory} from "@/types/category-d-t";
 const props = defineProps<{ product: IProduct }>()
 
 const parsedTitle = computed(() => {
-	if (props?.category) {
-		return toolsService.parseCategoryName(props?.category)
+	if (props?.product) {
+		return toolsService.parseProductName(props?.product)
 	} else {
 		return ""
 	}

@@ -1,6 +1,6 @@
 import type {IReview} from "@/types/review-d-t";
 import type {IReviewResponse} from "@/types/review-response-d-t";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import type {IProduct} from "@/types/product-d-t";
 
 export async function productReviewsData({page = 1, slug = '', product = undefined}: {

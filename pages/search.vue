@@ -127,6 +127,7 @@ const handleSubmit = () => {
 		router.push({
 			path: '/search',
 			query: {
+				...route?.query,
 				searchText: searchText.value
 			}
 		});

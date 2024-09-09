@@ -34,14 +34,18 @@ const props = defineProps<{ product: IProduct, current: IProduct }>()
 
 const checkQuery = () => {
 	if (route.query?.different) {
-		if (Number(props.product.id) === Number(route.query?.different) && Number(props.current?.id) !== Number(route.query?.different)) {
-			// console.log(37, Number(props.product?.id), Number(route.query?.different), Number(props.current?.id))
+		// console.log(37, Number(props.product?.id), Number(route.query?.different), Number(props.current?.id), [toolsService.parseProductDifferent(props.product),route.query?.different_name,toolsService.parseProductDifferent(props.current)])
+		if (
+				(Number(props.product.id) === Number(route.query?.different) && Number(props.current?.id) !== Number(route.query?.different)) ||
+				(route.query?.different_name && toolsService.parseProductDifferent(props.product) === route.query?.different_name && toolsService.parseProductDifferent(props.current) !== route.query?.different_name)
+		) {
 			emit('clicked', props.product)
 		}
 	}
 }
 
 onMounted(checkQuery);
+
 watch(
 	() => route.query,
 	(newStatus, oldStatus) => {

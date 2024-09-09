@@ -8,6 +8,8 @@ export interface ICategory {
     url: string;
     img: string;
     parentName: string;
+    seo_description?: string;
+    seo_keywords?: string;
     products: IProduct[];
     children: ICategory[] | ISubCategory[] | undefined;
     textClr?: string;

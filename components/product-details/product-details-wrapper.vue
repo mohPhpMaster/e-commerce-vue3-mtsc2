@@ -90,10 +90,7 @@
 	    </div>
 	    <div class="tp-product-details-social">
 	      <span>{{ $t("Share:") }}  </span>
-	      <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-	      <a href="#"><i class="fa-brands fa-twitter"></i></a>
-	      <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-	      <a href="#"><i class="fa-brands fa-vimeo-v"></i></a>
+	      <product-details-share />
 	    </div>
 	    <div class="tp-product-details-msg mb-15">
 	      <ul>
@@ -119,7 +116,7 @@ import type {IProductAccessoriesGroups} from "@/types/product-accessories-groups
 import {toast} from "vue3-toastify";
 import type {ICartItem} from "@/types/cart-item-d-t";
 import type {IProductAccessories} from "@/types/product-accessories-d-t";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import {convertProductAccessoriesResponse} from "@/plugins/data/product-accessories-groups-data";
 import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
 import currency from "@/services/currencyService";

@@ -1,16 +1,18 @@
 // i18n.config.ts
 
-export default defineI18nConfig(() => ({
-    // We'll fill this in momentarily
-    legacy: false,
-    fallbackLocale: 'en',
-    // translations
-    messages: {
-        "en": {
-            app_title2: "test app",
+export default defineI18nConfig(async (nuxtApp) => {
+
+    return {
+        // We'll fill this in momentarily
+        legacy: false,
+        fallbackLocale: 'ar',
+
+        // translations
+        messages: {
+            "en": {
+            },
+            "ar": {
+            },
         },
-        "ar": {
-            app_title2: "تحربة تطبيق",
-        },
-    },
-}))
+    };
+});

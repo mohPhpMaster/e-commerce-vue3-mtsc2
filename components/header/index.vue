@@ -1,20 +1,26 @@
 <template>
   <header>
-    <div id="header-sticky" :class="`tp-header-area p-relative tp-header-sticky tp-header-height ${isSticky ? 'header-sticky' : ''}`">
-      <div class="tp-header-5 pl-25 pr-25" style="background-color: #678E61">
+    <div
+		    id="header-sticky"
+		    :class="`tp-header-area p-relative tp-header-sticky tp-header-height ${isSticky ? 'header-sticky' : ''}`"
+    >
+      <div class="tp-header-5 pl-25 pr-25" style="background-color: var(--tp-navbar-bg-color); color: var(--tp-navbar-text-color);">
           <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="col-xxl-2 col-xl-3 col-6">
                   <div class="tp-header-left-5 d-flex align-items-center">
                       <div class="tp-header-hamburger-5 mr-15 d-none d-lg-block">
-                        <button @click="handleActive" class="tp-hamburger-btn-2 tp-hamburger-toggle">
+                        <button class="tp-hamburger-btn-2 tp-hamburger-toggle" @click="handleActive">
                             <span></span>
                             <span></span>
                             <span></span>
                         </button>
                       </div>
                       <div class="tp-header-hamburger-5 mr-15 d-lg-none">
-                        <button @click="utilityStore.handleOpenMobileMenu()" class="tp-hamburger-btn-2 tp-offcanvas-open-btn">
+                        <button
+		                        class="tp-hamburger-btn-2 tp-offcanvas-open-btn"
+		                        @click="utilityStore.handleOpenMobileMenu()"
+                        >
                             <span></span>
                             <span></span>
                             <span></span>
@@ -22,20 +28,20 @@
                       </div>
                       <div class="logo">
                         <nuxt-link href="/">
-                          <img src="/images/logo/logo-white.svg" alt="logo">
+                          <img alt="logo" :src="$settings?.logo" class="site-logo">
                         </nuxt-link>
                       </div>
                   </div>
-                  <!-- category start -->
+	                <!-- category start -->
                   <header-top-categories :categories="topCategories" :is-active="isActive"></header-top-categories>
-                  <!-- category end -->
+	                <!-- category end -->
                 </div>
                 <div class="col-xxl-4 col-xl-6 d-none d-xl-block">
                   <div class="main-menu">
                     <nav class="tp-main-menu-content">
                       <!-- menus start -->
                       <header-menus />
-                      <!-- menus end -->
+	                    <!-- menus end -->
                     </nav>
                   </div>
                 </div>
@@ -44,7 +50,11 @@
                       <form @submit.prevent="handleSubmit">
                         <div class="tp-header-search-input-box-5">
                             <div class="tp-header-search-input-5">
-                              <input type="text" :placeholder="$t('Search for products keywords ...')" v-model="searchText">
+                              <input
+		                              v-model="searchText"
+		                              :placeholder="$t('Search for products keywords ...')"
+		                              type="text"
+                              >
                               <span class="tp-header-search-icon-5">
                                   <svg-search-2></svg-search-2>
                               </span>
@@ -74,7 +84,7 @@
                             </nuxt-link>
                         </div>
                         <div class="tp-header-action-item-5">
-                            <button @click="cartStore.handleCartOffcanvas" type="button" class="cartmini-open-btn">
+                            <button class="cartmini-open-btn" type="button" @click="cartStore.handleCartOffcanvas">
                               <svg-cart-bag></svg-cart-bag>
                               <span class="tp-header-action-badge-5">{{ cartStore?.totalPriceQuantity?.quantity }}</span>
                             </button>
@@ -94,33 +104,36 @@
     </div>
   </header>
 
-  <!-- cart offcanvas start -->
-  <offcanvas-cart-sidebar/>
-  <!-- cart offcanvas end -->
+	<!-- cart offcanvas start -->
+  <offcanvas-cart-sidebar />
+	<!-- cart offcanvas end -->
 
-  <!-- search start -->
+	<!-- search start -->
   <header-search></header-search>
-  <!-- search end -->
+	<!-- search end -->
 
-  <!-- cart offcanvas start -->
+	<!-- cart offcanvas start -->
   <offcanvas-mobile-sidebar :categories="topCategories"></offcanvas-mobile-sidebar>
-  <!-- cart offcanvas end -->
+	<!-- cart offcanvas end -->
 </template>
 
-<script setup lang="ts">
-import { useCartStore } from '@/pinia/useCartStore';
-import { useWishlistStore } from '@/pinia/useWishlistStore';
-import { useUtilityStore} from '@/pinia/useUtilityStore';
+<script lang="ts" setup>
+import {useCartStore} from '@/pinia/useCartStore';
+import {useWishlistStore} from '@/pinia/useWishlistStore';
+import {useUtilityStore} from '@/pinia/useUtilityStore';
 import {useCompareStore} from "@/pinia/useCompareStore";
 import {useSearchStore} from "@/pinia/useSearchStore";
 import {useProductFilterStore} from "@/pinia/useProductFilterStore";
+import {api} from "@/plugins/api";
 
 const {isSticky} = useSticky();
 const router = useRouter();
 const route = useRoute();
 const store = useProductFilterStore();
 
-const {data: topCategories, pending, error, refresh} = useLazyAsyncData('topCategories', loadTopCategories);
+const {data: topCategories, pending, error, refresh} = useLazyAsyncData('topCategories', () => {
+	return api.topCategoryData();
+});
 
 let isActive = ref<boolean>(false);
 let searchText = ref<string>(route?.query?.searchText);
@@ -134,28 +147,36 @@ const utilityStore = useUtilityStore();
 const compareStore = useCompareStore();
 
 const handleSubmit = () => {
-	if(searchText.value){
-	  if(searchText.value === router.currentRoute.value?.query?.searchText)
-	  {
-		  useSearchStore().triggerSearch();
+	if (searchText.value) {
+		if (searchText.value === router.currentRoute.value?.query?.searchText) {
+			useSearchStore().triggerSearch();
 			return false;
-	  }
+		}
 
 		router.push({
 			path: '/search',
 			query: {
+				...router.currentRoute.value?.query,
 				searchText: searchText.value
 			}
 		});
-  }
-  else{
+	} else {
 		store.handleResetFilter();
-    router.push(`/search`)
-  }
+		router.push(`/search`)
+	}
 }
 
-watch(() => route.href, () => {
-  isActive.value = false;
-	searchText.value = router.currentRoute.value?.query?.searchText
-})
+watch(
+		() => route.href,
+		() => {
+			isActive.value = false;
+			searchText.value = router.currentRoute.value?.query?.searchText
+		}
+)
 </script>
+
+<style lang="scss" scoped>
+.site-logo {
+	height: 72px;
+}
+</style>

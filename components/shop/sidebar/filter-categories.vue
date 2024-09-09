@@ -8,10 +8,10 @@
 								active: isActiveQuery(category)
 							}"
 		          class="pointer"
+		          :href="toolsService.getCategoryUrl(category)"
 		          @click.prevent="store.handleProductCategoryChangeAndFilter(category?.id)"
           >
             {{ toolsService.parseCategoryName(category) }}
-            <span v-if="typeof category?.products === 'number'">{{ category?.products }}</span>
           </a>
         </li>
       </ul>
@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import toolsService from "@/services/toolsService";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import type {ICategoryFilter} from "@/types/category-filter-d-t";
 import type {TCategoryFilter} from "@/types/category-t";
 import {useProductFilterStore} from "@/pinia/useProductFilterStore";
@@ -32,6 +32,7 @@ const route = useRoute();
 const activeQuery = ref(store.productCategory);
 
 const isActiveQuery = (category: TCategoryFilter) => activeQuery.value === category?.id;
+const currentPath = computed(() => router.currentRoute.value.path);
 
 const {
 	data: category_data,
@@ -45,7 +46,7 @@ const {
 				.then(res => (res?.data?.data || []).map(convertCategoryFilterResponse))
 				.then((data): ICategoryFilter[] => (!data || data?.length === 0) ? [] : data),
 		{
-			watch: [route],
+			watch: [ currentPath ],
 			immediate: false
 		}
 );

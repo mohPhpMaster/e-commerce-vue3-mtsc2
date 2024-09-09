@@ -27,6 +27,6 @@ import currency from "@/services/currencyService";
 
 const cartStore = useCartStore()
 const freeShippingThreshold = ref<number>(100);
-const progress = computed(() => (cartStore.totalPriceQuantity.total / freeShippingThreshold.value) * 100);
-const remainingAmount = computed(() => freeShippingThreshold.value - cartStore.totalPriceQuantity.total);
+const progress = computed(() => (cartStore.totalPriceQuantity?.total / freeShippingThreshold.value) * 100);
+const remainingAmount = computed(() => freeShippingThreshold.value - cartStore.totalPriceQuantity?.total);
 </script>

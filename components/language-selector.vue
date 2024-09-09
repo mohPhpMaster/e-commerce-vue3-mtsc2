@@ -1,6 +1,6 @@
 <template>
   <div class="offcanvas__select language d-none d-md-block my-3">
-    <div class="offcanvas__lang d-flex align-items-center justify-content-center justify-content-md-center">
+    <div class="offcanvas__lang d-flex align-items-center justify-content-as-locale">
       <div class="offcanvas__lang-img mr-15">
         <img alt="language-flag" :src="localeServices.selectedLanguageFlag" class="language-flag"/>
       </div>
@@ -13,9 +13,13 @@
           {{ localeServices.selectedLanguageName() }}
         </span>
         <ul
-		        :class="`offcanvas__lang-list tp-lang-list ${isToggleActive === 'lang' ? 'tp-lang-list-open' : ''}`"
+		        :class="`border offcanvas__lang-list tp-lang-list ${isToggleActive === 'lang' ? 'tp-lang-list-open' : ''}`"
         >
-          <li v-for="(language) in localeServices.locales()" :key="language.code" @click="changeLocale(language.code)">
+          <li v-for="(language) in localeServices.locales()" :key="language.code" @click="changeLocale(language.code, $event)"
+              class="btn "
+              :class="{
+						'border-0 disabled': language.code === localeServices.selectedLanguage()
+          }">
             {{ language.name }}
           </li>
         </ul>
@@ -35,15 +39,42 @@ const toggleDropdown = () => {
 	isToggleActive.value = 'lang' === isToggleActive.value ? '' : 'lang';
 };
 
-const changeLocale = (language: string) => {
+const changeLocale = (language: string, event) => {
+	if (language === localeServices.selectedLanguage()) {
+		if (event)
+		{
+			event.preventDefault();
+			return false;
+		}
+	}
 	localeServices.changeLanguage(language);
 	toggleDropdown();
 };
-
 </script>
 
 <style lang="scss">
+@use "sass:selector";
+
+@mixin rtl {
+  [dir=rtl] & {
+	  @content;
+  }
+}
+
 .language-flag {
 	width: 24px;
 }
+
+.offcanvas__select.language {
+	direction: ltr;
+}
+
+.justify-content-as-locale {
+	justify-content: start;
+
+	@include rtl {
+		justify-content: end !important;
+	}
+}
+
 </style>

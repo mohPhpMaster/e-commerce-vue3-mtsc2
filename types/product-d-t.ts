@@ -29,4 +29,6 @@ export interface IProduct {
         startDate: string;
         endDate: string;
     }
+    seo_description?: string;
+    seo_keywords?: string;
 }

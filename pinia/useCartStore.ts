@@ -8,11 +8,11 @@ import swal from 'sweetalert';
 import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
 
 export const useCartStore = defineStore("cart_product", () => {
-    const {t} = useI18n();
+    const {t} = useNuxtApp()?.$i18n;
     const route = useRoute();
     let cart_products = ref<ICartItem[]>([]);
     let cart_product = ref<IProduct>({} as IProduct);
-    let cart_title = ref<string | null>(t("Add To Cart"));
+    let cart_title = ref<string | null>("");
     let orderQuantity = ref<number>(1);
     let cartOffcanvas = ref<boolean>(false);
     let cart_modal_status = ref<boolean>(false);

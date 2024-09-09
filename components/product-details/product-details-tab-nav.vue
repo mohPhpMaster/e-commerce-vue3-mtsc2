@@ -128,7 +128,7 @@ import toolsService from "@/services/toolsService";
 import {useUserStore} from "@/pinia/useUserStore";
 import {api} from "@/plugins/api";
 import type {IReview} from "@/types/review-d-t";
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import {convertProductAccessoriesResponse} from "@/plugins/data/product-accessories-groups-data";
 
 const {isLoggedIn, user} = useUserStore();

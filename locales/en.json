@@ -1,7 +1,4 @@
 {
-  "defaults": {
-    "title": "Shop3"
-  },
   "Guaranteed safe & secure checkout": "Guaranteed safe \n & secure checkout",
   "Add $:amount more to qualify for free shipping": "Add {amount} more to qualify for free shipping",
   "You are eligible for free shipping": "You are eligible for free shipping",
@@ -157,5 +154,15 @@
   "High to Low": "High to Low",
   "New Added": "New Added",
   "On Sale": "On Sale",
-  "Reset Filters": "Reset Filters"
+  "Reset Filters": "Reset Filters",
+  "Whatsapp": "Whatsapp",
+  "Facebook": "Facebook",
+  "Twitter": "Twitter",
+  "Instagram": "Instagram",
+  "Linkedin": "Linkedin",
+  "Youtube": "Youtube",
+  "Vimeo": "Vimeo",
+  "Phone": "Phone",
+  "Talk To Us": "Talk To Us",
+  "Got Questions? Call us": "Got Questions? Call us"
 }

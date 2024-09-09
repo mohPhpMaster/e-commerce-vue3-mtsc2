@@ -9,7 +9,7 @@
           >
             <div class="tp-category-main-content">
               <h3 class="tp-category-main-title pb-1">
-                <a @click="toolsService.gotoCategory(item)" class="pointer">{{ toolsService.parseCategoryName(item) }}</a>
+                <a :href="toolsService.getCategoryUrl(item)" @click="toolsService.gotoCategory(item)" class="pointer">{{ toolsService.parseCategoryName(item) }}</a>
               </h3>
               <span class="tp-category-main-item">
                 {{item?.products?.length}} Products

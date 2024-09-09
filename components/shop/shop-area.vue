@@ -55,7 +55,7 @@
                   </div>
                 </div>
                 <div class="col-xl-6">
-                  <shop-sidebar-filter-select v-if="filteredProducts?.length" />
+                  <shop-sidebar-filter-select />
                 </div>
               </div>
             </div>

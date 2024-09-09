@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="default">
-    <loading-indicator  />
+    <loading-indicator />
     <NuxtPage />
 
 	  <cart-modal
@@ -14,9 +14,8 @@
 
 
 <script lang="ts" setup>
-import {useProductFilterStore} from './pinia/useProductFilterStore';
-import {useUtilityStore} from './pinia/useUtilityStore';
-// import localeService from "@/services/localeService";
+import {useProductFilterStore} from '@/pinia/useProductFilterStore';
+import {useUtilityStore} from '@/pinia/useUtilityStore';
 import {useUserStore} from "@/pinia/useUserStore";
 import {useCartStore} from "@/pinia/useCartStore";
 import {useLocaleStore} from "@/pinia/useLocaleStore";
@@ -39,10 +38,12 @@ onMounted(() => {
 	// console.log(17, $axios.instance.defaults.headers.common['language'], localeService.locale())
 })
 
-watch(() => route.path, () => {
-	prdFilterStore.$reset
-	prdFilterStore.handleResetFilter();
-	utilsStore.removeBackdrop();
-})
-
+watch(
+		() => route.path,
+		() => {
+			prdFilterStore.$reset
+			prdFilterStore.handleResetFilter();
+			utilsStore.removeBackdrop();
+		}
+);
 </script>

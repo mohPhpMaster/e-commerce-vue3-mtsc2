@@ -1,4 +1,4 @@
-import {$axios} from "@/plugins/axiosInstance";
+import {$axios} from "@/plugins/00.axiosInstance";
 import type {ISiteSettings} from "@/types/site-settings-d-t";
 import type {ISiteSettingsResponse} from "@/types/site-settings-response-d-t";
 
@@ -14,12 +14,40 @@ export async function siteSettingsData(): Promise<ISiteSettings> {
 }
 
 export function convertSiteSettingsResponse(settings: ISiteSettingsResponse): ISiteSettings {
+    // todo:
+    // console.log(17, settings)
     return {
         currency: settings?.currency || '',
         noImageUrl: settings?.noImageUrl || '',
-        apiURL: settings?.apiURL || '',
         perPage: settings?.perPage || 9,
         siteTitle: settings?.siteTitle || '',
+        siteKeywords: settings?.keywords || '',
+        siteDescription: settings?.description || '',
+        siteCopyRight: settings?.copy_right || '',
+        logo: settings?.logo || '',
+        logoSmall: settings?.logo_sm || '',
+        favicon: settings?.favicon || '',
+        sliderShow: settings?.slider_show || true,
+        phone: settings?.phone || '',
+        email: settings?.email || '',
+        facebook: settings?.facebook || '',
+        twitter: settings?.twitter || '',
+        instagram: settings?.instagram || '',
+        locales: settings?.locales || [],
+        locale: settings?.locale || '',
+        address: settings?.address || '',
+        address_url: settings?.address_url || '',
+        footerBackground: settings?.footer_color || '',
+        footerColor: settings?.footer_text_color || '',
+        hoverColor: settings?.hover_color || '',
+        primaryColor: settings?.website_color || '',
+        navbarBackground: settings?.navbar_color || '',
+        navbarColor: settings?.navbar_text_color || '',
+        priceColor: settings?.prices_color || '',
+        priceBackground: settings?.prices_background_color || '',
+        categoryColor: settings?.category_text_color || '',
+        categoryTitleColor: settings?.category_text_color_title || '',
+        categoryTitleBackground: settings?.category_background_color_title || '',
     };
 }
 

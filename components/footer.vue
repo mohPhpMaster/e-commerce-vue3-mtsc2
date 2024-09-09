@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="tp-footer-area tp-footer-style-2 tp-footer-style-5" style="background-color: #f4f7f9" >
+    <div class="tp-footer-area tp-footer-style-2 tp-footer-style-5">
       <div class="tp-footer-top pt-95 pb-45">
           <div class="container">
             <div class="row">
@@ -9,15 +9,13 @@
                       <div class="tp-footer-widget-content">
                         <div class="tp-footer-logo">
                             <nuxt-link href="/">
-                              <img src="/images/logo/logo.svg" alt="logo">
+		                          <img :src="$settings?.logoSmall" alt="logo" class="site-logo">
                             </nuxt-link>
                         </div>
-                        <p class="tp-footer-desc">
-                          We are a team of designers and developers that create high quality WordPress
-                        </p>
-                        <div class="tp-footer-social">
-                            <social-links></social-links>
-                        </div>
+                        <p class="tp-footer-desc" v-html="$settings?.siteDescription" />
+
+                        <site-social-links />
+
 	                      <language-selector />
                       </div>
                   </div>
@@ -54,31 +52,31 @@
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                   <div class="tp-footer-widget footer-col-4 mb-50">
-                      <h4 class="tp-footer-widget-title">Talk To Us</h4>
+                      <h4 class="tp-footer-widget-title">{{ $t('Talk To Us') }}</h4>
                       <div class="tp-footer-widget-content">
-                        <div class="tp-footer-talk mb-20">
-                            <span>Got Questions? Call us</span>
-                            <h4><a href="tel:670-413-90-762">+670 413 90 762</a></h4>
+                        <div v-if="$settings?.phone" class="tp-footer-talk mb-20">
+                            <span>{{ $t('Got Questions? Call us') }}</span>
+                            <h4><nuxt-link :href="'tel:' + $settings?.phone">{{ $settings?.phone }}</nuxt-link></h4>
                         </div>
                         <div class="tp-footer-contact">
-                            <div class="tp-footer-contact-item d-flex align-items-start">
+                            <div v-if="$settings?.email" class="tp-footer-contact-item d-flex align-items-start">
                               <div class="tp-footer-contact-icon">
                                   <span>
                                     <svg-email></svg-email>
                                   </span>
                               </div>
                               <div class="tp-footer-contact-content">
-                                  <p><a href="mailto:shofi@gmail.com">shofi@gmail.com</a></p>
+                                  <p><nuxt-link :href="'mailto:' + $settings?.email">{{ $settings?.email }}</nuxt-link></p>
                               </div>
                             </div>
-                            <div class="tp-footer-contact-item d-flex align-items-start">
+                            <div v-if="$settings?.address" class="tp-footer-contact-item d-flex align-items-start">
                               <div class="tp-footer-contact-icon">
                                   <span>
                                     <svg-location></svg-location>
                                   </span>
                               </div>
                               <div class="tp-footer-contact-content">
-                                  <p><a href="https://www.google.com/maps/place/Sleepy+Hollow+Rd,+Gouverneur,+NY+13642,+USA/@44.3304966,-75.4552367,17z/data=!3m1!4b1!4m6!3m5!1s0x4cccddac8972c5eb:0x56286024afff537a!8m2!3d44.3304928!4d-75.453048!16s%2Fg%2F1tdsjdj4" target="_blank">79 Sleepy Hollow St. <br> Jamaica, New York 1432</a></p>
+                                  <p><nuxt-link :href="$settings?.address_url" target="_blank" v-html="$settings?.address"/></p>
                               </div>
                             </div>
                         </div>
@@ -93,14 +91,15 @@
             <div class="tp-footer-bottom-wrapper">
                 <div class="row align-items-center">
                   <div class="col-md-6">
-                      <div class="tp-footer-copyright">
+                      <div v-if="$settings.siteCopyRight" class="tp-footer-copyright" v-html="$settings.siteCopyRight"></div>
+                      <div v-else class="tp-footer-copyright">
                         <p>© 2024 All Rights Reserved  |  By <a href="https://mtsc.tech/" target="_blank">Modern Technology Solution Company</a>.</p>
                       </div>
                   </div>
                   <div class="col-md-6">
                       <div class="tp-footer-payment text-md-end">
                         <p>
-                            <img src="/images/footer/footer-pay-2.png" alt="">
+                            <img alt="" src="/images/footer/footer-pay-2.png">
                         </p>
                       </div>
                   </div>
@@ -112,6 +111,34 @@
   </footer>
 </template>
 
-<script setup lang="ts">
-defineProps<{bg_clr?:boolean}>();
+<script lang="ts" setup>
+const {settings} = useSiteSettings();
+
+const cssStyle = () =>`
+	.tp-footer-area {
+		background-color: var(--tp-footer-bg-color) !important;
+	}
+
+	.tp-footer-area,
+	.tp-footer-area :is(p, h1, h2, h3, h4, h5, h6) {
+		color: var(--tp-footer-text-color) !important;
+	}
+`;
+
+useHead({
+	style: [
+		{
+			id: 'footer-area-style',
+			type: 'text/css',
+			innerHTML: cssStyle()
+		},
+	],
+});
+
 </script>
+
+<style lang="scss" scoped>
+.site-logo {
+	height: 35px;
+}
+</style>

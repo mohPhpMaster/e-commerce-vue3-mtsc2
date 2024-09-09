@@ -5,8 +5,10 @@ export default defineNuxtConfig({
             noImageUrl: process.env.NUXT_ENV_NO_IMAGE_URL || "/images/no-image.png",
             imagesUrl: process.env.NUXT_ENV_IMAGES_URL || "",
             apiURL: process.env.NUXT_ENV_API_URL || "",
+            baseUrl: process.env.NUXT_ENV_BASE_URL || "",
             perPage: process.env.NUXT_ENV_PER_PAGE || 9,
             siteTitle: process.env.NUXT_ENV_SITE_TITLE || "Shop1",
+            updateSlugOnLocale: process.env.NUXT_ENV_UPDATE_SLUG_ON_LOCALE || false,
         }
     },
 
@@ -59,26 +61,26 @@ export default defineNuxtConfig({
             {
                 code: 'en',
                 iso: 'en-US',
-                name: 'English',
+                name: 'en',
                 dir: 'ltr',
-                file: 'en.json'
+                // file: 'en.json'
             },
             {
                 code: 'ar',
                 iso: 'ar-SA',
-                name: 'العربية',
+                name: 'ar',
                 dir: 'rtl',
-                file: 'ar.json'
+                // file: 'ar.json'
             },
         ],
-        defaultLocale: "ar",
+        defaultLocale: "en",
         detectBrowserLanguage: {
             useCookie: true,
             cookieKey: 'i18n_redirected'
         },
         vueI18n: "./i18n.config.ts",
-        lazy: true,
-        langDir: 'locales',
+        // lazy: true,
+        // langDir: 'locales',
     },
 
     app: {
@@ -109,10 +111,11 @@ export default defineNuxtConfig({
 
     plugins: [
         // {src: "~/plugins/loadingIndicator.ts", mode: "all", order: -1},
-        {src: "~/plugins/axiosInstance.ts", mode: "all" },
-        {src: "~/plugins/settings.ts", mode: "all"},
+        {src: "~/plugins/00.axiosInstance.ts", mode: "all" },
+        {src: "~/plugins/01.settings.ts", mode: "all"},
+        {src: "~/plugins/02.translations.ts", mode: "all"},
         {src: "~/plugins/api.ts", ssr: false},
-        {src: "~/plugins/i18n.ts", ssr: false},
+        {src: "~/plugins/i18n.ts", mode: "all"},
         {src: "~/plugins/yupLocale.ts", mode: "client"},
     ],
 
