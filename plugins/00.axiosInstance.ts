@@ -75,7 +75,7 @@ export default defineNuxtPlugin(() => {
         stop();
         return response
     }, (error) => {
-        if (error.response.status === 401) {
+        if (error?.response?.status === 401) {
             return navigateTo('/login')
         }
         stop();
@@ -108,7 +108,7 @@ export default defineNuxtPlugin(() => {
             // response._data = new myBusinessResponse(response._data)
         },
         onResponseError({response}) {
-            if (response.status === 401) {
+            if (response?.status === 401) {
                 return navigateTo('/login')
             }
             stop();
