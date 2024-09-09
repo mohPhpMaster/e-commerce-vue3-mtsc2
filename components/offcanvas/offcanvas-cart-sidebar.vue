@@ -64,9 +64,8 @@
         </div>
       </div>
       <div v-if="cartStore.cart_products?.length > 0" class="cartmini__checkout">
-        <div class="cartmini__checkout-title mb-30">
-          <h4>{{ $t('Subtotal:') }}</h4>
-          <span>{{ currency(cartStore.totalPriceQuantity.total) }}</span>
+        <div class="cartmini__checkout-title mb-30"
+             v-html="$t('Subtotal: :value', { value: currency(cartStore?.totalPriceQuantity?.total) })">
         </div>
         <div class="cartmini__checkout-btn">
           <nuxt-link

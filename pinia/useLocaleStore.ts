@@ -30,12 +30,12 @@ export const useLocaleStore = defineStore('locale', () => {
             ..._locales,
             ...i18n().value.locales,
         ].filter((l) => {
-            if ($_locales.includes(l?.iso || l.name))
+            if ($_locales.includes(l?.iso || l?.language || l.name))
             {
                 return false;
             }
 
-            $_locales.push(l?.iso || l.name);
+            $_locales.push(l?.iso || l?.language || l.name);
             return true;
         });
     };
@@ -49,7 +49,8 @@ export const useLocaleStore = defineStore('locale', () => {
     };
 
     const selectedLanguageIso = (): string => {
-        return locales().find((l) => l.code === locale())?.iso;
+        let $locale =  locales().find((l) => l.code === locale());
+        return $locale?.iso || $locale?.language;
     };
 
     const selectedLocale = () => {

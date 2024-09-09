@@ -192,7 +192,7 @@
 				& > a{
 					color: var(--tp-common-white);
                     &::before{
-                        visibility: visible;
+                        visibility: hidden;
                         opacity: 1;
                     }
 					&::after{

@@ -104,7 +104,7 @@
   "Enter coupon code": "ادخل كود الخصم",
   "Apply": "تطبيق",
   "Clear Cart": "إفراغ السلة",
-  "Subtotal:": ":المجموع الفرعي",
+  "Subtotal: :value": "المجموع الفرعي: {value}",
   "Subtotal": "المجموع الفرعي",
   "Shipping": "الشحن",
   "Total": "المجموع",

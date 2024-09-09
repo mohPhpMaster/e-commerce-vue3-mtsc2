@@ -27,7 +27,8 @@
 				&.current{
 					background: var(--tp-theme-primary);
 					border-color: var(--tp-theme-primary);
-					color: var(--tp-common-white);
+					color: var(--tp-common-white) !important;
+					//color: var(--tp-hover-color) !important;
 				}
 
 				& svg{

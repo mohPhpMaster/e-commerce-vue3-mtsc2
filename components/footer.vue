@@ -76,7 +76,11 @@
                                   </span>
                               </div>
                               <div class="tp-footer-contact-content">
-                                  <p><nuxt-link :href="$settings?.address_url" target="_blank" v-html="$settings?.address"/></p>
+                                  <p><nuxt-link
+		                                  :href="$settings?.address_url"
+		                                  target="_blank"
+		                                  v-html="$settings?.address"
+                                  /></p>
                               </div>
                             </div>
                         </div>
@@ -91,9 +95,16 @@
             <div class="tp-footer-bottom-wrapper">
                 <div class="row align-items-center">
                   <div class="col-md-6">
-                      <div v-if="$settings.siteCopyRight" class="tp-footer-copyright" v-html="$settings.siteCopyRight"></div>
+                      <div
+		                      v-if="$settings.siteCopyRight"
+		                      class="tp-footer-copyright"
+		                      v-html="$settings.siteCopyRight"
+                      ></div>
                       <div v-else class="tp-footer-copyright">
-                        <p>© 2024 All Rights Reserved  |  By <a href="https://mtsc.tech/" target="_blank">Modern Technology Solution Company</a>.</p>
+                        <p>© 2024 All Rights Reserved  |  By <a
+		                        href="https://mtsc.tech/"
+		                        target="_blank"
+                        >Modern Technology Solution Company</a>.</p>
                       </div>
                   </div>
                   <div class="col-md-6">
@@ -114,7 +125,13 @@
 <script lang="ts" setup>
 const {settings} = useSiteSettings();
 
-const cssStyle = () =>`
+const cssStyle = () => `
+	a:focus,
+	a:hover{
+		color: var(--tp-hover-color) !important;
+		text-decoration: none;
+	}
+
 	.tp-footer-area {
 		background-color: var(--tp-footer-bg-color) !important;
 	}

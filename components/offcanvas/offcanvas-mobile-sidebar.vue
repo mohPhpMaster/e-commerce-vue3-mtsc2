@@ -17,7 +17,7 @@
         >
           <div class="offcanvas__logo logo">
             <nuxt-link href="/">
-              <img alt="logo" src="/images/logo/logo.svg" />
+              <img alt="logo" :src="$settings?.logo" class="site-logo">
             </nuxt-link>
           </div>
         </div>
@@ -96,3 +96,9 @@ const handleToggleActive = (type: string) => {
 	}
 };
 </script>
+
+<style lang="scss" scoped>
+.site-logo {
+	height: 72px;
+}
+</style>

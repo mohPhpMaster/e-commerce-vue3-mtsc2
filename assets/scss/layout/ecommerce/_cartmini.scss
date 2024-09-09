@@ -89,6 +89,7 @@
     &__area{
         position: fixed;
         right: 0;
+        //left: initial;
         top: 0;
         width: 320px;
         height: 100%;
@@ -104,6 +105,15 @@
         }
         &.cartmini-opened{
             @include transform(translateX(0));
+        }
+
+        @media(max-width: 512px) {
+            width: 100%;
+        }
+
+        @include rtl {
+            right: initial;
+            //left: 0;
         }
     }
     &__wrapper{
@@ -128,6 +138,10 @@
 		position: absolute;
 		top: 17px;
 		right: 0;
+        @include rtl {
+            left: 0;
+            right: auto;
+        }
 		&-btn{
 			background: transparent;
 			color: var(--tp-common-black);
@@ -239,6 +253,10 @@
         position: absolute;
         top: 15px;
         right: 0;
+        @include rtl {
+            left: 0;
+            right: auto;
+        }
         width: 25px;
         height: 25px;
         line-height: 25px;

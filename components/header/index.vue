@@ -33,7 +33,7 @@
                       </div>
                   </div>
 	                <!-- category start -->
-                  <header-top-categories :categories="topCategories" :is-active="isActive"></header-top-categories>
+                  <header-top-categories :categories="topCategories" :is-active="isActive" @toggle="handleActive"></header-top-categories>
 	                <!-- category end -->
                 </div>
                 <div class="col-xxl-4 col-xl-6 d-none d-xl-block">
@@ -138,8 +138,9 @@ const {data: topCategories, pending, error, refresh} = useLazyAsyncData('topCate
 let isActive = ref<boolean>(false);
 let searchText = ref<string>(route?.query?.searchText);
 
-// handle active
-const handleActive = () => isActive.value = !isActive.value;
+const handleActive = () => {
+	return isActive.value = !isActive.value;
+};
 
 const cartStore = useCartStore();
 const wishlistStore = useWishlistStore();

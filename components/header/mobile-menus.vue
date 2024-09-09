@@ -16,7 +16,7 @@
               <i class="fa-regular fa-angle-right"></i>
             </button>
           </a>
-          <ul :class="`tp-submenu ${isActiveMenu === menu.title ? 'active':''}`">
+          <ul :class="`tp-submenu pe-3 ${isActiveMenu === menu.title ? 'active':''}`">
             <li v-for="(subMenu, i) in menu.dropdown_menus" :key="i">
               <nuxt-link :to="subMenu.link">{{ subMenu.title }}</nuxt-link>
             </li>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loadingStatus()" class="loading-overlay">
+  <div v-if="loadingStatus()" class="loading-overlay" :style="`background: var(--tp-navbar-bg-color) url(${$settings?.logo}) no-repeat bottom;`">
     <div class="spinner-sm d-block d-md-none" />
     <div class="spinner d-none d-md-block" />
   </div>
@@ -36,7 +36,8 @@ if (props.disabled) {
 	align-items: center;
 	z-index: 9999;
 	flex-direction: column;
-	background: #678E61 url(/images/logo/logo.svg) no-repeat bottom;
+	background-color: var(--tp-navbar-bg-color);
+	background-size: auto 72px !important;
 	opacity: .8;
 }
 
@@ -71,8 +72,8 @@ if (props.disabled) {
 	height: 18px;
 	box-sizing: border-box;
 	border: solid 2px transparent;
-	border-top-color: #000;
-	border-left-color: #000;
+	border-top-color: var(--tp-hover-color);
+	border-left-color: var(--tp-hover-color);
 	border-bottom-color: #efefef;
 	border-right-color: #efefef;
 	border-radius: 50%;

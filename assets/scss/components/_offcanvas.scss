@@ -57,10 +57,18 @@
         position: absolute;
         top: 25px;
         right: 20px;
+        @include rtl {
+            left: 20px;
+            right: auto;
+        }
 
         @media #{$xs}{
             right: 20px;
             top: 20px;
+            @include rtl {
+                left: 20px;
+                right: auto;
+            }
         }
         &-btn{
             display: inline-block;
@@ -543,15 +551,18 @@
             }
             &::after{
                 position: absolute;
-                content: '\f107';
+                content: '\f105';
                 right: 0;
-                top: 50%;
-                @include transform(translateY(-50%));
                 color: var(--tp-text-2);
                 font-size: 14px;
                 font-family: var(--tp-ff-fontawesome);
                 @extend %tp-transition;
+            }
 
+            &:is(.opened) {
+                &::after {
+                    @include transform(rotate(90deg));
+                }
             }
         }
         &-wrapper{
@@ -917,12 +928,26 @@
     position: relative;
     width: 100%;
     text-align: left;
+    @include rtl {
+        text-align: right;
+    }
     background-color: var(--tp-theme-primary);
     padding: 10px 20px;
+
+    &.active {
+        &::after {
+            @include transform(rotate(90deg));
+            top: auto;
+        }
+    }
     &::after{
+        content: '\f105';
         position: absolute;
-        content: '\f107';
         right: 20px;
+        @include rtl {
+            left: 20px;
+            right: auto;
+        }
         top: 50%;
         @extend %translateY1_2;
         font-size: 16px;
@@ -932,5 +957,9 @@
     & i{
         margin-right: 14px;
         font-size: 16px;
+        @include rtl {
+            margin-left: 14px;
+            margin-right: auto;
+        }
     }
 }

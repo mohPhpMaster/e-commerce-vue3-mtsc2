@@ -83,6 +83,9 @@ useHead({
 	--tp-category-title-color: ${settings?.categoryTitleColor || 'var(--tp-heading-primary)'} !important;
 	--tp-category-title-bg-color: ${settings?.categoryTitleBackground || 'initial'} !important;
 }
+.dropdown-menu {
+	--bs-dropdown-link-active-bg: ${settings?.primaryColor || '#0d6efd'} !important;
+}
 `
 		},
 	],

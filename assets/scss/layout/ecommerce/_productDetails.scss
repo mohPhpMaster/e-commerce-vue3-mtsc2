@@ -478,9 +478,11 @@
             @include tp-transition(all, .2s, linear);
 
             &:hover{
-                background-color: var(--tp-theme-primary);
-                border-color: var(--tp-theme-primary);
-                color: var(--tp-common-white);
+                //color: var(--tp-common-white);
+                //background-color: var(--tp-theme-primary);
+                //border-color: var(--tp-theme-primary);
+                color: var(--tp-hover-color) !important;
+                background-color: rgba(0, 0, 0, 0.09) !important;
             }
         }
     }

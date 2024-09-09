@@ -176,6 +176,12 @@ export const useCartStore = defineStore("cart_product", () => {
 
     // remover_cart_products
     const removeCartProduct = (payload: IProduct | ICartItem) => {
+        let _status_modal = cart_modal_status.value;
+        let _status_offcanvas = cartOffcanvas.value;
+
+        closeCart();
+        cartOffcanvas.value = false;
+
         swal({
             title: t("Are you sure?"),
             text: t("You won't be able to revert this!"),
@@ -190,6 +196,17 @@ export const useCartStore = defineStore("cart_product", () => {
                     toast.error(`${toolsService.parseProductName(payload, true)} removed from cart`);
                 }
             })
+            .then(() => {
+                if (_status_modal)
+                {
+                    openCart()
+                }
+
+                if (_status_offcanvas)
+                {
+                    handleCartOffcanvas();
+                }
+            });
     };
 
     // cart product initialize

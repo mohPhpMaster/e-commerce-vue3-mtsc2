@@ -33,7 +33,12 @@ export function convertSiteSettingsResponse(settings: ISiteSettingsResponse): IS
         facebook: settings?.facebook || '',
         twitter: settings?.twitter || '',
         instagram: settings?.instagram || '',
-        locales: settings?.locales || [],
+        locales: (settings?.locales || []).map((l: ILocale) => {
+            return {
+                ...l,
+                language: l?.iso || l?.language
+            };
+        }),
         locale: settings?.locale || '',
         address: settings?.address || '',
         address_url: settings?.address_url || '',

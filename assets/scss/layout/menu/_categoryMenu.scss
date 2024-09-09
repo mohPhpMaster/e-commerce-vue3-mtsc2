@@ -279,6 +279,10 @@
                 position: relative;
                 padding: 10px 0;
                 padding-right: 20px;
+                @include rtl {
+                    padding-left: 20px;
+                    padding-right: 0;
+                }
                 & svg{
                     @extend %tp-svg-y-2;
                     margin-right: 3px;
@@ -370,6 +374,10 @@
                     & .dropdown-toggle-btn{
                         position: absolute;
                         right: 0;
+                        @include rtl {
+                            left: 0;
+                            right: auto;
+                        }
                         top: 50%;
                         @extend %translateY1_2;
                         font-size: 16px;

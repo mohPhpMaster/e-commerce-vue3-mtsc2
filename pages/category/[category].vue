@@ -23,7 +23,7 @@ const {updateSlugOnLocale} = useNuxtApp().$settings;
 
 function setTitle(p) {
 	if (p && Object.keys(p).length) {
-		console.log(26, p)
+
 		nextTick(function () {
 			useSeoMeta({
 				title: title(toolsService.parseCategoryName(p), route.query?.page),

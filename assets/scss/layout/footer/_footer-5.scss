@@ -11,11 +11,12 @@
             &-social{
                 & a{
                     border-radius: 50%;
-                    color: #010F1C;
+                    color: var(--tp-theme-primary) !important;
                     &:hover{
-                        background-color: var(--tp-theme-green);
-                        border-color: var(--tp-theme-green);
-                        color: var(--tp-common-white);
+                        background-color: var(--tp-theme-primary);
+                        border-color: var(--tp-theme-primary);
+                        color: var(--tp-common-white) !important;
+                        //color: var(--tp-hover-color) !important;
                     }
                 }
             }

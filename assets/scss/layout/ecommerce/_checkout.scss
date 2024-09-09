@@ -50,7 +50,7 @@
         text-align: center;
         &:hover{
             background-color: var(--tp-common-black);
-            color: var(--tp-common-white);
+            color: var(--tp-common-white) !important;
         }
     }
     &-input{

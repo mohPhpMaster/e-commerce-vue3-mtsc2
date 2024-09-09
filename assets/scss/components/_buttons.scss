@@ -7,10 +7,10 @@
 .#{$theme-prifix}-btn{
 	font-weight: 400;
 	font-size: 16px;
-	color: var(--tp-common-white);
 	display: inline-block;
 	padding: 9px 48px;
 	border-radius: 24px;
+	color: var(--tp-common-white);
 	background-color: var(--tp-theme-primary);
 
 	&:hover{
