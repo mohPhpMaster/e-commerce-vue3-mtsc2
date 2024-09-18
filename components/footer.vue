@@ -14,7 +14,9 @@
                         </div>
                         <p class="tp-footer-desc" v-html="$settings?.siteDescription" />
 
-                        <site-social-links />
+												<div class="tp-footer-social">
+													<site-social-links />
+												</div>
 
 	                      <language-selector />
                       </div>

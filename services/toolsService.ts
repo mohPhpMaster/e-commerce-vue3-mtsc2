@@ -3,6 +3,10 @@ import type {IMenuItem} from "@/types/menu-d-t";
 import type {IDropdownMenu} from "@/types/dropdown-menu-d-t";
 import type {TCategory, TCategoryResponse} from "@/types/category-t";
 import type {TBrand, TBrandResponse} from "@/types/brand-t";
+import type {IUserOrder} from "@/types/user-order-d-t";
+import type {IUserOrderResponse} from "@/types/user-order-response-d-t";
+import type {IUserAddresses} from "@/types/user-addresses-d-t";
+import type {IUserAddressesResponse} from "@/types/user-addresses-response-d-t";
 
 const idKey = ["slug", "sku"];
 
@@ -115,6 +119,12 @@ export default {
     gotoProduct(product: IProduct): void {
         useRouter().push(this.getProductUrl(product));
     },
+    gotoOrder(order: IUserOrder): void {
+        useRouter().push(this.getOrderUrl(order));
+    },
+    gotoUserAddress(obj: IUserAddresses): void {
+        useRouter().push(this.getUserAddressUrl(obj));
+    },
     getProductReviewUrl(product: IProduct): string {
         return `/products/${product.id}/reviews`;
     },
@@ -135,6 +145,18 @@ export default {
     },
     getBrandUrl(brand: TBrand|TBrandResponse): string {
         return `/brand/${this.parseId(brand, brand?.slug)}`;
+    },
+    getOrderUrl(order: IUserOrder|IUserOrderResponse): string {
+        return `/order/${order?.id}`;
+    },
+    getInvoiceUrl(order: IUserOrder|IUserOrderResponse): string {
+        return `/invoice/${order?.id}`;
+    },
+    getOrderUrlByStatus(order: IUserOrder|IUserOrderResponse): string {
+        return order?.status === 'done' ? this.getOrderUrl(order) : this.getInvoiceUrl(order);
+    },
+    getUserAddressUrl(obj: IUserAddresses|IUserAddressesResponse): string {
+        return `/address/${obj?.id}`;
     },
     getDefaultNoImageUrl(): string {
         return useRuntimeConfig()?.public?.noImageUrl || "";

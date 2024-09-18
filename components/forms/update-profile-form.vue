@@ -4,7 +4,7 @@
         <div class="col-xxl-6 col-md-6">
             <div class="profile__input-box">
               <div class="profile__input">
-                  <input type="text" :placeholder="$t('Enter username')" v-model="user.username">
+                  <input type="text" :placeholder="$t('Username')" v-model="user.username">
                   <span>
                     <svg-user-3/>
                   </span>
@@ -15,7 +15,7 @@
         <div class="col-xxl-6 col-md-6">
             <div class="profile__input-box">
               <div class="profile__input">
-                  <input type="text" :placeholder="$t('Enter name')" v-model="user.name">
+                  <input type="text" :placeholder="$t('Name')" v-model="user.name">
                   <span>
                     <svg-user-3/>
                   </span>
@@ -26,7 +26,7 @@
         <div class="col-xxl-6 col-md-6">
             <div class="profile__input-box">
               <div class="profile__input">
-                  <input type="email" :placeholder="$t('Enter email')" v-model="user.email">
+                  <input type="email" :placeholder="$t('Email')" v-model="user.email">
                   <span>
                     <svg-email/>
                   </span>
@@ -55,21 +55,21 @@
         <div class="col-xxl-6 col-md-6">
             <div class="profile__input-box">
               <div class="profile__input">
-                  <input type="text" :placeholder="$t('Enter mobile')" v-model="user.mobile">
+                  <input type="text" :placeholder="$t('Phone')" v-model="user.mobile">
                   <span>
                     <svg-phone-2/>
                   </span>
               </div>
             </div>
         </div>
-        <div class="col-xxl-6 col-md-6">
+<!--        <div class="col-xxl-6 col-md-6">
             <div class="profile__input-box">
               <div class="profile__input">
                   <ui-nice-select
                   :options="[
                     { text: $t('Male'), value: 'male' },
                     { text: $t('Female'), value: 'female' },
-                    { text: $t('Others'), value: 'others' }
+                    { text: $t('Other'), value: 'other' }
                   ]"
                   name="gender"
                   :default-current="0"
@@ -78,11 +78,11 @@
                 />
               </div>
             </div>
-        </div>
+        </div>-->
         <div class="col-xxl-12">
             <div class="profile__input-box">
               <div class="profile__input">
-                  <input type="text" :placeholder="$t('Enter address')" v-model="user.address">
+                  <input type="text" :placeholder="$t('Address')" v-model="user.address">
                   <span>
                     <svg-address/>
                   </span>
@@ -93,7 +93,7 @@
         <div class="col-xxl-12">
             <div class="profile__input-box">
               <div class="profile__input">
-                  <textarea :placeholder="$t('Enter bio')" v-model="user.bio"></textarea>
+                  <textarea :placeholder="$t('Bio')" v-model="user.bio"></textarea>
               </div>
             </div>
         </div>

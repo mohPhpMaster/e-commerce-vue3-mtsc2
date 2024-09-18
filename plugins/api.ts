@@ -15,6 +15,8 @@ import siteSettingsData from "@/plugins/data/site-settings-data";
 import cartFeesData from "@/plugins/data/cart-fees-data";
 import userAddressesData from "@/plugins/data/user-addresses-data";
 import topCategoryData from "@/plugins/data/top-category-data";
+import contactUsData from "@/plugins/data/contact-us-data";
+import userOrdersData from "@/plugins/data/user-orders-data";
 
 export const api = {
     menuData,
@@ -34,6 +36,8 @@ export const api = {
     cartFeesData,
     userAddressesData,
     topCategoryData,
+    contactUsData,
+    userOrdersData,
 };
 
 export default defineNuxtPlugin(() => {

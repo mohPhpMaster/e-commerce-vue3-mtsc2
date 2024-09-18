@@ -3,6 +3,7 @@ export * from "./convertCategoryFilterResponse";
 export * from "./convertBrandFilterResponse";
 export * from "./topCategories";
 export * from "./scrollToTop";
+export * from "./devRefresh";
 
 export const getLocaleIso = (): string => {
     return useLocaleStore().selectedLanguageIso();

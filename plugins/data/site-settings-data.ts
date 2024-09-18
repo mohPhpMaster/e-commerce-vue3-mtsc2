@@ -41,7 +41,7 @@ export function convertSiteSettingsResponse(settings: ISiteSettingsResponse): IS
         }),
         locale: settings?.locale || '',
         address: settings?.address || '',
-        address_url: settings?.address_url || '',
+        address_url: settings?.google_map_url || '',
         footerBackground: settings?.footer_color || '',
         footerColor: settings?.footer_text_color || '',
         hoverColor: settings?.hover_color || '',

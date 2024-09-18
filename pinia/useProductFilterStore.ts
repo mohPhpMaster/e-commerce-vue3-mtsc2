@@ -12,7 +12,7 @@ export const useProductFilterStore = defineStore("product_filter", () => {
 
     const product_data = ref<IProduct[]>(productStore?.product_data || []);
     // todo: what max value should be?
-    const maxProductPrice = computed(() => 50000);
+    const maxProductPrice = computed(() => 10000000);
 
     const defaultSortingOption = ref<string>("");
     const sortingOption = ref<string>(defaultSortingOption.value);
@@ -75,22 +75,29 @@ export const useProductFilterStore = defineStore("product_filter", () => {
     const fetchRouterProductStatus = () => {
         let q = router.currentRoute.value?.query;
 
-        if (q.hasOwnProperty('status')) {
-            productStatus.value = Number(q.status);
-        }
+        productStatus.value = q.hasOwnProperty('status') ? Number(q.status) : defaultProductStatusOption.value;
 
         return productStatus.value;
     };
     const handleProductStatusFilter = () => {
+        let query = {
+            ...router.currentRoute.value?.query,
+            status: productStatus.value,
+        };
+        if (productStatus.value == null) {
+            delete query.status;
+        }
+
         router.push({
-            query: {
-                ...router.currentRoute.value?.query,
-                status: productStatus.value,
-            }
+            query
         })
     };
     const handleProductStatusChange = (e: number | null) => {
-        productStatus.value = e;
+        if (productStatus.value !== e) {
+            productStatus.value = e;
+        } else {
+            productStatus.value = null;
+        }
 
         return productStatus.value;
     };
@@ -104,9 +111,7 @@ export const useProductFilterStore = defineStore("product_filter", () => {
     const fetchRouterProductCategory = () => {
         let q = router.currentRoute.value?.query;
 
-        if (q.hasOwnProperty('category')) {
-            productCategory.value = Number(q.category);
-        }
+        productCategory.value = q.hasOwnProperty('category') ? Number(q.category) : defaultProductCategory.value;
 
         return productCategory.value;
     };
@@ -133,9 +138,7 @@ export const useProductFilterStore = defineStore("product_filter", () => {
     const fetchRouterProductBrand = () => {
         let q = router.currentRoute.value?.query;
 
-        if (q.hasOwnProperty('brand')) {
-            productBrand.value = Number(q.brand);
-        }
+        productBrand.value = q.hasOwnProperty('brand') ? Number(q.brand) : defaultProductBrand.value;
 
         return productBrand.value;
     };
@@ -172,17 +175,12 @@ export const useProductFilterStore = defineStore("product_filter", () => {
             }
         })
     };
-    const fetchRouterPriceValues = () => {
-        let q = router.currentRoute.value?.query;
+    const fetchRouterPriceValues = (_q = undefined) => {
+        let q = _q || router.currentRoute.value?.query;
         let v: [number, number] = [...priceValues.value];
 
-        if (q.hasOwnProperty('minPrice')) {
-            v[0] = Number(q.minPrice);
-        }
-
-        if (q.hasOwnProperty('maxPrice')) {
-            v[1] = Number(q.maxPrice);
-        }
+        v[0] = q.hasOwnProperty('minPrice') ? Number(q.minPrice) : 0;
+        v[1] = q.hasOwnProperty('maxPrice') ? Number(q.maxPrice) : maxProductPrice.value;
 
         priceValues.value = v;
 

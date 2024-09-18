@@ -11,15 +11,15 @@
           <div class="col-xl-6 col-lg-8">
               <div class="tp-login-wrapper">
                 <div class="tp-login-top text-center mb-30">
-                    <h3 class="tp-login-title">{{$t('Sign Up')}}.</h3>
-                    <p>{{ $t('Already have an account?') }}  <span><nuxt-link href="/login">{{$t('Sign In')}}</nuxt-link></span></p>
+                    <h3 class="tp-login-title">{{$t('Sign up')}}.</h3>
+                    <p>{{ $t('Already have an account?') }}  <span><nuxt-link href="/login">{{$t('Sign in')}}</nuxt-link></span></p>
                 </div>
                 <div class="tp-login-option">
                   <!-- login social start -->
                   <login-social/>
                   <!-- login social end -->
                     <div class="tp-login-mail text-center mb-40">
-                      <p>{{$t('or Sign up with')}} <a href="#">Email</a></p>
+                      <p>{{$t('or Sign in with')}} <a href="#">Email</a></p>
                     </div>
                     <!-- form start -->
                     <forms-register-form/>

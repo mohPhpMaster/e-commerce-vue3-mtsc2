@@ -17,7 +17,7 @@
                   </div>
                   <div class="profile__main-content">
                     <h4 class="profile__main-title">{{ $t("Welcome :username!", {username: user.name}) }}</h4>
-	                  <p>{{ $t('You have ') }}<span>{{ user.notifications?.length || 0 }}</span>{{ $t(' notifications') }}</p>
+	                  <p>{{ $t('You have :count notifications', {count: user.notifications?.length || 0 }) }}</p>
                   </div>
               </div>
             </div>

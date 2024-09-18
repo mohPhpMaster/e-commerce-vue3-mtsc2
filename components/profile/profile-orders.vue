@@ -1,44 +1,58 @@
 <template>
  <div class="profile__ticket table-responsive">
-  <table class="table">
+  <table class="table text-center">
     <thead>
         <tr>
-          <th scope="col">Order Id</th>
-          <th scope="col">Product Title</th>
-          <th scope="col">Status</th>
-          <th scope="col">View</th>
+          <th scope="col" class="text-center">{{ $t('Order Id') }}</th>
+          <th scope="col" class="text-center">{{ $t('Date') }}</th>
+          <th scope="col" class="text-center">{{ $t('Total') }}</th>
+          <th scope="col" class="text-center">{{ $t('Status') }}</th>
+          <th scope="col" class="text-center">{{ $t('Action') }}</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-          <th scope="row"> #2245</th>
-          <td data-info="title">How can i share ?</td>
-          <td data-info="status pending">Pending </td>
-          <td><a href="#" class="tp-logout-btn">Invoice</a></td>
-        </tr>
-        <tr>
-          <th scope="row"> #2220</th>
-          <td data-info="title">Send money, but not working</td>
-          <td data-info="status reply">Cancel</td>
-          <td><a href="#" class="tp-logout-btn">Reply</a></td>
-        </tr>
-        <tr>
-          <th scope="row"> #2125</th>
-          <td data-info="title">Balance error</td>
-          <td data-info="status done">Resolved</td>
-          <td><a href="#" class="tp-logout-btn">Invoice</a></td>
-        </tr>
-        <tr>
-          <th scope="row"> #2124</th>
-          <td  data-info="title">How to decline bid</td>
-          <td data-info="status hold">On Hold</td>
-          <td><a href="#" class="tp-logout-btn">Status</a></td>
+        <tr v-for="order in data" :key="order.id">
+          <th scope="row" class="text-center">{{ order.id }}</th>
+          <td data-info="title">{{ order.date }}</td>
+          <td data-info="title">{{ currency(order.total) }}</td>
+          <td :data-info="orderStatusDataInfo?.[order.status] || ''">{{ $t(order.status) }}</td>
+          <td><a class="tp-logout-btn" :href="toolsService.getOrderUrlByStatus(order)">{{ $t('View') }}</a></td>
         </tr>
     </tbody>
   </table>
 </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
+import {api} from "@/plugins/api";
+import toolsService from "@/services/toolsService";
+import currency from "@/services/currencyService";
+/*
+status done done
+status pending pending
+status reply canceled
+status hold new
+ */
+const orderStatusDataInfo = {
+	pending: 'status pending',
+	done: 'status done',
+	canceled: 'status reply',
+	new: 'status hold',
+}
+const {data, pending, error, execute} = useLazyAsyncData(
+		'user-orders',
+		() => {
+			return api.userOrdersData();
+		}, {
+			// watch: [$route],
+			immediate: false
+		});
 
+await execute();
+
+onMounted(() => {
+	/**
+	 * todo
+	 */
+})
 </script>

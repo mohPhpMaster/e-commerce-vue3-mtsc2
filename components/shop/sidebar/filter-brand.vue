@@ -1,23 +1,20 @@
 <template>
   <div class="tp-shop-widget-content" v-if="!brand_pending">
-    <div class="tp-shop-widget-brand-list d-flex justify-content-start flex-wrap">
-      <div
-		      v-for="item in (brand_data as IBrandFilter[])"
-		      :key="item?.id"
-		      :class="{ 'tp-shop-widget-brand-item-selected': isActiveQuery(item) }"
-		      class="tp-shop-widget-brand-item"
-      >
-        <nuxt-link :href="toolsService.getBrandUrl(item)" @click.prevent="handleBrandRoute(item?.id)">
-	        <img
-			        v-if="item?.imageUrl"
-			        :src="item?.imageUrl"
-			        :title="toolsService.parseBrandName(item)"
-			        alt="brand image"
-			        class="ms-3"
-	        />
-	        <span v-else>{{ toolsService.parseBrandName(item) }}</span>
-        </nuxt-link>
-      </div>
+    <div class="tp-shop-widget-categories">
+      <ul>
+        <li v-for="brand in (brand_data as IBrandFilter[])" :key="brand?.id">
+          <a
+		          :class="{
+								active: isActiveQuery(brand)
+							}"
+		          class="pointer"
+		          :href="toolsService.getBrandUrl(brand)"
+		          @click.prevent="store.handleProductBrandChangeAndFilter(brand?.id)"
+          >
+            {{ toolsService.parseBrandName(brand) }}
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 	<loading-skeleton v-else />
@@ -25,10 +22,10 @@
 
 <script lang="ts" setup>
 import {useProductFilterStore} from "@/pinia/useProductFilterStore";
+import toolsService from "@/services/toolsService";
 import {$axios} from "@/plugins/00.axiosInstance";
 import type {IBrandFilter} from "@/types/brand-filter-d-t";
 import type {TBrandFilter} from "@/types/brand-t";
-import toolsService from "@/services/toolsService";
 
 const store = useProductFilterStore();
 const router = useRouter();
@@ -37,8 +34,6 @@ const activeQuery = ref(store.productBrand);
 
 const isActiveQuery = (brand: TBrandFilter) => activeQuery.value === brand?.id;
 const currentPath = computed(() => router.currentRoute.value.path);
-
-const handleBrandRoute = (value: number) => store.handleProductBrandChangeAndFilter(value);
 
 const {
 	data: brand_data,
@@ -52,13 +47,15 @@ const {
 				.then(res => (res?.data?.data || []).map(convertBrandFilterResponse))
 				.then((data): IBrandFilter[] => (!data || data?.length === 0) ? [] : data),
 		{
-			watch: [currentPath],
-			immediate: true
+			watch: [ currentPath ],
+			immediate: false
 		}
 );
 
+await brand_execute();
+
 const fetchRouterProductBrand = () => {
-	store.fetchRouterProductBrand();
+	store.fetchRouterProductBrand()
 	activeQuery.value = store.productBrand;
 };
 

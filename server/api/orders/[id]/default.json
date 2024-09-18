@@ -1,0 +1,10 @@
+{
+  "data": {
+    "id": 1,
+    "status": "pending",
+    "date": "2021-08-01 10:00 am",
+    "total": 10.5
+  },
+  "status": "success",
+  "message": "order retrieved successfully"
+}

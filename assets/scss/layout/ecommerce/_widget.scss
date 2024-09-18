@@ -159,8 +159,7 @@
     &-categories{
         // height: 288px;
         height: 210px;
-        overflow-y: scroll;
-        overflow-y: scroll;
+        overflow-y: auto;
         overscroll-behavior-y: contain;
         scrollbar-width: thin;
         padding-right: 10px;

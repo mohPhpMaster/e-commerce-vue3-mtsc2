@@ -13,7 +13,7 @@ export interface ISiteSettingsResponse {
     twitter?: string; // footer
     instagram?: string; // footer
     address?: string; // footer
-    address_url?: string; // footer
+    google_map_url?: string; // footer
     keywords?: string; // seo
     description?: string; // seo
     phone?: string; // footer

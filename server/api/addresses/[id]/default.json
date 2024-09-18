@@ -1,0 +1,20 @@
+{
+  "data": {
+    "id": 1,
+    "label": "Home",
+    "country_id": 1,
+    "country": "Saudi arabia",
+    "province_id": 11,
+    "province": "Riyadh",
+    "city_id": 111,
+    "city": "Riyadh",
+    "neighborhood_id": 1111,
+    "neighborhood": "Yamamah",
+    "address": "123 Main St, Anytown, SA",
+    "long": "46.7064871",
+    "lat": "24.6051549",
+    "is_default": true
+  },
+  "status": "success",
+  "message": "user addresses retrieved successfully"
+}

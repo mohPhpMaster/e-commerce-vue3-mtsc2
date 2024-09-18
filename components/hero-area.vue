@@ -17,15 +17,43 @@ import {Carousel, Slide, Pagination, Navigation} from 'vue3-carousel/dist/carous
 import toolsService from "@/services/toolsService";
 import {$axios} from "@/plugins/00.axiosInstance";
 
+const route = useRoute()
+
 const {data: slides, pending, error, refresh} = useLazyAsyncData<string[]>('carousel', () =>
 		$axios.get('carousel').then(res => res?.data?.data)
 );
+
+// trying to fix a bug in carousel
+const isPending = () => {
+	return pending.value || useLoading().status() === true
+}
+
+const windowResizeTrigger = () => {
+	if (isPending()) {
+		setTimeout(windowResizeTrigger, 1000);
+	} else {
+		setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
+	}
+};
+
+onMounted(() => {
+	windowResizeTrigger()
+});
+
+watch(() => route.path, () => {
+	windowResizeTrigger()
+});
 </script>
 
 <style>
   .site-carousel {
 	  height: 400px;
+	  margin: 0;
   }
+
+	.carousel__track {
+		margin: 0;
+	}
 
   .carousel__item {
 	  min-height: 400px;

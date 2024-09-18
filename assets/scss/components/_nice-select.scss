@@ -12,17 +12,13 @@
 	clear: both;
 	cursor: pointer;
 	display: block;
-	float: left;
 	font-family: inherit;
 	font-size: 14px;
 	font-weight: normal;
 	height: 42px;
 	line-height: 40px;
 	outline: none;
-	padding-left: 18px;
-	padding-right: 30px;
 	position: relative;
-	text-align: left !important;
 	-webkit-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
 	-webkit-user-select: none;
@@ -31,6 +27,17 @@
 	user-select: none;
 	white-space: nowrap;
 	width: auto;
+    text-align: left !important;
+    float: left;
+    padding-left: 18px;
+    padding-right: 30px;
+
+    @include rtl {
+      text-align: right !important;
+      float: right;
+      padding-right: 18px;
+      padding-left: 30px;
+    }
 
     &:hover{
         border-color: #dbdbdb;
@@ -56,6 +63,11 @@
 		margin-top: 0;
 		transform-origin: center;
 		@include transform(translateY(-50%));
+
+        @include rtl {
+          left: 0;
+          right: auto;
+        }
 		
     }
 
@@ -95,9 +107,17 @@
     &.right{
         float: right;
 
+        @include rtl {
+          float: left;
+        }
+
         & .list{
             left: auto;
 	        right: 0;
+            @include rtl {
+              left: 0;
+              right: auto;
+            }
         }
     }
     
@@ -139,6 +159,11 @@
         -webkit-transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
         transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25), opacity 0.15s ease-out;
         z-index: 9;
+
+        @include rtl {
+          left: auto;
+          right: 0;
+        }
     }
 
     & .option{
@@ -153,6 +178,12 @@
         text-align: left;
         -webkit-transition: all 0.2s;
         transition: all 0.2s;
+
+        @include rtl {
+          padding-right: 18px;
+          padding-left: 29px;
+          text-align: right;
+        }
 
         &.selected{
             font-weight: bold;

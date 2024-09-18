@@ -51,8 +51,9 @@ export const socialLinks = {
     },
 };
 
-export function getSocialLinks(obj: TObject): TObject {
-    return objectOnly(obj, Object.keys(socialLinks));
+export function getSocialLinks(obj: TObject, except?: string[]): TObject {
+    let links = except ? Object.keys(socialLinks).filter((key) => !except.includes(key)) : Object.keys(socialLinks);
+    return objectOnly(obj, links);
 }
 
 export function toSocialLinks(obj: TObject): ISocialLink[] {

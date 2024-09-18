@@ -38,8 +38,6 @@ export default [
             {title: 'Register', link: '/register'},
             {title: 'Forgot', link: '/forgot'},
             {title: 'Profile', link: '/profile'},
-            {title: 'Invoice', link: '/invoice'},
-            {title: 'Order', link: '/order'},
             {title: 'Checkout', link: '/checkout'},
         ],
     },
@@ -64,6 +62,12 @@ export default [
         ITYPE: 'static-menu',
         id: 6,
         link: '/contact',
-        title: 'Contact',
+        title: 'Contact Us',
+    },
+    {
+        ITYPE: 'static-menu',
+        id: 7,
+        link: '/about',
+        title: 'About Us',
     },
 ];

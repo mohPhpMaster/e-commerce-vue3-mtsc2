@@ -32,13 +32,33 @@ export async function productData({
         search = search || '';
 
         const filterStore = useProductFilterStore();
-        let $category = filterStore.fetchRouterProductCategory() || "";
-        $category = $category ? `&category=${$category}` : '';
-        let $sortingOption = filterStore.fetchRouterSelectedSortingOption() || "";
-        $sortingOption = $sortingOption ? `&sorting=${$sortingOption}` : '';
+        let $filter_query = filterStore.fetchRouterProductCategory() || "";
+        $filter_query = $filter_query ? `&category=${$filter_query}` : '';
+        let $_filter_query = filterStore.fetchRouterSelectedSortingOption() || "";
+        $filter_query = $_filter_query ? `${$filter_query}&sorting=${$_filter_query}` : $filter_query;
+
+        $filter_query = ($_filter_query = filterStore.fetchRouterProductBrand() || "") ?
+            `${$filter_query}&brand=${$_filter_query}` : $filter_query;
+
+        if (($_filter_query = filterStore.fetchRouterProductStatus()) != undefined)
+        {
+            $filter_query = `${$filter_query}&status=${$_filter_query}`
+        }
+
+        if (($_filter_query = filterStore.fetchRouterPriceValues()))
+        {
+            if ($_filter_query[0])
+            {
+                $filter_query = `${$filter_query}&minPrice=${$_filter_query[0]}`;
+            }
+            if ($_filter_query[1] !== filterStore.maxProductPrice)
+            {
+                $filter_query = `${$filter_query}&maxPrice=${$_filter_query[1]}`;
+            }
+        }
 
         let url = `products`;
-        let url_suffix = `?page=${page}&query=${query}&search=${search}${$category}${$sortingOption}`;
+        let url_suffix = `?page=${page}&query=${query}&search=${search}${$filter_query}`;
         let converter: Function = (o: []) => o.map(x=>convertProductResponse(x));
 
         if (category) {

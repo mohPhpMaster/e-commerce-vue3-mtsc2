@@ -5,5 +5,8 @@
 </template>
 
 <script setup lang="ts">
-useSeoMeta({ title: "Contact Page" });
+const {title} = useSiteSettings();
+const {t} = useI18n();
+
+useSeoMeta({title: title(t("Contact Us"))});
 </script>

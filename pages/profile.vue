@@ -8,19 +8,11 @@
 
 <script setup lang="ts">
 import {useUserStore} from "@/pinia/useUserStore";
-import {api} from "@/plugins/api";
 
-useSeoMeta({ title: "Profile Page" });
+const {t} = useI18n();
+const {title} = useSiteSettings();
+useSeoMeta({title: t("Profile Page")});
 
 useUserStore().needUser();
 
-onMounted(()=>{
-	/**
-	 * todo
-	 */
-	api.userAddressesData()
-			.then((data) => {
-				console.log(19, {data})
-			})
-})
 </script>

@@ -36,9 +36,6 @@ const currentPath = computed(() => router.currentRoute.value.path);
 
 const {
 	data: category_data,
-	pending: category_pending,
-	error: category_error,
-	refresh: category_refresh,
 	execute: category_execute
 } = useLazyAsyncData(
 		`categories-filter`,
@@ -60,11 +57,11 @@ const fetchRouterProductCategory = () => {
 
 onMounted(() => {
 	fetchRouterProductCategory();
-})
+});
 
 watch(
 		() => route.query,
-		(n) => {
+		(n, o) => {
 			fetchRouterProductCategory();
 		}
 );

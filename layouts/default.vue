@@ -36,7 +36,7 @@
 
 <script lang="ts" setup>
 import {useLocaleStore} from "@/pinia/useLocaleStore";
-import {getArabicLocale} from "../utils";
+import {devRefresh, getArabicLocale} from "../utils";
 
 const {stop, status} = useLoading()
 const route = useRoute()
@@ -115,4 +115,8 @@ const isArabic = computed(() => [getArabicLocale()?.iso, getArabicLocale()?.code
 // 		if (rtlLink) rtlLink.remove();
 // 	}
 // });
+
+onMounted(() => {
+	devRefresh();
+})
 </script>

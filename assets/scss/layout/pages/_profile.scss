@@ -121,8 +121,8 @@
                 @include transform(translateY(-2px));
             }
         }
-        & input,
-        & textarea{
+        & input:not(.no-icon),
+        & textarea:not(.no-icon){
             width: 100%;
             height: 60px;
             line-height: 60px;

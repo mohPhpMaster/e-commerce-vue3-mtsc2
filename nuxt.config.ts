@@ -9,6 +9,7 @@ export default defineNuxtConfig({
           perPage: process.env.NUXT_ENV_PER_PAGE || 9,
           siteTitle: process.env.NUXT_ENV_SITE_TITLE || "Shop1",
           updateSlugOnLocale: process.env.NUXT_ENV_UPDATE_SLUG_ON_LOCALE || false,
+          googleMap: process.env.NUXT_ENV_GOOGLE_MAP || "",
       }
   },
 
@@ -120,7 +121,7 @@ export default defineNuxtConfig({
   ],
 
   devtools: {
-      enable: false
+    enable: false
   },
 
   ssr: true,

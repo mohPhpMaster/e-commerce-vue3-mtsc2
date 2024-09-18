@@ -1,5 +1,5 @@
 <template>
-  <section class="tp-shop-area pb-120" v-if="!pending">
+  <section class="tp-shop-area pb-120">
     <div class="container">
       <div class="row">
         <div class="col-xl-3 col-lg-4">
@@ -8,7 +8,7 @@
 	        <!-- shop sidebar end -->
         </div>
         <div class="col-xl-9 col-lg-8">
-          <div class="tp-shop-main-wrapper">
+          <div class="tp-shop-main-wrapper" v-if="!pending">
             <div class="tp-shop-top mb-45">
               <div class="row">
                 <div class="col-xl-6">
@@ -105,11 +105,11 @@
               </div>
             </div>
           </div>
+					<loading-skeleton v-else />
         </div>
       </div>
     </div>
   </section>
-	<loading-skeleton v-else />
 </template>
 
 <script lang="ts" setup>

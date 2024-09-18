@@ -21,24 +21,24 @@
               <div class="col-xxl-8 col-lg-8">
                   <div class="profile__tab-content">
                     <div class="tab-content" id="profile-tabContent">
-                        <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+				                <div class="tab-pane fade" :class="{ 'active show': ['#profile', '#', ''].includes($route.hash) }" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                           <profile-main :loading="loading" @logout="logout" :user="userStore?.user" />
                         </div>
-                        <div class="tab-pane fade" id="nav-information" role="tabpanel" aria-labelledby="nav-information-tab">
+				                <div class="tab-pane fade" :class="{ 'active show': $route.hash === '#information' }" id="nav-information" role="tabpanel" aria-labelledby="nav-information-tab">
                           <profile-info/>
                         </div>
-                        <div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
+				                <div class="tab-pane fade" :class="{ 'active show': $route.hash === '#password' }" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
                           <profile-password/>
                         </div>
-                        <div class="tab-pane fade" id="nav-address" role="tabpanel" aria-labelledby="nav-address-tab">
+				                <div class="tab-pane fade" :class="{ 'active show': $route.hash === '#address' }" id="nav-address" role="tabpanel" aria-labelledby="nav-address-tab">
                           <profile-address/>
                         </div>
-                        <div class="tab-pane fade" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
+				                <div class="tab-pane fade" :class="{ 'active show': $route.hash === '#order' }" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
                           <profile-orders/>
                         </div>
-                        <div class="tab-pane fade" id="nav-notification" role="tabpanel" aria-labelledby="nav-notification-tab">
-                          <profile-notification/>
-                        </div>
+<!--                        <div class="tab-pane fade" id="nav-notification" role="tabpanel" aria-labelledby="nav-notification-tab">-->
+<!--                          <profile-notification/>-->
+<!--                        </div>-->
                     </div>
                   </div>
               </div>

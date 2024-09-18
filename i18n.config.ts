@@ -10,8 +10,10 @@ export default defineI18nConfig(async (nuxtApp) => {
         // translations
         messages: {
             "en": {
+                "Error Page": "Error"
             },
             "ar": {
+                "Error Page": "خطأ"
             },
         },
     };

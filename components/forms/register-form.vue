@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="tp-login-bottom">
-      <button :disabled="loading" type="submit" class="tp-login-btn w-100">{{ $t('Sign Up') }}</button>
+      <button :disabled="loading" type="submit" class="tp-login-btn w-100">{{ $t('Sign up') }}</button>
     </div>
   </form>
 </template>
