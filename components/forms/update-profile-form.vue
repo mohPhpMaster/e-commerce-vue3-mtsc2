@@ -167,6 +167,7 @@ const onSubmit = () => {
 	})
 			.then(response => {
 				toast.success(t('Profile updated successfully'));
+				// todo: complete it after api finish
 				console.log(166, response.data);
 				_photo.value = null;
 				userStore.refresh();
