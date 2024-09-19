@@ -1,13 +1,16 @@
 <template>
   <div v-if="!pending && brand">
-	  <!-- breadcrumb start -->
+		<img
+				v-if="brand?.imageUrl"
+				:src="brand?.imageUrl"
+				class="hero-image d-block mx-auto"
+				alt="hero image"
+		>
+
     <brand-details-breadcrumb v-if="brand?.id" :brand="brand" />
     <breadcrumb v-else :title="propBrand" :subtitle="propBrand" />
-	  <!-- breadcrumb end -->
 
-	  <!-- shop area start -->
     <shop-area :brand="brand" />
-	  <!-- shop area end -->
   </div>
 </template>
 
@@ -103,3 +106,10 @@ watch(
 		}
 );
 </script>
+
+<style lang="scss" scoped>
+.hero-image {
+	max-height: 400px;
+	margin: 0;
+}
+</style>

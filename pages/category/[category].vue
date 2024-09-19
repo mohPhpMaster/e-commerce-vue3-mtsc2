@@ -1,13 +1,16 @@
 <template>
   <div v-if="!pending && category">
-      <!-- breadcrumb start -->
-      <category-details-breadcrumb v-if="category?.id" :category="category" />
-      <breadcrumb v-else :subtitle="propCategory" :title="propCategory" />
-	  <!-- breadcrumb end -->
+		<img
+				v-if="category?.img"
+				:src="category?.img"
+				class="hero-image d-block mx-auto"
+				alt="hero image"
+		>
 
-	  <!-- shop area start -->
-      <shop-area :category="category" />
-	  <!-- shop area end -->
+    <category-details-breadcrumb v-if="category?.id" :category="category" />
+    <breadcrumb v-else :subtitle="propCategory" :title="propCategory" />
+
+    <shop-area :category="category" />
   </div>
 </template>
 
@@ -104,3 +107,10 @@ watch(
 		}
 );
 </script>
+
+<style lang="scss" scoped>
+.hero-image {
+	max-height: 400px;
+	margin: 0;
+}
+</style>

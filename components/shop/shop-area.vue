@@ -3,9 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-xl-3 col-lg-4">
-          <!-- shop sidebar start -->
           <shop-sidebar />
-	        <!-- shop sidebar end -->
         </div>
         <div class="col-xl-9 col-lg-8">
           <div class="tp-shop-main-wrapper" v-if="!pending">
