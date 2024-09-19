@@ -5,8 +5,7 @@ export interface IUser {
     name: string
     username: string
     email: string
-    image?: string
-    mobile: string
+    photo?: string
     points: number,
     token?: string,
     notifications?: IUserNotification[]

@@ -84,7 +84,7 @@
                           <div v-for="(item,i) in reviews" :key="i" class="tp-product-details-review-avater d-flex align-items-start">
                               <div class="tp-product-details-review-avater-thumb">
                                 <a href="#">
-                                    <img :src="toolsService.parseImageUrl(item?.image)" alt="user profile image">
+                                    <img :src="toolsService.parseImageUrl(item?.photo)" alt="user profile image">
                                 </a>
                               </div>
                               <div class="tp-product-details-review-avater-content">

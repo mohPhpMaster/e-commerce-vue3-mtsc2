@@ -86,6 +86,10 @@ useHead({
 .dropdown-menu {
 	--bs-dropdown-link-active-bg: ${settings?.primaryColor || '#0d6efd'} !important;
 }
+.product-price-value {
+	background-color: var(--tp-price-bg-color);
+	color: var(--tp-price-text-color);
+}
 `
 		},
 	],

@@ -10,7 +10,8 @@
 		    :key="item?.id"
 		    :category="item"
 		    :products="item?.products || []"
-		    :title="item?.parentName || '-'"
+		    :pretitle="item?.preName || toolsService.parseCategoryName(item)"
+		    :title="toolsService.parseCategoryName(item)"
 		    :url="item?.url || ''"
     ></product-area>
     <!-- product area start -->
@@ -25,36 +26,10 @@
 <script setup lang="ts">
 import {$axios} from "@/plugins/00.axiosInstance";
 import {convertCategoryFeaturedResponse} from "@/plugins/data/category-featured-data";
+import toolsService from "@/services/toolsService";
+import type {ICategory} from "@/types/category-d-t";
 
-// useSeoMeta({
-// 	title: ''
-// });
-
-const {data: category_data, pending, error, refresh} = useLazyAsyncData<string[]>('categories/featured', () =>
+const {data: category_data, pending, error, refresh} = useLazyAsyncData<ICategory[]>('categories/featured', () =>
 		$axios.get('categories/featured').then(res => (res?.data?.data || []).map(convertCategoryFeaturedResponse))
 );
-
-// const {loadCategoriesFeatured} = useCategoryFeaturedStore();
-// const category_data = ref<ICategory[]>([]);
-
-// onMounted(() => {
-// 	loadCategoriesFeatured()
-// 			.then((data: Ref<ICategory[]>) => {
-// 				category_data.value = data.value;
-// 				return data;
-// 			})
-//
-// })
-
-// definePageMeta({
-// 	title: 'pages.title.top' // set resource key
-// })
-//
-// const {locale, locales, t} = useI18n()
-// const switchLocalePath = useSwitchLocalePath()
-//
-// const availableLocales = computed(() => {
-// 	return locales.value.filter(i => i.code !== locale.value)
-// })
-
 </script>

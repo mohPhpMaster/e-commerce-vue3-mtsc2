@@ -73,14 +73,14 @@
         </div>
         <div class="tp-product-price-wrapper-5">
           <div v-if="$product?.discount > 0">
-            <span class="tp-product-price-5 new-price">
+            <span class="tp-product-price-5 new-price product-price-value">
               {{ currency($product?.net) }} {{ " " }}
             </span>
-            <span class="tp-product-price-5 old-price">
+            <span class="tp-product-price-5 old-price product-old-price-value">
               {{ currency($product?.price) }}
             </span>
           </div>
-          <span v-else class="tp-product-price-5 new-price">{{ currency($product?.price) }}</span>
+          <span v-else class="tp-product-price-5 new-price product-price-value">{{ currency($product?.price) }}</span>
         </div>
     </div>
   </div>

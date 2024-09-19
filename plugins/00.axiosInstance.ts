@@ -34,6 +34,7 @@ export const $axios = {
             removeToken();
             return;
         }
+        // console.log(37, {token})
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         options.headers['Authorization'] = `Bearer ${token}`;
     },
@@ -58,8 +59,7 @@ export default defineNuxtPlugin(() => {
     const config = useRuntimeConfig()
     const userStore = useUserStore();
 
-    $axios.options.baseURL = toolsService.getApiUrl();
-    $axios.defaults.baseURL = $axios.instance.defaults.baseURL = $axios.options.baseURL;
+    $axios.defaults.baseURL = $axios.instance.defaults.baseURL = $axios.options.baseURL = toolsService.getApiUrl();
 
     // Request interceptor
     $axios.instance.interceptors.request.use(config => {

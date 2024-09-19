@@ -64,6 +64,7 @@ export function convertCategoryResponse(
         slug: category.slug,
         url: `/category/${category.slug}`,
         img: category.imageUrl,
+        preName: category?.prename,
         parentName: category?.name,
         seo_description: category?.seo_description,
         seo_keywords: category?.seo_keywords,

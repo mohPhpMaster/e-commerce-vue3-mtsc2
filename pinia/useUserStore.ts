@@ -41,7 +41,9 @@ export const useUserStore = defineStore('user', () => {
 
     const fetchProfile = async () => {
         if ($axios.hasToken()) {
-            const response = await $axios.get('profile');
+            const response = await $axios.get('profile', {
+                // baseURL: "http://localhost:3000/api"
+            });
             const userData = response?.data?.data || {};
             setUser({
                 ...userData,

@@ -3,11 +3,9 @@
     <div class="container">
       <div class="row align-items-end">
         <div class="col-xl-6 col-lg-5">
-          <div
-            class="tp-section-title-wrapper-5 mb-45 text-center text-lg-start"
-          >
+          <div class="tp-section-title-wrapper-5 mb-45 text-center text-lg-start" >
             <span class="tp-section-title-pre-5">
-							{{ title }}
+							{{ pretitle || title }}
 	            <svg width="82" height="22" viewBox="0 0 82 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M81 14.5798C0.890564 -8.05914 -5.81154 0.0503902 5.00322 21" stroke="currentColor" stroke-opacity="0.3" stroke-width="2" stroke-miterlimit="3.8637" stroke-linecap="round"/>
               </svg>
@@ -17,16 +15,13 @@
         </div>
         <div class="col-xl-6 col-lg-7">
           <div class="tp-product-tab-2 tp-product-tab-5 tp-tab mb-55">
-            <div
-              class="tp-product-tab-inner-3 d-flex align-items-center justify-content-center justify-content-lg-end"
-            >
+            <div class="tp-product-tab-inner-3 d-flex align-items-center justify-content-center justify-content-lg-end" >
               <nav>
                 <div class="nav nav-tabs justify-content-center tp-product-tab tp-tab-menu p-relative" id="nav-tab">
                     <nuxt-link :href="toolsService.getCategoryUrl(category)" @click="toolsService.gotoCategory(category)" :class="`nav-link active`" id="nav_active">
-                      {{ category?.parentName }}
-                      <span class="tp-product-tab-tooltip" v-if="products?.length > 0">{{ products?.length }}</span>
+                      {{ $t('View more') }}
                     </nuxt-link>
-                  <span id="productTabMarker" class="tp-tab-line d-none d-sm-inline-block"></span>
+                    <span id="productTabMarker" class="tp-tab-line d-none d-sm-inline-block"></span>
                 </div>
               </nav>
             </div>
@@ -54,6 +49,7 @@ import toolsService from "@/services/toolsService";
 const props = defineProps<{
 	category: ICategory,
 	products: IProduct[],
+	pretitle?: string,
 	title: string,
 	url: string
 }>()
@@ -64,3 +60,12 @@ const props = defineProps<{
 // 	console.log(64, props?.products,$products.value)
 // });
 </script>
+
+<style lang="scss" scoped>
+.tp-section-title-5 {
+	color: var(--tp-category-title-color);
+}
+.tp-section-title-pre-5 {
+	color: var(--tp-category-title-bg-color);
+}
+</style>

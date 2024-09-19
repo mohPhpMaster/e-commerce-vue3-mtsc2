@@ -15,7 +15,7 @@
           <th scope="row" class="text-center">{{ order.id }}</th>
           <td data-info="title">{{ order.date }}</td>
           <td data-info="title">{{ currency(order.total) }}</td>
-          <td :data-info="orderStatusDataInfo?.[order.status] || ''">{{ $t(order.status) }}</td>
+          <td :data-info="orderStatusDataInfo?.[order.status] || ''">{{ order.status }}</td>
           <td><a class="tp-logout-btn" :href="toolsService.getOrderUrlByStatus(order)">{{ $t('View') }}</a></td>
         </tr>
     </tbody>

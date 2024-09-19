@@ -39,7 +39,7 @@ const {
 	execute: category_execute
 } = useLazyAsyncData(
 		`categories-filter`,
-		() => $axios.get(`categories-filter?filter=1`, {baseURL: "http://localhost:3000/api"})
+		() => $axios.get(`categories-filter?filter=1`)
 				.then(res => (res?.data?.data || []).map(convertCategoryFilterResponse))
 				.then((data): ICategoryFilter[] => (!data || data?.length === 0) ? [] : data),
 		{

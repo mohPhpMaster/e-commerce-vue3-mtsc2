@@ -43,10 +43,10 @@
                               <td v-for="item in compareStore.compare_items" :key="item.id">
                                   <div v-if="item?.discount > 0" class="tp-compare-price">
                                       <span>{{ currency(item.net) }}</span>
-                                      <span class="old-price">{{ currency(item.price) }}</span>
+                                      <span class="old-price product-price-value_">{{ currency(item.price) }}</span>
                                   </div>
                                   <div v-else class="tp-compare-price">
-                                      <span>{{ currency(item.price) }}</span>
+                                      <span class="product-price-value_">{{ currency(item.price) }}</span>
                                   </div>
                               </td>
                             </tr>

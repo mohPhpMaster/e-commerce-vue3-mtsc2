@@ -398,7 +398,7 @@
         }
         &-thumb{
             position: relative;
-            & img{
+            & img, .user-avatar {
                 width: 80px;
                 height: 80px;
                 border-radius: 50%;
@@ -420,10 +420,10 @@
                     bottom: 8px;
                     right: 8px;
                     color: var(--tp-common-white);
-                    width: 30px;
-                    height: 30px;
+                    width: 26px;
+                    height: 26px;
                     line-height: 24px;
-                    border: 2px solid var(--tp-common-white);
+                    border: 1px solid var(--tp-common-white);
                     text-align: center;
                     background-color: var(--tp-theme-primary);
                     border-radius: 50%;
@@ -431,12 +431,16 @@
 
                     @include rtl{
                         right: 0;
-                        bottom: 0;
+                        left: 8px;
                     }
 
                     & i{
                         margin-left: 2px;
 
+                        @include rtl {
+                            margin-right: 2px;
+                            margin-left: auto;
+                        }
                     }
                     &:hover{
                         cursor: pointer;
@@ -629,6 +633,11 @@
                 padding: 0 5px;
                 background-color: var(--tp-common-white);
                 line-height: 1;
+
+                @include rtl{
+                    left: auto;
+                    right: 20px;
+                }
             }
         }
         &-eye{
@@ -651,6 +660,11 @@
                 & span{
                     color: var(--tp-common-black);
                 }
+            }
+
+            @include rtl {
+                left: 26px;
+                right: auto;
             }
         }
     }

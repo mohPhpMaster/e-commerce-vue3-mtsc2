@@ -9,14 +9,14 @@
             <div class="row align-items-center">
                 <div class="col-xxl-2 col-xl-3 col-6">
                   <div class="tp-header-left-5 d-flex align-items-center">
-                      <div class="tp-header-hamburger-5 mr-15 d-none d-lg-block">
+                      <div class="tp-header-hamburger-5 ms-15 d-none d-lg-block">
                         <button class="tp-hamburger-btn-2 tp-hamburger-toggle" @click="handleActive">
                             <span></span>
                             <span></span>
                             <span></span>
                         </button>
                       </div>
-                      <div class="tp-header-hamburger-5 mr-15 d-lg-none">
+                      <div class="tp-header-hamburger-5 ms-15 d-lg-none">
                         <button
 		                        class="tp-hamburger-btn-2 tp-offcanvas-open-btn"
 		                        @click="utilityStore.handleOpenMobileMenu()"

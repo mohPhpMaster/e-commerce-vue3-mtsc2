@@ -2,25 +2,25 @@
   "data": [
     {
       "id": 1,
-      "status": "pending",
+      "status": "Pending",
       "date": "2021-08-01 10:00 am",
       "total": 10.5
     },
     {
       "id": 2,
-      "status": "done",
+      "status": "Done",
       "date": "2021-09-01 05:11 am",
       "total": 100
     },
     {
       "id": 3,
-      "status": "canceled",
+      "status": "Canceled",
       "date": "2021-09-18 12:00 am",
       "total": 20
     },
     {
       "id": 4,
-      "status": "new",
+      "status": "New",
       "date": "2021-09-18 09:09 pm",
       "total": 200.50
     }

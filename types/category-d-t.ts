@@ -7,6 +7,7 @@ export interface ICategory {
     slug: string;
     url: string;
     img: string;
+    preName?: string;
     parentName: string;
     seo_description?: string;
     seo_keywords?: string;

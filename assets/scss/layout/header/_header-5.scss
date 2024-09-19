@@ -138,8 +138,14 @@
                 text-align: center;
                 border-radius: 50%;
                 margin-right: 9px;
+
+                @include rtl {
+                    margin-right: inherit;
+                    margin-left: 9px;
+                }
+
                 & svg{
-                    @include transform(translate(1px, -3px));
+                    @include transform(translate(0px, -3px));
                 }
             }
         }

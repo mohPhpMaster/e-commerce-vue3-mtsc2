@@ -63,7 +63,7 @@
 
 					      <div class="row m-auto w-100">
 				            <p class="card-text p-0 m-0">
-				              <small class="text-muted">{{ $t('Price:') }} {{ currency(accessory.price) }}</small>
+					            <small class="text-muted">{{ $t('Price:') }} <span class="product-price-value_">{{ currency(accessory.price) }}</span></small>
 				            </p>
 				            <p class="card-text p-0 m-0">
 				              <small class="text-muted">{{ $t("Quantity:") }} {{ accessory.qty }}</small>
@@ -90,7 +90,7 @@
           <tr v-for="(item, index) in selectedItems" :key="index">
             <td>{{ item?.group?.name + (item?.accessory?.name ? " - " + item?.accessory?.name : "") }}</td>
             <td>{{ Number(item?.accessory?.qty) || 1 }}</td>
-            <td>{{ currency(item?.accessory?.price || item.group?.price || 0) }}</td>
+            <td class="product-price-value_">{{ currency(item?.accessory?.price || item.group?.price || 0) }}</td>
             <td><button class="btn btn-outline-danger btn-sm" @click="removeAccessory(index)"><span class="fa fa-trash"></span></button></td>
           </tr>
         </tbody>

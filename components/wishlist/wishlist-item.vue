@@ -11,7 +11,7 @@
       <nuxt-link :href="toolsService.getProductUrl(item)">{{ item.name }}</nuxt-link>
     </td>
     <!-- price -->
-    <td class="tp-cart-price"><span>{{ currency(item.price) }}</span></td>
+    <td class="tp-cart-price product-price-value_"><span>{{ currency(item.price) }}</span></td>
 
     <td class="tp-cart-add-to-cart">
       <button v-if="!isItemInCart(item)" @click="cartStore.openCartProduct(item, $t('Add To Cart'))" type="button" class="tp-btn tp-btn-2 tp-btn-blue">

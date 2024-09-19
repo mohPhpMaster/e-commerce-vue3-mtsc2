@@ -32,8 +32,7 @@ export function convertUserLoginResponse(data: IUser): IUser {
         name: data?.name,
         email: data?.email,
         // image: toolsService.parseImageUrl(data?.image),
-        image: data?.image,
-        mobile: data?.mobile,
+        photo: data?.photo,
         points: data?.points,
         notifications: data?.notifications || [],
         ...(("token" in data) ? {

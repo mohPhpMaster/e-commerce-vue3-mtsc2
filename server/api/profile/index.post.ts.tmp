@@ -1,0 +1,24 @@
+
+export default defineEventHandler(async (event) => {
+    const body = await readBody(event)
+    return {body};
+    const data = await readFormData(event, {
+        multipart: true
+    });
+    const photo = data?.photo;
+    if (photo) {
+        const folder = "./server/api/profile/profile-photos";
+        if (!fs.existsSync(folder)) {
+            fs.mkdirSync(folder, {recursive: true});
+        }
+        const filename = `${Date.now()}-${photo.hapi.filename}`;
+        await fs.promises.writeFile(`${folder}/${filename}`, photo.buffer);
+        data.photo = `/uploads/profile-photos/${filename}`;
+    }
+    // const logData = JSON.stringify(data, null, 2);
+    // await fs.promises.writeFile("./server/api/profile/log.json", logData, {encoding: 'utf8'});
+
+    return data
+    // const defaultPathToJson = `./server/api/profile/default.json`
+    // return sendStream(event, fs.createReadStream(defaultPathToJson))
+})

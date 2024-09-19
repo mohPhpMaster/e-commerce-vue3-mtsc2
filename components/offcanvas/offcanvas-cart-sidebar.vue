@@ -35,11 +35,11 @@
               <div class="cartmini__price-wrapper">
                 <span
 		                v-if="item?.differents.discount > 0 && item.quantity"
-		                class="cartmini__price"
+		                class="cartmini__price product-price-value_"
                 >
                   {{ currency((Number(item?.differents.price) - (Number(item?.differents.price) * Number(item?.differents.discount)) / 100) * item.quantity) }}
                 </span>
-                <span v-else class="cartmini__price">
+                <span v-else class="cartmini__price product-price-value_">
                   {{ currency(cartStore.calcCartItem(item)) }}
                 </span>
                 <span class="cartmini__quantity">{{ " " }}x{{ item.quantity }}</span>

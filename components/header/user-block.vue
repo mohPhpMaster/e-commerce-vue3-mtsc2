@@ -2,13 +2,10 @@
   <template v-if="userStore.initialized">
 	  <template v-if="userStore.isLoggedIn()">
 	    <nuxt-link href="/profile" class="d-flex align-items-center">
-	        <div class="tp-header-login-icon-5">
-	          <span>
-	              <svg-user></svg-user>
-	          </span>
-	        </div>
+		      <profile-user-avatar sm />
+
 	        <div class="tp-header-login-content-5">
-		        <p><span>{{ $t('Hello') }}</span> <br> {{ userStore.user.name }}</p>
+		        <p class="text-nowrap"><span>{{ $t('Hello') }}</span> <br> {{ userStore.user.name }}</p>
 	        </div>
 	    </nuxt-link>
 	  </template>

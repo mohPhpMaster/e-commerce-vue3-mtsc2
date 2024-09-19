@@ -29,10 +29,10 @@
 	  <!-- Price Section -->
     <div class="tp-product-details-price-wrapper mb-20">
       <div v-if="different?.discount">
-        <span class="tp-product-details-price new-price">{{ currency(different?.net) }} </span>
-        <span class="tp-product-details-price old-price">{{ currency(different?.price) }}</span>
+        <span class="tp-product-details-price new-price product-price-value">{{ currency(different?.net) }} </span>
+        <span class="tp-product-details-price old-price product-old-price-value">{{ currency(different?.price) }}</span>
       </div>
-      <span v-else class="tp-product-details-price new-price">{{ currency(different?.price) }}</span>
+      <span v-else class="tp-product-details-price new-price product-price-value">{{ currency(different?.price) }}</span>
    </div>
 
 	  <!-- Product Countdown -->

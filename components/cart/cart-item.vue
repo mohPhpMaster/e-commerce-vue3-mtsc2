@@ -18,13 +18,13 @@
       <div v-if="item?.accessories?.length" v-for="(accessory, index) in item?.accessories" :key="index" class="col-12">
         <div class="col-12 text-nowrap ms-4 tp-cart-price">
           {{ accessory.group?.name }}{{ accessory?.accessory?.name ? ` - ${accessory?.accessory?.name}` : "" }}
-	        <span class="">{{ accessory.accessory?.price ? currency(accessory.accessory?.price) : "" }}{{ ` x ${(accessory?.accessory?.qty || 1)}` }}</span>
+	        <span class="product-price-value_">{{ accessory.accessory?.price ? currency(accessory.accessory?.price) : "" }}</span><span class="">{{ ` x ${(accessory?.accessory?.qty || 1)}` }}</span>
 	      </div>
 	    </div>
 		</div>
     </td>
 	  <!-- price -->
-    <td class="tp-cart-price col-2"><span>{{ currency(cartStore.calcCartItem(item)) }}</span></td>
+    <td class="tp-cart-price col-2"><span class="product-price-value_">{{ currency(cartStore.calcCartItem(item)) }}</span></td>
 	  <!-- quantity -->
     <td class="tp-cart-quantity col-1">
       <div class="tp-product-quantity mt-10 mb-10 mx-2">

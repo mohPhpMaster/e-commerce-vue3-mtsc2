@@ -16,7 +16,7 @@
               <h5 class="card-title">{{ toolsService.parseProductName(selectedProductDifferent, true) }}</h5>
               <p v-html="toolsService.normalizeLineEndingsToHtml(selectedProductDifferent?.description)" class="overflow-x-auto card-text description-text"/>
               <p class="card-text">
-                <small class="text-muted">{{ $t('Price:') }} {{ currency(selectedProductDifferent?.price) }}</small>
+	              <small class="text-muted">{{ $t('Price:') }} <span class="product-price-value_">{{ currency(selectedProductDifferent?.price) }}</span></small>
               </p>
             </div>
           </div>

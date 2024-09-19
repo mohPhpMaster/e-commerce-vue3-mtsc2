@@ -2,7 +2,6 @@ import menuData from "@/plugins/data/menu-data";
 import categoryData from "@/plugins/data/category-data";
 import productData from "@/plugins/data/product-data";
 import relatedProductsData from "@/plugins/data/related-product-data";
-import categorySingleData from "@/plugins/data/category-single-data";
 import categoryFeaturedData from "@/plugins/data/category-featured-data";
 import brandData from "@/plugins/data/brand-data";
 import brandFeaturedData from "@/plugins/data/brand-featured-data";
@@ -23,7 +22,6 @@ export const api = {
     categoryData,
     productData,
     relatedProductsData,
-    categorySingleData,
     categoryFeaturedData,
     brandData,
     brandFeaturedData,

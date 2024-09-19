@@ -22,7 +22,7 @@
               <login-social />
               <!-- social login end -->
               <div class="tp-login-mail text-center mb-40">
-                <p>{{ $t("or Sign in with") }} <a href="#">{{ $t("Email") }}</a></p>
+                <p>{{ $t("or Sign in with Username") }}</p>
               </div>
               <!-- form start -->
               <forms-login-form />
