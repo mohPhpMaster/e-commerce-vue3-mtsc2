@@ -10,7 +10,7 @@
 <!--        <span><i class="fa-regular fa-circle-info"></i></span> {{ $t('Personal Details') }}-->
 <!--      </button>-->
       <button class="nav-link" :class="{ active: isActiveTab('address') }" id="nav-address-tab" data-bs-toggle="tab" data-bs-target="#nav-address" type="button" role="tab" aria-controls="nav-address" aria-selected="false" @click="updateHash('address')">
-        <span><i class="fa-light fa-location-dot"></i></span> {{ $t('Address') }}
+        <span><i class="fa-light fa-location-dot"></i></span> {{ $t('Addresses') }}
       </button>
       <button class="nav-link" :class="{ active: isActiveTab('order') }" id="nav-order-tab" data-bs-toggle="tab" data-bs-target="#nav-order" type="button" role="tab" aria-controls="nav-order" aria-selected="false" @click="updateHash('order')">
         <span><i class="fa-light fa-clipboard-list-check"></i></span> {{ $t('Orders') }}

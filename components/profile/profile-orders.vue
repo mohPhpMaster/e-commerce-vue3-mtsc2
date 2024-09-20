@@ -7,7 +7,7 @@
           <th scope="col" class="text-center">{{ $t('Date') }}</th>
           <th scope="col" class="text-center">{{ $t('Total') }}</th>
           <th scope="col" class="text-center">{{ $t('Status') }}</th>
-          <th scope="col" class="text-center">{{ $t('Action') }}</th>
+          <th scope="col" class="text-center">{{ $t('Actions') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -32,7 +32,7 @@ status done done
 status pending pending
 status reply canceled
 status hold new
- */
+*/
 const orderStatusDataInfo = {
 	pending: 'status pending',
 	done: 'status done',

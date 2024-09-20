@@ -63,7 +63,7 @@ const photoUrl = computed(() => {
 const photoChangeHandler = (e: Event) => {
 	if (process.client && e.target?.files?.[0]) {
 		_photo.value = e.target.files[0];
-		emit('updated', _photo);
+		emit('updated', _photo.value);
 	}
 };
 

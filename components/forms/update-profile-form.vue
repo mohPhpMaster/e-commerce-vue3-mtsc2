@@ -13,33 +13,36 @@
         <div class="col-xxl-12 col-md-12">
           <div class="tp-profile-input-box">
               <div class="tp-contact-input">
-                <input id="name" v-model="user.name" :placeholder="$t('Name')" class="no-icon" type="text">
+                <input id="name" v-bind="name" :placeholder="$t('Name')" class="no-icon" type="text">
               </div>
               <div class="tp-profile-input-title">
                 <label for="name">{{ $t('Name') }}</label>
               </div>
+              <err-message :msg="errors.name" />
           </div>
         </div>
 
         <div class="col-xxl-6 col-md-6">
           <div class="tp-profile-input-box">
             <div class="tp-contact-input">
-              <input id="username" v-model="user.username" :placeholder="$t('Username')" class="no-icon" type="text">
+              <input id="username" v-bind="username" :placeholder="$t('Username')" class="no-icon" type="text">
             </div>
             <div class="tp-profile-input-title">
               <label for="username">{{ $t('Username') }}</label>
             </div>
+              <err-message :msg="errors.username" />
           </div>
         </div>
 
         <div class="col-xxl-6 col-md-6">
             <div class="tp-profile-input-box">
               <div class="tp-contact-input">
-                  <input id="email" v-model="user.email" :placeholder="$t('Email')" type="email">
+                  <input id="email" v-bind="email" :placeholder="$t('Email')" type="email">
               </div>
               <div class="tp-profile-input-title">
                 <label for="email">{{ $t('Email') }}</label>
               </div>
+              <err-message :msg="errors.email" />
             </div>
         </div>
 
@@ -117,66 +120,93 @@
 
 <script lang="ts" setup>
 import {useUserStore} from "@/pinia/useUserStore";
-import type {IUser} from "@/types/user-d-t";
 import formDataService from "@/services/formDataService";
 import {$axios} from "@/plugins/00.axiosInstance";
 import {toast} from "vue3-toastify";
+import {useForm} from "vee-validate";
+import * as yup from "yup";
+import type {IResponse} from "@/types/response-d-t";
 
 const {t} = useI18n()
 const userStore = useUserStore()
-
-// interface IFormValues {
-// 	username?: string | null;
-// 	email?: string | null;
-// 	mobile?: string | null;
-// 	gender?: string | null;
-// 	address?: string | null;
-// 	bio?: string | null;
-// }
-
-const user = ref<IUser>(userStore.user);
+const loading = ref<boolean>(false);
 const _photo = ref(null);
-watch(
-		() => userStore.user,
-		() => {
-			user.value = userStore.user;
-		});
+
+interface IUserFormValues {
+	name: string
+	username: string
+	email: string
+}
+const {errors, handleSubmit, defineInputBinds, resetForm, setFieldValue} = useForm<IUserFormValues>({
+	validationSchema: yup.object({
+		name: yup.string().required().label(t("Name")),
+		username: yup.string().required().label(t("Username")),
+		email: yup.string().required().email().label(t('Email')),
+	}),
+});
 
 onMounted(() => {
 	// console.log(126, {username, user}, userStore.user)
 });
 
-const changePhotoHandler = (e: any) => _photo.value = e;
+const onSubmit = handleSubmit((values: IUserFormValues) => {
+	if (loading.value) return;
 
-const onSubmit = () => {
 	const formData = formDataService(
-			objectOnly({
-						...user.value,
-						_photo
-					},
-					['name', 'email', 'username', 'photo', '_photo']
-			),
+			{...values, _photo: _photo.value},
 			{_photo: 'photo'},
 			['_photo']
 	);
-	$axios.post('profile', formData, {
-		headers: {
-			'Content-Type': 'multipart/form-data',
-		},
-		// baseURL: "http://laravel.local/api"
-	})
-			.then(response => {
-				toast.success(t('Profile updated successfully'));
-				// todo: complete it after api finish
-				console.log(166, response.data);
-				_photo.value = null;
-				userStore.refresh();
+
+	loading.value = true;
+	$axios
+			.post(`profile`, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+				baseURL: "http://localhost:3000/api"
 			})
-			.catch(error => {
-				console.log(error);
-				toast.error(t('Failed to update profile'));
+			.then((response: { data: IResponse }) => {
+				// todo: complete it after api finish
+				nextTick(() => toast.success(response?.data?.message || t('Profile updated successfully')));
+				setTimeout(() => {
+					resetForm();
+					userStore.refresh();
+				}, 500);
+			})
+			.catch((error) => {
+				if (error?.response?.data?.message) {
+					toast.error(error?.response?.data?.message);
+				} else if (error?.message) {
+					toast.error(error?.message);
+				}
+
+				console.error(error);
+			})
+			.finally(() => {
+				setTimeout(() => {
+					loading.value = false;
+				}, 100);
 			});
+});
+
+const name = defineInputBinds('name');
+const username = defineInputBinds('username');
+const email = defineInputBinds('email');
+
+const changePhotoHandler = (e: any) => {
+	if (e) {
+		_photo.value = e;
+	}
 };
 
+watch(
+		() => userStore.user,
+		() => {
+			setFieldValue('name', userStore.user?.name || '');
+			setFieldValue('username', userStore.user?.username || '');
+			setFieldValue('email', userStore.user?.email || '');
+			_photo.value = null;
+		});
 </script>
 

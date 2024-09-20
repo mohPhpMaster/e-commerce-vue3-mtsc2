@@ -35,3 +35,20 @@
 .v-visible {
   visibility: visible;
 }
+
+
+.text-start {
+  text-align: left !important;
+
+  [dir=rtl] & {
+    text-align: right !important;
+  }
+}
+
+.text-end {
+  text-align: right !important;
+
+  [dir=rtl] & {
+    text-align: left !important;
+  }
+}

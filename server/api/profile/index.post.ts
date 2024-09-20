@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
             }
 
             // Access the uploaded file (assuming the key is "_photo")
-            const file = files._photo;
+            const file = files.photo;
             if (!file) {
                 reject(new Error('No file uploaded'));
                 return;
@@ -30,15 +30,15 @@ export default defineEventHandler(async (event) => {
 
             try {
                 // Move file to desired directory (you can also rename it)
-                const newPath = path.join(process.cwd(), 'public/uploads', file.originalFilename || '');
+                // const newPath = path.join(process.cwd(), 'public/uploads', file.originalFilename || '');
 
                 // Move the file from the temp folder to the new path
-                await fs.rename(file.filepath, newPath);
+                // await fs.rename(file.filepath, newPath);
 
                 resolve({
                     message: 'File uploaded successfully',
-                    fileName: file.originalFilename,
-                    filePath: newPath,
+                    // fileName: file.originalFilename,
+                    // filePath: newPath,
                 });
             } catch (e) {
                 reject(e);

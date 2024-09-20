@@ -33,6 +33,24 @@ export default [
         title: 'Pages',
         drop_down: true,
         dropdown_menus: [
+            {
+                ITYPE: 'static-menu',
+                id: 8,
+                link: '/privacy-policy',
+                title: 'Privacy Policy',
+            },
+            {
+                ITYPE: 'static-menu',
+                id: 9,
+                link: '/terms-conditions',
+                title: 'Terms & Conditions',
+            },
+            {
+                ITYPE: 'static-menu',
+                id: 7,
+                link: '/about',
+                title: 'About Us',
+            },
             // {title: 'About', link: '/about'},
             // {title: 'Login', link: '/login'},
             // {title: 'Register', link: '/register'},
@@ -63,11 +81,5 @@ export default [
         id: 6,
         link: '/contact',
         title: 'Contact Us',
-    },
-    {
-        ITYPE: 'static-menu',
-        id: 7,
-        link: '/about',
-        title: 'About Us',
     },
 ];
