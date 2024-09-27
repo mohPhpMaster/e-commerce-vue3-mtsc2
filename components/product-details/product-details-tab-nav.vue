@@ -36,7 +36,7 @@
                 <div class="col-xl-10">
                   <table>
                       <tbody>
-                        <tr v-for="(info,i) in product?.additionalInfo" :key="i">
+                        <tr v-for="(info,i) in productAddionals" :key="i">
                             <td>{{info.key}}</td>
                             <td>{{info.value}}</td>
                         </tr>
@@ -130,9 +130,13 @@ import {api} from "@/plugins/api";
 import type {IReview} from "@/types/review-d-t";
 import {$axios} from "@/plugins/00.axiosInstance";
 import {convertProductAccessoriesResponse} from "@/plugins/data/product-accessories-groups-data";
+import type {IProductAddionalsResponse} from "@/types/product-addionals-response-d-t";
+import {convertProductAddionalResponse} from "@/plugins/data/product-addionals-data";
+import type {IProductAddionals} from "@/types/product-addionals-d-t";
 
 const {isLoggedIn, user} = useUserStore();
 const props = defineProps<{product:IProduct; mainProduct?:IProduct}>();
+const route = useRoute();
 
 const _data = ref<{ [key: string]: IReview[] }>([]);
 // const reviews = ref<IReview[]>([]);
@@ -168,6 +172,27 @@ const {
 			watch: [pId],
 		}
 )
+
+const {
+	data: productAddionals,
+	pending: pendingAddionals,
+	error: errorAddionals,
+	refresh: refreshAddionals,
+	execute: executeAddionals
+} = useLazyAsyncData(
+		`product_${props?.product?.id}_addionals`,
+		() => {
+			return api.productAddionalsData({
+				slug: props?.product?.sku,
+				plain: true
+			})
+		},
+		{
+			watch: [route],
+			immediate: false
+		}
+);
+await executeAddionals();
 
 onMounted(() => {
   const nav_active = document.getElementById("nav-addInfo-tab");

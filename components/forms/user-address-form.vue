@@ -98,6 +98,12 @@ const loading = ref<boolean>(false);
 const {errors, handleSubmit, defineInputBinds, resetForm, setFieldValue} = useForm<IUserAddressesFormValues>({
 	validationSchema: yup.object({
 		label: yup.string().required().label(t("Label")),
+		ship_to_location: yup.string().required().label(t("Shipping Location")),
+		bill_to_location: yup.string().required().label(t("Billing Location")),
+		country_id: yup.number().required().label(t("Country")),
+		governorate_id: yup.number().required().label(t("Governorate")),
+		city_id: yup.number().required().label(t("City")),
+		nighbourhood_id: yup.number().required().label(t("Neighbourhood")),
 		address: yup.string().required().label(t("Address")),
 		lat_long: yup.string().required().label(t("Location")),
 		is_default: yup.boolean().required().label(t("Default"))
@@ -149,6 +155,12 @@ const {data, pending, error, execute} = useLazyAsyncData(
 		() => {
 			if (props?.add) {
 				setFieldValue('label', '');
+				setFieldValue('ship_to_location', '');
+				setFieldValue('bill_to_location', '');
+				setFieldValue('country_id', '');
+				setFieldValue('governorate_id', '');
+				setFieldValue('city_id', '');
+				setFieldValue('nighbourhood_id', '');
 				setFieldValue('address', '');
 				setFieldValue('lat_long', '');
 				setFieldValue('is_default', false);
@@ -166,6 +178,12 @@ const {data, pending, error, execute} = useLazyAsyncData(
 						res = res[0] || {};
 
 						setFieldValue('label', res?.label || '');
+						setFieldValue('ship_to_location', res?.ship_to_location || '');
+						setFieldValue('bill_to_location', res?.bill_to_location || '');
+						setFieldValue('country_id', res?.country_id || '');
+						setFieldValue('governorate_id', res?.governorate_id || '');
+						setFieldValue('city_id', res?.city_id || '');
+						setFieldValue('nighbourhood_id', res?.nighbourhood_id || '');
 						setFieldValue('address', res?.address || '');
 						setFieldValue('lat_long', (res?.lat || res?.long) ? `${res?.lat || 0},${res?.long || 0}` : '');
 						setFieldValue('is_default', false);
@@ -251,6 +269,12 @@ const onSubmit = handleSubmit((values: IUserAddressesFormValues) => {
 
 const label = defineInputBinds('label');
 const is_default = defineInputBinds('is_default');
+const ship_to_location = defineInputBinds('ship_to_location');
+const bill_to_location = defineInputBinds('bill_to_location');
+const country_id = defineInputBinds('country_id');
+const governorate_id = defineInputBinds('governorate_id');
+const city_id = defineInputBinds('city_id');
+const nighbourhood_id = defineInputBinds('nighbourhood_id');
 // setFieldValue('is_default', address.value?.is_default || false);
 const address = defineInputBinds('address');
 const lat_long = defineInputBinds('lat_long');

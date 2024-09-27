@@ -4,8 +4,8 @@
 	      <div class="row">
 	        <div class="col-xl-8 col-lg-10">
 	            <div class="tp-about-banner-wrapper">
-	              <span class="tp-about-banner-subtitle">{{ data?.subtitle || $t('History') }}</span>
-	              <h3 class="tp-about-banner-title">{{ data?.title || $t('Well-coordinated Teamwork Speaks Privacy Policy') }}</h3>
+	              <span class="tp-about-banner-subtitle">{{ data?.subtitle || '' }}</span>
+	              <h3 class="tp-about-banner-title">{{ data?.title || '' }}</h3>
 	            </div>
 	        </div>
 	      </div>
@@ -19,7 +19,7 @@
 	      <div class="row">
 	        <div class="col-xl-12">
 	            <div class="tp-about-banner-content">
-	              <p v-html="data?.description || parsedDescription"></p>
+	              <p v-html="data?.description || ''"></p>
 	            </div>
 	        </div>
 	      </div>
@@ -45,7 +45,7 @@
 	 pending
  } = useLazyAsyncData(
 		 `site-privacy-policy`,
-		 () => $axios.get(`site-privacy-policy`, {baseURL: "http://localhost:3000/api"})
+		 () => $axios.get(`privacy-policy`)
 				 .then(res => res?.data?.data || {}),
 		 {
 			 watch: [currentPath],
@@ -64,5 +64,4 @@
  const loadingStatus = () => {
 	 return pending.value || loading.status() === true
  };
-
 </script>

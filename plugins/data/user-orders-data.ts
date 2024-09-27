@@ -4,7 +4,7 @@ import type {IUserOrderResponse} from "@/types/user-order-response-d-t";
 
 export async function userOrdersData(): Promise<IUserOrder[]> {
     try {
-        const response: { data: { data: IUserOrderResponse[] } } = await $axios.get('orders', {baseURL: "http://localhost:3000/api"});
+        const response: { data: { data: IUserOrderResponse[] } } = await $axios.get('orders');
         const data = response?.data?.data || [];
         return data.map(convertUserOrdersResponse);
     } catch (error) {

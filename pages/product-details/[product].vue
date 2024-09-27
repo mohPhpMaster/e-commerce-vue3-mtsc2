@@ -22,6 +22,9 @@ import toolsService from "@/services/toolsService";
 import {api} from "@/plugins/api";
 import {convertProductResponse} from "@/plugins/data/product-data";
 import type {IProductResponse} from "@/types/product-response-d-t";
+import productAddionalsData, {convertProductAddionalResponse} from "@/plugins/data/product-addionals-data";
+import type {IProductAddionals} from "@/types/product-addionals-d-t";
+import type {IProductAddionalsResponse} from "@/types/product-addionals-response-d-t";
 
 const productStore = useProductStore();
 const route = useRoute();
@@ -89,6 +92,26 @@ const {data: product, pending, error, refresh, execute} = useLazyAsyncData(
 			immediate: false
 		}
 );
+
+await execute();
+
+if (product.value && product.value?.id) {
+	setTitle(product.value)
+}
+
+if (
+		(error?.value && error?.value?.message === 'EMPTY')
+		// || !(product?.value && product?.value?.id)
+) {
+	showError({
+		statusCode: 404,
+		statusMessage: useI18n().t('Product not found'),
+		data: 'EMPTY',
+		error: error?.value || new Error('EMPTY'),
+		url: route.href,
+		fatal: true
+	});
+}
 
 await execute();
 

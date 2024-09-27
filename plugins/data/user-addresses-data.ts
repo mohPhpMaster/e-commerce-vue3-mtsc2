@@ -5,7 +5,7 @@ import type {IUserAddressesResponse} from "@/types/user-addresses-response-d-t";
 export async function userAddressesData({id=undefined}: {id?: string|number} = {}): Promise<IUserAddresses[]> {
     try {
         let query = id ? `/${id}` : '';
-        const response: { data: { data: IUserAddressesResponse } } = await $axios.get(`addresses${query}`, {baseURL: "http://localhost:3000/api"});
+        const response: { data: { data: IUserAddressesResponse } } = await $axios.get(`addresses${query}`);
         // const response: { data: { data: IUserAddressesResponse[] } } = {data: await import('@/data/user-addresses.json')};
         const data = response?.data?.data || [];
         return (Array.isArray(data) && data || [data]).map(convertUserAddressesResponse);
