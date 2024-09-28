@@ -60,6 +60,7 @@ export default defineNuxtPlugin(() => {
     const userStore = useUserStore();
 
     $axios.defaults.baseURL = $axios.instance.defaults.baseURL = $axios.options.baseURL = toolsService.getApiUrl();
+    $axios.options.headers['Access-Control-Allow-Origin'] = $axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
     // Request interceptor
     $axios.instance.interceptors.request.use(config => {

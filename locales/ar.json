@@ -144,6 +144,7 @@
   "Whoops, this is embarassing. Looks like the page you were looking for wasn't found.": "عذرا ، هذا هو خيار غير منتظم. يبدو أن الصفحة التي تبحث عنها لم يتم العثور عليها.",
   "Error Page": "خطأ",
   "Page :number": "الصفحة {number}",
+  ":product Out of stock": "{product} غير متوفر",
   "Load More Products": "تحميل المزيد من المنتجات",
   "No More Products": "لا يوجد المزيد من المنتجات",
   "Category not found": "لم يتم العثور على القسم",

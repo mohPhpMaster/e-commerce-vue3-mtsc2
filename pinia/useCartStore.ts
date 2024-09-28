@@ -6,9 +6,16 @@ import type {ICartItem} from "@/types/cart-item-d-t";
 import toolsService from "@/services/toolsService";
 import swal from 'sweetalert';
 import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
+import formDataService from "@/services/formDataService";
+import {$axios} from "@/plugins/00.axiosInstance";
+import type {ICartResponse} from "@/types/cart-response-d-t";
+import {convertProductResponse} from "@/plugins/data/product-data";
+import {convertCartResponse} from "@/plugins/data/cart-data";
 
 export const useCartStore = defineStore("cart_product", () => {
-    const {t} = useNuxtApp()?.$i18n;
+    const nuxt_app = useNuxtApp();
+    const {t} = nuxt_app?.$i18n;
+    // const {$axios} = nuxt_app;
     const route = useRoute();
     let cart_products = ref<ICartItem[]>([]);
     let cart_product = ref<IProduct>({} as IProduct);
@@ -35,7 +42,7 @@ export const useCartStore = defineStore("cart_product", () => {
 
     const openCartProduct = (payload: IProduct, title?: string = null) => {
         if (payload.quantity === 0) {
-            toast.error(`Out of stock ${payload.name}`);
+            toast.error(t(':product Out of stock', {product: payload.name}));
             return;
         }
 
@@ -53,35 +60,44 @@ export const useCartStore = defineStore("cart_product", () => {
         if (cart_modal_status.value) {
             closeCart();
         }
-        const searchForItem = (i, $index): boolean | number => (
-            (i?.differents?.id === cart?.differents?.id) &&
-            (i?.accessories && cart?.accessories && i.accessories.length === cart.accessories.length) &&
-            i?.accessories.every((a: ISelectedAccessories, index) => {
-                return (
-                        (a.group === cart?.accessories[index]?.group) ||
-                        (a.group?.id === cart?.accessories[index]?.group?.id)
-                    ) &&
-                    (
-                        (a.accessory === cart?.accessories[index]?.accessory) ||
-                        (a.accessory?.id === cart?.accessories[index]?.accessory?.id)
-                    )
-            })
-        );
+        // const searchForItem = (i, $index): boolean | number => (
+        //     (i?.differents?.id === cart?.differents?.id) &&
+        //     (i?.accessories && cart?.accessories && i.accessories.length === cart.accessories.length) &&
+        //     i?.accessories.every((a: ISelectedAccessories, index) => {
+        //         return (
+        //                 (a.group === cart?.accessories[index]?.group) ||
+        //                 (a.group?.id === cart?.accessories[index]?.group?.id)
+        //             ) &&
+        //             (
+        //                 (a.accessory === cart?.accessories[index]?.accessory) ||
+        //                 (a.accessory?.id === cart?.accessories[index]?.accessory?.id)
+        //             )
+        //     })
+        // );
 
-        const isExist = cart_products.value.some(searchForItem);
-        if (!isExist) {
-            cart_products.value.push(cart);
-            localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
-            toast.success(`${toolsService.parseProductName(cart?.differents, true)} added to cart`);
-        } else {
-            cart_products.value.map((item) => {
-                if (searchForItem(item)) {
-                    item.quantity = item.quantity + cart.quantity;
-                    toast.success(`${toolsService.parseProductName(item?.differents, true)} added to cart`);
-                }
-                return {...item};
-            });
-        }
+        // const isExist = cart_products.value.some(searchForItem);
+        // if (!isExist) {
+            $axios.post('cart/add', formDataService({
+                product: cart.differents.id,
+                quantity: cart.quantity,
+                accessories: cart.accessories.map(x => x.accessory.id),
+            }))
+                .then((response) => {
+                    cart_products.value.push(cart);
+                    toast.success(response?.data?.message || `Product added to cart`);
+                })
+
+            // debugger;
+            // toast.success(`${toolsService.parseProductName(cart?.differents, true)} added to cart`);
+        // } else {
+        //     cart_products.value.map((item) => {
+        //         if (searchForItem(item)) {
+        //             item.quantity = item.quantity + cart.quantity;
+        //             toast.success(`${toolsService.parseProductName(item?.differents, true)} added to cart`);
+        //         }
+        //         return {...item};
+        //     });
+        // }
     }
 
     // quantity increment
@@ -191,9 +207,12 @@ export const useCartStore = defineStore("cart_product", () => {
         })
             .then((result?: boolean) => {
                 if (result) {
-                    cart_products.value = cart_products.value.filter(filterCartProductByPayload(payload));
-                    localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
-                    toast.error(`${toolsService.parseProductName(payload, true)} removed from cart`);
+                    $axios.post('cart/remove', formDataService({product_id: (payload?.id || payload?.differents?.id)}))
+                        .then((response) => {
+                            cart_products.value = cart_products.value.filter(filterCartProductByPayload(payload));
+                            // cart_products.value = cart_products.value.filter((p) => p.id !== (payload?.id || payload?.differents?.id));
+                            toast.success(response?.data?.message || `${payload.name} removed from cart`);
+                        })
                 }
             })
             .then(() => {
@@ -209,26 +228,25 @@ export const useCartStore = defineStore("cart_product", () => {
             });
     };
 
-    // cart product initialize
-    const initializeCartProducts = () => {
-        const cartData = localStorage.getItem("cart_products");
-        if (cartData) {
-            cart_products.value = JSON.parse(cartData);
-        }
-    };
-
-    // clear cart
     const clear_cart = () => {
-        const confirmMsg = window.confirm(
-            "Are you sure you want to delete all cart items?"
-        );
-        if (confirmMsg) {
-            cart_products.value = [];
-        }
-        localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
+        swal({
+            title: t("Are you sure?"),
+            text: t("You won't be able to revert this!"),
+            icon: "warning",
+            dangerMode: true,
+            buttons: [t("Cancel"), t("Remove all")],
+        })
+            .then((result?: boolean) => {
+                if (result) {
+                    $axios.post('cart/clear')
+                        .then((response) => {
+                            cart_products.value = [];
+                            toast.success(response?.data?.message || `Cart cleared`);
+                        })
+                }
+            })
     };
 
-    // initialOrderQuantity
     const initialOrderQuantity = () => {
         return orderQuantity.value = 1;
     };
@@ -253,7 +271,7 @@ export const useCartStore = defineStore("cart_product", () => {
 
     // totalPriceQuantity
     const totalPriceQuantity = computed(() => {
-        return cart_products.value.reduce(
+        return cart_products.value?.reduce(
             (cartTotal, cartItem: ICartItem) => {
                 if (!cartItem?.differents) {
                     return cartTotal;
@@ -279,13 +297,21 @@ export const useCartStore = defineStore("cart_product", () => {
     });
 
     //handle cartOffcanvas
-    const handleCartOffcanvas = () => {
-        cartOffcanvas.value = !cartOffcanvas.value;
-    };
+    const handleCartOffcanvas = () => cartOffcanvas.value = !cartOffcanvas.value;
+
+    const fetchCart = async () => {
+        if ($axios.hasToken()) {
+            const response: { data: { data: ICartResponse } } = await $axios.get('cart', {
+                baseURL: "http://127.0.0.1:3000/api"
+            });
+            let cartData = convertCartResponse(response?.data?.data || {});
+            cart_products.value = cartData.cartItems;
+        }
+    }
 
     // set local storage product when project is mounted
     onMounted(() => {
-        initializeCartProducts();
+        fetchCart();
     });
 
     // when the router changes, the order quantity will be set to 1
@@ -318,6 +344,7 @@ export const useCartStore = defineStore("cart_product", () => {
         closeCart,
         addToCart,
         calcAccessoriesPrice,
-        calcCartItem
+        calcCartItem,
+        fetchCart,
     };
 });

@@ -79,7 +79,7 @@
                                   <div class="tp-compare-remove">
                                       <button
 		                                      :title="$t('Remove :name', {name: toolsService.parseProductName(item)})"
-		                                      @click="compareStore.removeCompare(item)"
+		                                      @click="compareStore.removeCompareProduct(item)"
                                       ><i class="fal fa-trash-alt"></i></button>
                                   </div>
                               </td>

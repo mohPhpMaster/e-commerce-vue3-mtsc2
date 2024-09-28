@@ -15,6 +15,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
                 }
             }).then(res => convertSiteSettingsResponse(res?.data?.data || {}))
         );
+
         if (error.value) {
             console.error('Failed to load default settings:', error.value);
             return;

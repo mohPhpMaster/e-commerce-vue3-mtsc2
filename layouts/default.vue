@@ -50,6 +50,7 @@ const head = useLocaleHead({
 });
 
 const settings = useNuxtApp().$settings;
+// console.log(53, settings)
 const {siteTitle, siteDescription, siteKeywords, favicon} = settings;
 useHead({
 	titleTemplate: (t) => {

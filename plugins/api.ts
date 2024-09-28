@@ -17,6 +17,7 @@ import topCategoryData from "@/plugins/data/top-category-data";
 import contactUsData from "@/plugins/data/contact-us-data";
 import userOrdersData from "@/plugins/data/user-orders-data";
 import productAddionalsData from "@/plugins/data/product-addionals-data";
+import cartData from "@/plugins/data/cart-data";
 
 export const api = {
     menuData,
@@ -33,6 +34,7 @@ export const api = {
     productAccessoriesGroupsData,
     siteSettingsData,
     cartFeesData,
+    cartData,
     userAddressesData,
     topCategoryData,
     contactUsData,

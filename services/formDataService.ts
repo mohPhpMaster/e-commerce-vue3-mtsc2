@@ -9,7 +9,13 @@ export default (formData: { [key: string]: any }, keysMap: {
             if (files.includes(key)) {
                 data.append(keyName, new Blob([formData[key]], {type: formData[key].type}), formData[key].name);
             } else if (!Object.values(keysMap).includes(keyName)) {
-                data.append(keyName, formData[key]);
+                if (Array.isArray(formData[key])) {
+                    formData[key].forEach((item, index) => {
+                        data.append(`${keyName}[]`, item);
+                    });
+                } else {
+                    data.append(keyName, formData[key]);
+                }
             }
         }
     }

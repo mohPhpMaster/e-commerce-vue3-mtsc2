@@ -93,6 +93,10 @@ const handleCouponSubmit = () => {
   console.log(couponCode.value)
 }
 
+onMounted(() => {
+	cartStore.fetchCart();
+});
+
 // onMounted(...shippingStore.getOnMounted());
 // watch(...shippingStore.getWatch())
 </script>

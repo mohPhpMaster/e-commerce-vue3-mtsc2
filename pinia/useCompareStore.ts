@@ -3,6 +3,10 @@ import { type IProduct } from "@/types/product-d-t";
 import { defineStore } from "pinia";
 import { toast } from "vue3-toastify";
 import swal from "sweetalert";
+import {$axios} from "@/plugins/00.axiosInstance";
+import formDataService from "@/services/formDataService";
+import type {IProductResponse} from "@/types/product-response-d-t";
+import {convertProductResponse} from "@/plugins/data/product-data";
 
 export const useCompareStore = defineStore("compare_product", () => {
   let compare_items = ref<IProduct[]>([]);
@@ -12,33 +16,26 @@ export const useCompareStore = defineStore("compare_product", () => {
   const add_compare_product = (payload: IProduct) => {
     const isAdded = compare_items.value.findIndex((p) => p.id === payload.id);
     if (isAdded !== -1) {
-      compare_items.value = compare_items.value.filter(
-        (p) => p.id !== payload.id
-      );
-      toast.error(`${payload.name} remove to compare`);
+      removeCompare(payload);
     } else {
-      compare_items.value.push(payload);
-      toast.success(`${payload.name} added to compare`);
+      $axios.post('comparelist/add', formDataService({product_id: payload.id}))
+          .then((response) => {
+            compare_items.value.push(payload);
+            toast.success(response?.data?.message || `${payload.name} added to compare`);
+          })
     }
-    localStorage.setItem(
-      "compare_products",
-      JSON.stringify(compare_items.value)
-    );
   };
 
   // removeCompare
-  const removeCompareProduct = (payload: IProduct) => {
-    compare_items.value = compare_items.value.filter(
-      (p) => p.id !== payload.id
-    );
-    toast.error(`${payload.name} remove to compare`);
-    localStorage.setItem(
-      "compare_products",
-      JSON.stringify(compare_items.value)
-    );
+  const removeCompare = (payload: IProduct) => {
+    $axios.post('comparelist/remove', formDataService({product_id: payload.id}))
+        .then((response) => {
+          compare_items.value = compare_items.value.filter((p) => p.id !== payload.id);
+          toast.success(response?.data?.message || `${payload.name} removed from compare`);
+        })
   };
 
-  const removeCompare = (payload: IProduct) => {
+  const removeCompareProduct = (payload: IProduct) => {
     swal({
       title: t("Are you sure?"),
       text: t("You won't be able to revert this!"),
@@ -48,12 +45,26 @@ export const useCompareStore = defineStore("compare_product", () => {
     })
         .then((result?: boolean) => {
           if (result) {
-            return removeCompareProduct(payload);
+            return removeCompare(payload);
           }
         })
   };
 
-  const clearCompare = (payload: IProduct) => {
+  const fetchComparelist = async () => {
+    if ($axios.hasToken()) {
+      const response: { data: { data: IProductResponse[] } } = await $axios.get('comparelist', {
+        baseURL: "http://127.0.0.1:3000/api"
+      });
+      compare_items.value = (response?.data?.data || []).map(convertProductResponse);
+    }
+  }
+
+  // mounted to update cart products
+  onMounted(() => {
+    fetchComparelist();
+  });
+
+  const clearCompare = () => {
     swal({
       title: t("Are you sure?"),
       text: t("You won't be able to revert this!"),
@@ -63,24 +74,14 @@ export const useCompareStore = defineStore("compare_product", () => {
     })
         .then((result?: boolean) => {
           if (result) {
-            compare_items.value = [];
-            localStorage.setItem("compare_products", JSON.stringify([]));
+            $axios.post('comparelist/clear')
+                .then((response) => {
+                  compare_items.value = [];
+                  toast.success(response?.data?.message || `Compare cleared`);
+                })
           }
         })
   };
-
-  // cart product initialize
-  const initializeCompareProducts = () => {
-    const compareData = localStorage.getItem("compare_products");
-    if (compareData) {
-      compare_items.value = JSON.parse(compareData);
-    }
-  };
-
-  // mounted to update cart products
-  onMounted(() => {
-    initializeCompareProducts();
-  });
 
   return {
     add_compare_product,

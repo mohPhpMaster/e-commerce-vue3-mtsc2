@@ -32,7 +32,10 @@
         <span class="tp-product-details-price new-price product-price-value">{{ currency(different?.net) }} </span>
         <span class="tp-product-details-price old-price product-old-price-value">{{ currency(different?.price) }}</span>
       </div>
-      <span v-else class="tp-product-details-price new-price product-price-value">{{ currency(different?.price) }}</span>
+      <span
+		      v-else
+		      class="tp-product-details-price new-price product-price-value"
+      >{{ currency(different?.price) }}</span>
    </div>
 
 	  <!-- Product Countdown -->
@@ -71,9 +74,9 @@
 	  <!-- Additional Information (Tags, Category, Social, etc.) -->
     <div v-if="isShowBottom">
       <product-details-differents-accessories
+		      :accessories="accessories"
 		      :different="different"
 		      :product="mainProduct"
-		      :accessories="accessories"
 		      @clicked="differentProductClicked"
 		      @updated="accessoryProductUpdated"
       />
@@ -144,7 +147,8 @@ const {
 		() => {
 			if (!props.isShowBottom) return Promise.resolve([]);
 
-			return $axios.get(`products/${toolsService.id(props.mainProduct)}/accessories_groups`).then(res => (res?.data?.data || []).map(convertProductAccessoriesResponse));
+			return $axios.get(`products/${toolsService.id(props.mainProduct)}/accessories_groups`)
+					.then(res => (res?.data?.data || []).map(convertProductAccessoriesResponse));
 		},
 		{
 			watch: [props.mainProduct, props.product, route],
@@ -152,8 +156,7 @@ const {
 )
 
 const addToCart = (product: IProduct) => {
-	if (!props.isShowBottom)
-	{
+	if (!props.isShowBottom) {
 		cartStore.openCartProduct(product, t('Add To Cart'));
 		return false;
 	}

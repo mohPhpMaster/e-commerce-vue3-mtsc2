@@ -11,5 +11,7 @@
 </template>
 
 <script setup lang="ts">
-useSeoMeta({ title: "Cart Page" });
+const {t} = useI18n();
+const {title} = useSiteSettings();
+useSeoMeta({title: t("Shopping Cart")});
 </script>

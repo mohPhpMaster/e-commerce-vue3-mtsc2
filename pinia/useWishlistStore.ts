@@ -3,28 +3,34 @@ import { type IProduct } from "@/types/product-d-t";
 import { defineStore } from "pinia";
 import { toast } from "vue3-toastify";
 import swal from "sweetalert";
+import {$axios} from "@/plugins/00.axiosInstance";
+import type {IProductResponse} from "@/types/product-response-d-t";
+import {convertProductResponse} from "@/plugins/data/product-data";
+import formDataService from "@/services/formDataService";
 
 export const useWishlistStore = defineStore("wishlist_product", () => {
   const {t} = useI18n();
   let wishlists = ref<IProduct[]>([]);
 
-  // add_wishlist_product
   const add_wishlist_product = (payload: IProduct) => {
     const isAdded = wishlists.value.findIndex((p) => p.id === payload.id);
     if (isAdded !== -1) {
-      wishlists.value = wishlists.value.filter((p) => p.id !== payload.id);
-      toast.error(`${payload.name} remove to wishlist`);
+      removeWishlist(payload);
     } else {
-      wishlists.value.push(payload);
-      toast.success(`${payload.name} added to wishlist`);
+      $axios.post('wishlist/add', formDataService({product_id: payload.id}))
+          .then((response) => {
+            wishlists.value.push(payload);
+            toast.success(response?.data?.message || `${payload.name} added to wishlist`);
+          })
     }
-    localStorage.setItem("wishlist_products", JSON.stringify(wishlists.value));
   };
   // removeWishlist
   const removeWishlist = (payload: IProduct) => {
-    wishlists.value = wishlists.value.filter((p) => p.id !== payload.id);
-    toast.error(`${payload.name} remove to wishlist`);
-    localStorage.setItem("wishlist_products", JSON.stringify(wishlists.value));
+    $axios.post('wishlist/remove', formDataService({product_id: payload.id}))
+        .then((response) => {
+          wishlists.value = wishlists.value.filter((p) => p.id !== payload.id);
+          toast.success(response?.data?.message || `${payload.name} removed from wishlist`);
+        })
   };
 
   // remover_cart_products
@@ -43,22 +49,44 @@ export const useWishlistStore = defineStore("wishlist_product", () => {
         })
   };
 
-  // cart product initialize
-  const initializeWishlistProducts = () => {
-    const wishlistData = localStorage.getItem("wishlist_products");
-    if (wishlistData) {
-      wishlists.value = JSON.parse(wishlistData);
+  const fetchWishlist = async () => {
+    if ($axios.hasToken()) {
+      const response: { data: { data: IProductResponse[] } } = await $axios.get('wishlist', {
+        baseURL: "http://127.0.0.1:3000/api"
+      });
+      wishlists.value = (response?.data?.data || []).map(convertProductResponse);
     }
-  };
+  }
 
   // mounted to update cart products
   onMounted(() => {
-    initializeWishlistProducts();
+    fetchWishlist();
   });
+
+  const clearWishlist = (payload: IProduct) => {
+    swal({
+      title: t("Are you sure?"),
+      text: t("You won't be able to revert this!"),
+      icon: "warning",
+      dangerMode: true,
+      buttons: [t("Cancel"), t("Remove all")],
+    })
+        .then((result?: boolean) => {
+          if (result) {
+            $axios.post('wishlist/clear')
+                .then((response) => {
+                  wishlists.value = [];
+                  toast.success(response?.data?.message || `Wishlist cleared`);
+                })
+          }
+        })
+  };
+
   return {
     add_wishlist_product,
-    removeWishlist,
     removeWishlistProduct,
+    removeWishlist,
+    clearWishlist,
     wishlists,
   };
 });

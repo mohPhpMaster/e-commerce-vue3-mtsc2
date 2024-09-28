@@ -11,5 +11,8 @@
 </template>
 
 <script setup lang="ts">
-useSeoMeta({ title: "Wishlist Page" });
+const {title} = useSiteSettings();
+const {t} = useI18n();
+
+useSeoMeta({title: title(t("Wishlist"))});
 </script>
