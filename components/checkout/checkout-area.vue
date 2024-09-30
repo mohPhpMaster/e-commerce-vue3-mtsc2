@@ -2,10 +2,8 @@
   <section class="tp-checkout-area pb-120" style="background-color: #EFF1F5;">
     <div class="container">
       <div v-if="cartStore.cart_products.length === 0" class="text-center pt-50">
-        <h3 class="py-2">No items found in cart to checkout</h3>
-        <nuxt-link href="/shop" class="tp-checkout-btn">
-          Return to shop
-        </nuxt-link>
+        <h3 class="py-2">{{ $t('No Items Found') }}</h3>
+        <nuxt-link href="/" class="tp-checkout-btn">{{ $t('Continue Shopping') }}</nuxt-link>
       </div>
       <div v-else class="row">
         <div class="col-xl-7 col-lg-7">
@@ -18,7 +16,7 @@
           <div class="row">
             <div class="col-lg-7">
               <div class="tp-checkout-bill-area">
-                <h3 class="tp-checkout-bill-title">Billing Details</h3>
+                <h3 class="tp-checkout-bill-title">{{ $t('Billing Details') }}</h3>
                 <checkout-billing />
               </div>
             </div>
@@ -38,10 +36,12 @@
 <script setup lang="ts">
 import * as yup from 'yup';
 import {useCartStore} from '@/pinia/useCartStore';
+import {Form} from 'vee-validate';
+import {useUserStore} from "@/pinia/useUserStore";
 
 const cartStore = useCartStore();
+useUserStore().needUser();
 
-import { Form } from 'vee-validate';
 const {t} = useI18n();
 
 const schema = yup.object({

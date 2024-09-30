@@ -11,10 +11,24 @@ import {$axios} from "@/plugins/00.axiosInstance";
 import type {ICartResponse} from "@/types/cart-response-d-t";
 import {convertProductResponse} from "@/plugins/data/product-data";
 import {convertCartResponse} from "@/plugins/data/cart-data";
+import {convertProductDifferentsResponse} from "@/plugins/data/product-differents-data";
+import {
+    convertProductAccessoriesGroupsResponse,
+    convertProductAccessoriesResponse
+} from "@/plugins/data/product-accessories-groups-data";
+import type {IUser} from "@/types/user-d-t";
 
 export const useCartStore = defineStore("cart_product", () => {
     const nuxt_app = useNuxtApp();
     const {t} = nuxt_app?.$i18n;
+    const cookies = useCookie<IUser>('user', {
+        // parseJSON: true,
+        persist: true,
+        watch: true
+    });
+
+    const isLoggedIn = () => !!cookies.value?.token;
+
     // const {$axios} = nuxt_app;
     const route = useRoute();
     let cart_products = ref<ICartItem[]>([]);
@@ -60,44 +74,49 @@ export const useCartStore = defineStore("cart_product", () => {
         if (cart_modal_status.value) {
             closeCart();
         }
-        // const searchForItem = (i, $index): boolean | number => (
-        //     (i?.differents?.id === cart?.differents?.id) &&
-        //     (i?.accessories && cart?.accessories && i.accessories.length === cart.accessories.length) &&
-        //     i?.accessories.every((a: ISelectedAccessories, index) => {
-        //         return (
-        //                 (a.group === cart?.accessories[index]?.group) ||
-        //                 (a.group?.id === cart?.accessories[index]?.group?.id)
-        //             ) &&
-        //             (
-        //                 (a.accessory === cart?.accessories[index]?.accessory) ||
-        //                 (a.accessory?.id === cart?.accessories[index]?.accessory?.id)
-        //             )
-        //     })
-        // );
+        const searchForItem = (i, $index): boolean | number => (
+            (i?.differents?.id === cart?.differents?.id) &&
+            (i?.accessories && cart?.accessories && i.accessories.length === cart.accessories.length) &&
+            i?.accessories.every((a: ISelectedAccessories, index) => {
+                return (
+                        (a.group === cart?.accessories[index]?.group) ||
+                        (a.group?.id === cart?.accessories[index]?.group?.id)
+                    ) &&
+                    (
+                        (a.accessory === cart?.accessories[index]?.accessory) ||
+                        (a.accessory?.id === cart?.accessories[index]?.accessory?.id)
+                    )
+            })
+        );
 
-        // const isExist = cart_products.value.some(searchForItem);
-        // if (!isExist) {
+        if (isLoggedIn()) {
             $axios.post('cart/add', formDataService({
-                product: cart.differents.id,
+                product_id: cart.differents.id,
+                price: cart.differents.price,
                 quantity: cart.quantity,
                 accessories: cart.accessories.map(x => x.accessory.id),
             }))
                 .then((response) => {
-                    cart_products.value.push(cart);
+                    // cart_products.value.push(cart);
+                    fetchCart();
                     toast.success(response?.data?.message || `Product added to cart`);
                 })
-
-            // debugger;
-            // toast.success(`${toolsService.parseProductName(cart?.differents, true)} added to cart`);
-        // } else {
-        //     cart_products.value.map((item) => {
-        //         if (searchForItem(item)) {
-        //             item.quantity = item.quantity + cart.quantity;
-        //             toast.success(`${toolsService.parseProductName(item?.differents, true)} added to cart`);
-        //         }
-        //         return {...item};
-        //     });
-        // }
+        } else {
+            const isExist = cart_products.value.some(searchForItem);
+            if (!isExist) {
+                    cart_products.value.push(cart);
+                } else {
+                    cart_products.value.map((item) => {
+                        if (searchForItem(item)) {
+                            item.quantity = item.quantity + cart.quantity;
+                        }
+                        return {...item};
+                    });
+                }
+                localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
+                // debugger;
+                toast.success(`Product added to cart`);
+            }
     }
 
     // quantity increment
@@ -207,12 +226,21 @@ export const useCartStore = defineStore("cart_product", () => {
         })
             .then((result?: boolean) => {
                 if (result) {
-                    $axios.post('cart/remove', formDataService({product_id: (payload?.id || payload?.differents?.id)}))
-                        .then((response) => {
-                            cart_products.value = cart_products.value.filter(filterCartProductByPayload(payload));
-                            // cart_products.value = cart_products.value.filter((p) => p.id !== (payload?.id || payload?.differents?.id));
-                            toast.success(response?.data?.message || `${payload.name} removed from cart`);
-                        })
+                    if (isLoggedIn()) {
+                        $axios.post('cart/remove', formDataService({
+                            product_id: (payload?.id || payload?.differents?.id),
+                            id: payload?.id
+                        }))
+                            .then((response) => {
+                                // cart_products.value = cart_products.value.filter(filterCartProductByPayload(payload));
+                                fetchCart();
+                                toast.success(response?.data?.message || `${payload.name} removed from cart`);
+                            })
+                    } else {
+                        cart_products.value = cart_products.value.filter(filterCartProductByPayload(payload));
+                        localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
+                        toast.error(`${toolsService.parseProductName(payload, true)} removed from cart`);
+                    }
                 }
             })
             .then(() => {
@@ -238,11 +266,16 @@ export const useCartStore = defineStore("cart_product", () => {
         })
             .then((result?: boolean) => {
                 if (result) {
-                    $axios.post('cart/clear')
-                        .then((response) => {
-                            cart_products.value = [];
-                            toast.success(response?.data?.message || `Cart cleared`);
-                        })
+                    if (isLoggedIn()) {
+                        $axios.post('cart/clear')
+                            .then((response) => {
+                                fetchCart();
+                                toast.success(response?.data?.message || `Cart cleared`);
+                            })
+                    } else {
+                        cart_products.value = [];
+                        localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
+                    }
                 }
             })
     };
@@ -305,7 +338,22 @@ export const useCartStore = defineStore("cart_product", () => {
                 baseURL: "http://127.0.0.1:3000/api"
             });
             let cartData = convertCartResponse(response?.data?.data || {});
+            cartData.cartItems = cartData.cartItems.map(x=>{
+                let differents = x?.differents?.data || x?.differents || {};
+                let accessories = x?.accessories?.data || x?.accessories || [];
+                return {
+                    id: x?.id || undefined,
+                    quantity: x?.quantity || 0,
+                    accessories: accessories,
+                    differents: convertProductResponse(differents),
+                }
+            });
             cart_products.value = cartData.cartItems;
+        } else {
+            const cartData = localStorage.getItem("cart_products");
+            if (cartData) {
+                cart_products.value = JSON.parse(cartData);
+            }
         }
     }
 

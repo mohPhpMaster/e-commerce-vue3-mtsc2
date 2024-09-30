@@ -1,6 +1,6 @@
 <template>
 		<Carousel v-if="slides?.length" :autoplay="2000" :wrap-around="true" class="site-carousel">
-		  <Slide v-for="(slide, i) in slides" :key="i">
+		  <Slide v-for="(slide, i) in slides" :key="slide?.id || i">
 		    <div class="carousel__item">
 					<img :src="toolsService.parseImageUrl(slide, '')" class="w-100 site-carousel" :alt="`carousel image ${i}`">
 		    </div>

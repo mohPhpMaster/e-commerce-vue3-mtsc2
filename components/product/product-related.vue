@@ -10,7 +10,7 @@
       <div class="row">
         <div class="tp-product-related-slider">
           <swiper v-bind="slider_setting" :modules="[Scrollbar]" class="tp-product-related-slider-active swiper-container mb-10">
-            <swiper-slide v-for="(item, i) in related_products" :key="i">
+            <swiper-slide v-for="(item, i) in related_products" :key="item?.id || i">
               <product-single :product="item"/>
             </swiper-slide>
           </swiper>

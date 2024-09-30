@@ -11,8 +11,14 @@
 </template>
 
 <script setup lang="ts">
+import {useWishlistStore} from "@/pinia/useWishlistStore";
+
 const {title} = useSiteSettings();
 const {t} = useI18n();
 
 useSeoMeta({title: title(t("Wishlist"))});
+
+onMounted(() => {
+	useWishlistStore().fetchWishlist();
+});
 </script>

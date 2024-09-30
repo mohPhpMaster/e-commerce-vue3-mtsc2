@@ -21,7 +21,7 @@ export async function cartData(): Promise<ICart> {
 
 export function convertCartResponse(data: ICartResponse): ICart {
     return {
-        cartItems: (data?.cartItems || []).map(convertCartItemResponse),
+        cartItems: data?.cartItems,//(data?.cartItems || []).map(convertCartItemResponse),
         fee_id: data?.fee_id,
         subtotal: data?.subtotal || 0,
         total: data?.total || 0
@@ -29,9 +29,21 @@ export function convertCartResponse(data: ICartResponse): ICart {
 }
 
 export function convertCartItemResponse(data: ICartItemResponse): ICartItem {
+    let getGroup = (id: number) => {
+        return ((data?.groups || []).find(x => x.id == id) || {});
+    }
+    console.log(35, (data || []))
     return {
         quantity: data?.quantity || 0,
-        accessories: (data?.accessories || []).map(convertProductAccessoriesGroupsResponse),
+        accessories: (data?.accessories || [])
+        .map(a=> {
+            return {
+                accessory: a,
+                // group: convertProductAccessoriesResponse(data?.accessories.group.find(x => x.id === a.group_id) || {})
+                group: getGroup(Number(a.group_id))
+            }
+        }),
+        // (data?.accessories || []).map(convertProductAccessoriesGroupsResponse),
         differents: convertProductResponse(data?.differents || {})
     };
 }

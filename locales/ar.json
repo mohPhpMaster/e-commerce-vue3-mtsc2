@@ -97,7 +97,7 @@
   "Next day Products": "منتجات اليوم التالي",
   "Related Products": "منتجات ذات صلة",
   "Shopping Cart": "سلة التسوق",
-  "No Cart Items Found": "لم يتم العثور على عناصر سلة التسوق",
+  "No Items Found": "لم يتم العثور على منتجات",
   "Continue Shopping": "الذهاب للتسوق",
   "Coupon Code:": "كود الخصم:",
   "Coupon Code": "كود الخصم",
@@ -238,5 +238,9 @@
   "Location": "الموقع",
   "Label": "التسمية",
   "Privacy Policy": "سياسة الخصوصية",
-  "Terms & Conditions": "الشروط والاحكام"
+  "Terms & Conditions": "الشروط والاحكام",
+  "Billing Details": "تفاصيل الفاتورة",
+  "Click here to login": "انقر هنا لتسجيل الدخول",
+  "Have a coupon?": "هل لديك  كود خصم؟",
+  "Click here to enter your coupon code": "انقر هنا لإدخال كود الخصم"
 }

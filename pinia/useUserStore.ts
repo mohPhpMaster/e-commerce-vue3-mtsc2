@@ -3,6 +3,9 @@ import {type IUser} from "@/types/user-d-t";
 import {api} from "@/plugins/api";
 import {$axios} from "@/plugins/00.axiosInstance";
 import type {IUserLoginFormValues} from "@/types/user-login-form-values-d-t";
+import {useCartStore} from "@/pinia/useCartStore";
+import {useWishlistStore} from "@/pinia/useWishlistStore";
+import {useCompareStore} from "@/pinia/useCompareStore";
 
 export const useUserStore = defineStore('user', () => {
     const initialized = ref(false);
@@ -20,6 +23,10 @@ export const useUserStore = defineStore('user', () => {
         return api.userLoginData(user_data)
             .then((loggedUser: IUser) => {
                 setUser(loggedUser);
+
+                useCartStore().fetchCart();
+                useWishlistStore().fetchWishlist();
+                useCompareStore().fetchComparelist();
                 return user;
             });
     }
@@ -28,6 +35,10 @@ export const useUserStore = defineStore('user', () => {
         return ($axios.hasToken() ? api.userLogoutData() : Promise.resolve(''))
             .then((message: string) => {
                 clearUser();
+
+                useCartStore().fetchCart();
+                useWishlistStore().fetchWishlist();
+                useCompareStore().fetchComparelist();
                 return message;
             });
     }
@@ -77,7 +88,6 @@ export const useUserStore = defineStore('user', () => {
             initialized.value = true;
             await refresh();
         }
-
         return user;
     };
 

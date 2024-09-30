@@ -81,7 +81,7 @@
                       <div class="tp-product-details-review-list pr-110">
                         <h3 class="tp-product-details-review-title">{{ $t('Rating & Review') }}</h3>
                         <div v-if="reviews?.length > 0">
-                          <div v-for="(item,i) in reviews" :key="i" class="tp-product-details-review-avater d-flex align-items-start">
+                          <div v-for="(item,i) in reviews" :key="item?.id || i" class="tp-product-details-review-avater d-flex align-items-start">
                               <div class="tp-product-details-review-avater-thumb">
                                 <a href="#">
                                     <img :src="toolsService.parseImageUrl(item?.photo)" alt="user profile image">

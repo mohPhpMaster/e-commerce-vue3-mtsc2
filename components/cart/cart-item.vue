@@ -3,7 +3,7 @@
     <!-- img -->
     <td class="tp-cart-img col-2">
       <nuxt-link :to="toolsService.getProductUrl(item?.differents, true)" style="background-color: #F2F3F5;display: block;">
-        <img :src="item?.differents.images?.[0]" :title="item?.differents?.name" alt="cart-img" />
+        <img :src="toolsService.getImageUrlValue(item?.differents)" :title="item?.differents?.name" alt="cart-img" />
       </nuxt-link>
     </td>
 	  <!-- title -->
@@ -15,7 +15,7 @@
 		    </nuxt-link>
 		  </div>
 
-      <div v-if="item?.accessories?.length" v-for="(accessory, index) in item?.accessories" :key="index" class="col-12">
+      <div v-if="item?.accessories?.length" v-for="(accessory, index) in item?.accessories" :key="accessory.group?.id || accessory?.accessory?.id || index" class="col-12">
         <div class="col-12 text-nowrap ms-4 tp-cart-price">
           {{ accessory.group?.name }}{{ accessory?.accessory?.name ? ` - ${accessory?.accessory?.name}` : "" }}
 	        <span class="product-price-value_">{{ accessory.accessory?.price ? currency(accessory.accessory?.price) : "" }}</span><span class="">{{ ` x ${(accessory?.accessory?.qty || 1)}` }}</span>
@@ -63,6 +63,10 @@ import currency from "@/services/currencyService";
 const cartStore = useCartStore();
 
 const props = defineProps<{ item: ICartItem }>();
+
+onMounted(() => {
+	// console.log(68, props.item.accessories)
+});
 </script>
 
 <style scoped>

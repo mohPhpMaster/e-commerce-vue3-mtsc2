@@ -2,7 +2,7 @@
   <section class="tp-cart-area pb-120">
     <div class="container">
       <div v-if="cartStore.cart_products.length === 0" class='text-center pt-50'>
-        <h3>{{ $t('No Cart Items Found') }}</h3>
+        <h3>{{ $t('No Items Found') }}</h3>
         <nuxt-link href="/" class="tp-cart-checkout-btn mt-20">{{ $t('Continue Shopping') }}</nuxt-link>
       </div>
       <div v-else class="row">
@@ -49,7 +49,7 @@
         </div>
         <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="tp-cart-checkout-wrapper">
-              <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between" v-if="shippingStore.fees.value.length > 0">
+<!--              <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between" v-if="shippingStore.fees.value.length > 0">
                   <span class="tp-cart-checkout-top-title">{{ $t('Subtotal') }}</span>
                   <span class="tp-cart-checkout-top-price">
                     {{ currency(cartStore.totalPriceQuantity.total.toFixed(2)) }}
@@ -63,7 +63,7 @@
                         <label @click="shippingStore.setSelectedFee(_fee)" :for="_fee.name">{{ _fee.name }}<span v-if="!['free',0].includes(_fee.value)">: {{ currency(_fee.value) }}</span></label>
                     </div>
                   </div>
-              </div>
+              </div>-->
               <div class="tp-cart-checkout-total d-flex align-items-center justify-content-between">
                   <span>{{ $t('Total') }}</span>
                   <span>{{ currency((cartStore.totalPriceQuantity.total + shippingStore.shipCost.value).toFixed(2)) }}</span>
@@ -92,10 +92,6 @@ let couponCode = ref<string>('');
 const handleCouponSubmit = () => {
   console.log(couponCode.value)
 }
-
-onMounted(() => {
-	cartStore.fetchCart();
-});
 
 // onMounted(...shippingStore.getOnMounted());
 // watch(...shippingStore.getWatch())

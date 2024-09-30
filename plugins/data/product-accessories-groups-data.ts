@@ -85,7 +85,7 @@ export function convertProductAccessoriesGroupsResponse(product: IProductAccesso
         ITYPE: 'product-accessories-groups',
         id: String(product.id).trim(),
         name: product.name,
-        is_required: Boolean(typeof product.is_required === 'string' ? JSON.parse(product.is_required) : product.is_required),
+        is_required: Boolean(typeof product.is_required === 'string' && product.is_required ? JSON.parse(product.is_required) : product.is_required),
         group_id: product.group_id,
         group: product.group,
         qty: product.qty,

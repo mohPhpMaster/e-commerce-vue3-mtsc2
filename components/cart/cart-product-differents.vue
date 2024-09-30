@@ -4,7 +4,7 @@
           <div class="form-group d-flex align-items-center">
             <label class="mr-2 font-weight-bold" for="productSelect">{{ $t("Product:") }}</label>
             <select id="productSelect" v-model="selectedProduct" @change="commit()" class="form-control">
-              <option v-for="(product_different, index) in productDifferents" :key="index" :value="product_different?.id">
+              <option v-for="(product_different, index) in productDifferents" :key="product_different?.id || index" :value="product_different?.id">
                 {{ toolsService.parseProductName(product_different, true) }}
               </option>
             </select>

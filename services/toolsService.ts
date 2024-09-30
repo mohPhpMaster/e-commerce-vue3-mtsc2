@@ -11,6 +11,21 @@ import type {IUserAddressesResponse} from "@/types/user-addresses-response-d-t";
 const idKey = ["slug", "sku"];
 
 export default {
+    getImageUrlValue(obj: IProduct|any = {}, {prop, arrProp, defaultValue, parse}: {
+        prop?: string,
+        arrProp?: string,
+        defaultValue?: string,
+        parse?: boolean
+    } = {
+        prop: "imageUrl",
+        arrProp: 'images',
+        defaultValue: "",
+        parse: true
+    }) {
+        let r = obj?.[prop] || obj?.[arrProp]?.[0];
+
+        return parse ? this.parseImageUrl(r) : r;
+    },
     parseImageUrl(url = "", baseUrl = "") {
         baseUrl = baseUrl || "";
         baseUrl = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;

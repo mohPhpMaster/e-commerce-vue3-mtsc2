@@ -1,14 +1,14 @@
 <template>
   <div class="tp-checkout-verify">
-    <div class="tp-checkout-verify-item">
+    <div v-if="!isLoggedIn()" class="tp-checkout-verify-item">
       <p class="tp-checkout-verify-reveal">
-        Returning customer?
+        {{ $t('Already have an account?') }}
         <button
           @click="openLogin = !openLogin"
           type="button"
           class="tp-checkout-login-form-reveal-btn"
         >
-          Click here to login
+          {{ $t('Click here to login') }}
         </button>
       </p>
 
@@ -17,18 +17,18 @@
         id="tpReturnCustomerLoginForm"
         class="tp-return-customer"
       >
-        <forms-login-form />
+        <forms-login-form redirect="/checkout"/>
       </div>
     </div>
-    <div class="tp-checkout-verify-item">
+    <div v-if="showCouponCodeArea" class="tp-checkout-verify-item">
       <p class="tp-checkout-verify-reveal">
-        Have a coupon?
+				{{ $t('Have a coupon?') }}
         <button
           @click="openCoupon = !openCoupon"
           type="button"
           class="tp-checkout-coupon-form-reveal-btn"
         >
-          Click here to enter your code
+					{{ $t('Click here to enter your coupon code') }}
         </button>
       </p>
 
@@ -37,13 +37,13 @@
         id="tpCheckoutCouponForm"
         class="tp-return-customer"
       >
-        <form @submit.prevent="handleSubmit">
+        <form @submit.prevent="handleCouponSubmit">
           <div class="tp-return-customer-input">
-            <label>Coupon Code :</label>
-            <input type="text" placeholder="Coupon" />
+            <label>{{ $t('Coupon Code:') }}</label>
+            <input type="text" :placeholder="$t('Enter coupon code')" v-model="couponCode" />
           </div>
           <button type="submit" class="tp-return-customer-btn tp-checkout-btn">
-            Apply
+            {{ $t('Apply') }}
           </button>
         </form>
       </div>
@@ -52,11 +52,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import {useUserStore} from "@/pinia/useUserStore";
+
 const openLogin = ref<boolean>(false);
 const openCoupon = ref<boolean>(false);
+const showCouponCodeArea = ref(false);
+let couponCode = ref<string>('');
 
-const handleSubmit = () => {
-  console.log("submitted");
-};
+const {isLoggedIn, user} = useUserStore();
+
+const handleCouponSubmit = () => {
+	console.log(couponCode.value)
+}
 </script>

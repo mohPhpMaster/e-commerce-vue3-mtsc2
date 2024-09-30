@@ -97,7 +97,7 @@
   "Next day Products": "Next day Products",
   "Related Products": "Related Products",
   "Shopping Cart": "Shopping Cart",
-  "No Cart Items Found": "No Cart Items Found",
+  "No Items Found": "No Items Found",
   "Continue Shopping": "Continue Shopping",
   "Coupon Code:": "Coupon Code:",
   "Coupon Code": "Coupon Code",
@@ -237,5 +237,9 @@
   "Location": "Location",
   "Label": "Label",
   "Privacy Policy": "Privacy Policy",
-  "Terms & Conditions": "Terms & Conditions"
+  "Terms & Conditions": "Terms & Conditions",
+  "Billing Details": "Billing Details",
+  "Click here to login": "Click here to login",
+  "Have a coupon?": "Have a coupon?",
+  "Click here to enter your coupon code": "Click here to enter your coupon code"
 }

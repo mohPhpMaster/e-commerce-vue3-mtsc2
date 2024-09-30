@@ -11,5 +11,14 @@
 </template>
 
 <script setup lang="ts">
-useSeoMeta({ title: "Compare Page" });
+import {useCompareStore} from "@/pinia/useCompareStore";
+
+const {title} = useSiteSettings();
+const {t} = useI18n();
+
+useSeoMeta({title: title(t("Compare"))});
+
+onMounted(() => {
+	useCompareStore().fetchComparelist();
+});
 </script>

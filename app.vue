@@ -19,6 +19,8 @@ import {useUtilityStore} from '@/pinia/useUtilityStore';
 import {useUserStore} from "@/pinia/useUserStore";
 import {useCartStore} from "@/pinia/useCartStore";
 import {useLocaleStore} from "@/pinia/useLocaleStore";
+import {useWishlistStore} from "@/pinia/useWishlistStore";
+import {useCompareStore} from "@/pinia/useCompareStore";
 
 const route = useRoute();
 const {t} = useI18n();
@@ -33,6 +35,9 @@ const cartStore = useCartStore();
 onMounted(() => {
 	localeStore.checkLanguage();
 	userStore.initializeUser();
+	// cartStore.fetchCart();
+	// useWishlistStore().fetchWishlist();
+	// useCompareStore().fetchComparelist();
 
 	// $axios.instance.defaults.headers.common['language'] = localeService.locale();
 	// console.log(17, $axios.instance.defaults.headers.common['language'], localeService.locale())

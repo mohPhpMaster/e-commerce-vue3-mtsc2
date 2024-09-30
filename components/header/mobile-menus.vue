@@ -1,6 +1,6 @@
 <template>
     <nav class="tp-main-menu-content">
-      <ul v-for="(menu, i) in menu_data" :key="i">
+      <ul v-for="(menu, i) in menu_data" :key="menu?.id || i">
         <li
 		        v-if="menu.drop_down"
 		        :key="menu.id"
@@ -17,12 +17,12 @@
             </button>
           </a>
           <ul :class="`tp-submenu pe-3 ${isActiveMenu === menu.title ? 'active':''}`">
-            <li v-for="(subMenu, i) in menu.dropdown_menus" :key="i">
+            <li v-for="(subMenu, i) in menu.dropdown_menus" :key="subMenu?.id || i">
               <nuxt-link :to="subMenu.link">{{ subMenu.title }}</nuxt-link>
             </li>
           </ul>
         </li>
-        <li v-else :key="i">
+        <li v-else :key="menu?.id || i">
           <nuxt-link :to="menu.link">{{ menu.title }}</nuxt-link>
         </li>
       </ul>

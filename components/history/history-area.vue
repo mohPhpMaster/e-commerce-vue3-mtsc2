@@ -14,7 +14,7 @@
             >
               <SwiperSlide
                 v-for="(item, i) in slider_data"
-                :key="i"
+                :key="item?.id || i"
                 class="tp-thistory-item"
                 style="background-color: #f8f8f8"
               >

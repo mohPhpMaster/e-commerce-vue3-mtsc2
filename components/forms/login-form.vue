@@ -56,6 +56,7 @@ import type {IUser} from "@/types/user-d-t";
 import {toast} from "vue3-toastify";
 import type {IUserLoginFormValues} from "@/types/user-login-form-values-d-t";
 
+const props = defineProps<{ redirect?: string }>()
 const userStore = useUserStore()
 const $router = useRouter();
 const {t} = useI18n()
@@ -84,7 +85,7 @@ const onSubmit = handleSubmit((values: IUserLoginFormValues) => {
 					setTimeout(() => {
 						resetForm();
 						remeber.value.checked = false;
-						$router.push('/');
+						$router.push(props?.redirect || '/');
 					}, 500);
 				} else {
 					toast.error(t('Invalid username or password'));

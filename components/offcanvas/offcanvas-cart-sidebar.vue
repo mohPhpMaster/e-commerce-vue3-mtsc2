@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="`cartmini__area tp-all-font-roboto ${cartStore.cartOffcanvas ? 'cartmini-opened' : ''}`"
+		  :class="`cartmini__area tp-all-font-roboto ${cartStore.cartOffcanvas ? 'cartmini-opened' : ''}`"
   >
     <div class="cartmini__wrapper d-flex justify-content-between flex-column">
       <div class="cartmini__top-wrapper">
@@ -9,7 +9,7 @@
             <h4>{{ $t('Shopping Cart') }}</h4>
           </div>
           <div class="cartmini__close">
-            <button @click="cartStore.handleCartOffcanvas" type="button" class="cartmini__close-btn cartmini-close-btn">
+            <button class="cartmini__close-btn cartmini-close-btn" type="button" @click="cartStore.handleCartOffcanvas">
               <i class="fal fa-times"></i>
             </button>
           </div>
@@ -20,15 +20,19 @@
         <div v-if="cartStore.cart_products?.length > 0" class="cartmini__widget">
           <div v-for="item in cartStore.cart_products" :key="item?.differents?.id" class="cartmini__widget-item">
             <div class="cartmini__thumb">
-              <nuxt-link :to="toolsService.getProductUrl(item?.differents,true)"
-                         @click="cartStore.handleCartOffcanvas">
-                <img :src="item?.differents.images?.[0]" alt="cart-img" width="70" height="60" />
+              <nuxt-link
+		              :to="toolsService.getProductUrl(item?.differents,true)"
+		              @click="cartStore.handleCartOffcanvas"
+              >
+                <img :src="item?.differents.images?.[0]" alt="cart-img" height="60" width="70" />
               </nuxt-link>
             </div>
             <div class="cartmini__content">
               <h5 class="cartmini__title">
-                <nuxt-link :to="toolsService.getProductUrl(item?.differents,true)"
-                           @click="cartStore.handleCartOffcanvas">
+                <nuxt-link
+		                :to="toolsService.getProductUrl(item?.differents,true)"
+		                @click="cartStore.handleCartOffcanvas"
+                >
                   {{ toolsService.parseProductName(item?.differents, true) }}
                 </nuxt-link>
               </h5>
@@ -45,40 +49,43 @@
                 <span class="cartmini__quantity">{{ " " }}x{{ item.quantity }}</span>
               </div>
             </div>
-            <a @click="cartStore.removeCartProduct(item)" class="cartmini__del pointer">
+            <a class="cartmini__del pointer" @click="cartStore.removeCartProduct(item)">
               <i class="fa-regular fa-xmark"></i>
             </a>
           </div>
         </div>
-        <!-- if no item in cart  -->
+	      <!-- if no item in cart  -->
         <div
-          v-if="cartStore.cart_products?.length === 0"
-          class="cartmini__empty text-center"
+		        v-if="cartStore.cart_products?.length === 0"
+		        class="cartmini__empty text-center"
         >
           <img
-            src="/images/product/cartmini/empty-cart.png"
-            alt="empty-cart-img"
+		          alt="empty-cart-img"
+		          src="/images/product/cartmini/empty-cart.png"
           />
           <p>{{ $t('Your Cart is empty') }}</p>
-          <nuxt-link href="/" class="tp-btn">{{ $t('Shop Now') }}</nuxt-link>
+          <nuxt-link class="tp-btn" href="/">{{ $t('Shop Now') }}</nuxt-link>
         </div>
       </div>
       <div v-if="cartStore.cart_products?.length > 0" class="cartmini__checkout">
-        <div class="cartmini__checkout-title mb-30"
-             v-html="$t('Subtotal: :value', { value: currency(cartStore?.totalPriceQuantity?.total) })">
+        <div
+		        class="cartmini__checkout-title mb-30"
+		        v-html="$t('Subtotal: :value', { value: currency(cartStore?.totalPriceQuantity?.total) })"
+        >
         </div>
         <div class="cartmini__checkout-btn">
           <nuxt-link
-            href="/cart"
-            @click="cartStore.handleCartOffcanvas"
-            class="tp-btn mb-10 w-100"
+		          class="tp-btn mb-10 w-100"
+		          href="/cart"
+		          @click="cartStore.handleCartOffcanvas"
           >
             {{ $t('View Cart') }}
           </nuxt-link>
           <nuxt-link
-            href="/checkout"
-            @click="cartStore.handleCartOffcanvas"
-            class="tp-btn tp-btn-border w-100"
+		          v-if="useUserStore().isLoggedIn()"
+		          class="tp-btn tp-btn-border w-100"
+		          href="/checkout"
+		          @click="cartStore.handleCartOffcanvas"
           >
 						{{ $t('Checkout') }}
           </nuxt-link>
@@ -86,18 +93,19 @@
       </div>
     </div>
   </div>
-  <!-- overlay start  -->
+	<!-- overlay start  -->
   <div
-    @click="cartStore.handleCartOffcanvas"
-    :class="`body-overlay ${cartStore.cartOffcanvas ? 'opened' : ''}`"
+		  :class="`body-overlay ${cartStore.cartOffcanvas ? 'opened' : ''}`"
+		  @click="cartStore.handleCartOffcanvas"
   ></div>
-  <!-- overlay end  -->
+	<!-- overlay end  -->
 </template>
 
-<script setup lang="ts">
-import { useCartStore } from "@/pinia/useCartStore";
+<script lang="ts" setup>
+import {useCartStore} from "@/pinia/useCartStore";
 import toolsService from "@/services/toolsService";
 import currency from "@/services/currencyService";
+import {useUserStore} from "@/pinia/useUserStore";
 
 const cartStore = useCartStore();
 </script>

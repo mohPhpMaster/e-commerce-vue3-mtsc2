@@ -16,6 +16,11 @@ export async function userLoginData(user_data: IUserLoginFormValues): Promise<IU
                 const userData = response?.data?.data || [];
 
                 return Promise.resolve(converter(userData));
+            })
+            .catch((error) => {
+                console.error(error);
+
+                return error;
             });
     } catch (error) {
         console.error(error);

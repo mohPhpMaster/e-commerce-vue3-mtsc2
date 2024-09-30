@@ -32,7 +32,7 @@
           </a>
           <a
 		          v-for="(accessory, index) in filteredAccessories"
-		          :key="index"
+		          :key="accessory?.id || index"
 		          :title="accessory?.name"
 		          class="dropdown-item text-truncate"
 		          href="void(0)"

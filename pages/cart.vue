@@ -11,7 +11,13 @@
 </template>
 
 <script setup lang="ts">
+import {useCartStore} from "@/pinia/useCartStore";
+
 const {t} = useI18n();
 const {title} = useSiteSettings();
 useSeoMeta({title: t("Shopping Cart")});
+
+onMounted(() => {
+	useCartStore().fetchCart();
+});
 </script>

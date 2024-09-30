@@ -31,7 +31,7 @@
           <input v-model="searchTerm" autofocus class="form-control mb-2 input-group-search" :placeholder="$t('Search...')" type="text"/>
           <a
 		          v-for="(group, index) in filteredGroups"
-		          :key="index"
+		          :key="group?.id || index"
 		          href="void(0)"
 		          class="dropdown-item"
 		          @click.prevent="selectGroup(index)"
@@ -87,7 +87,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in selectedItems" :key="index">
+          <tr v-for="(item, index) in selectedItems" :key="item?.id || item?.group?.id || item?.accessory?.id || index">
             <td>{{ item?.group?.name + (item?.accessory?.name ? " - " + item?.accessory?.name : "") }}</td>
             <td>{{ Number(item?.accessory?.qty) || 1 }}</td>
             <td class="product-price-value_">{{ currency(item?.accessory?.price || item.group?.price || 0) }}</td>

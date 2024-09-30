@@ -37,12 +37,12 @@
         <div class="col-xxl-6 col-md-6">
             <div class="tp-profile-input-box">
               <div class="tp-contact-input">
-                  <input id="email" v-bind="email" :placeholder="$t('Email')" type="email">
+                  <input id="email" v-bind="email" :placeholder="$t('Email')" type="email" readonly disabled>
               </div>
               <div class="tp-profile-input-title">
                 <label for="email">{{ $t('Email') }}</label>
               </div>
-              <err-message :msg="errors.email" />
+              <err-message :msg="errors?.email" />
             </div>
         </div>
 
@@ -135,13 +135,13 @@ const _photo = ref(null);
 interface IUserFormValues {
 	name: string
 	username: string
-	email: string
+	// email: string
 }
 const {errors, handleSubmit, defineInputBinds, resetForm, setFieldValue} = useForm<IUserFormValues>({
 	validationSchema: yup.object({
 		name: yup.string().required().label(t("Name")),
 		username: yup.string().required().label(t("Username")),
-		email: yup.string().required().email().label(t('Email')),
+		// email: yup.string().required().email().label(t('Email')),
 	}),
 });
 
@@ -152,6 +152,9 @@ onMounted(() => {
 const onSubmit = handleSubmit((values: IUserFormValues) => {
 	if (loading.value) return;
 
+	if (values.hasOwnProperty('email')) {
+		delete values.email;
+	}
 	const formData = formDataService(
 			{...values, _photo: _photo.value},
 			{_photo: 'photo'},
