@@ -23,7 +23,6 @@
 <script lang="ts" setup>
 import {useProductFilterStore} from "@/pinia/useProductFilterStore";
 import toolsService from "@/services/toolsService";
-import {$axios} from "@/plugins/00.axiosInstance";
 import type {IBrandFilter} from "@/types/brand-filter-d-t";
 import type {TBrandFilter} from "@/types/brand-t";
 

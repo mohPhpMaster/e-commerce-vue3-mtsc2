@@ -51,7 +51,6 @@
 
 <script lang="ts" setup>
 import {api} from "@/plugins/api";
-import {$axios} from "@/plugins/00.axiosInstance";
 import swal from "sweetalert";
 import {toast} from "vue3-toastify";
 import type {IResponse} from "@/types/response-d-t";
@@ -62,7 +61,7 @@ const {t} = useI18n();
 const idInUrl = computed(() => route.query.id !== undefined);
 const newAddress = computed(() => route.query.add !== undefined);
 
-const {data, pending, error, execute} = useLazyAsyncData(
+const {data, pending, error, execute, refresh} = useLazyAsyncData(
 		'user-addresses',
 		() => {
 			return api.userAddressesData();
@@ -89,7 +88,7 @@ const handleDeleteAddress = (address: IUserAddresses) => {
 			.then((result?: boolean) => {
 				if (result) {
 					return $axios
-							.post(`addresses/${address.id}/delete`, {}, {baseURL: "http://localhost:3000/api"})
+							.delete(`addresses/${address.id}/delete`, {})
 							.then((res: { data: IResponse }) => {
 								if (res?.data?.status === 'success') {
 									toast.success(res?.data?.message || t('Address removed successfully'));
@@ -130,7 +129,7 @@ const handleSetDefaultAddress = (address: IUserAddresses) => {
 			.then((result?: boolean) => {
 				if (result) {
 					return $axios
-							.post(`addresses/${address.id}/default`, {}, {baseURL: "http://localhost:3000/api"})
+							.post(`addresses/${address.id}/default`, {}/*, {baseURL: "http://localhost:3000/api"}*/)
 							.then((res: { data: IResponse }) => {
 								if (res?.data?.status === 'success') {
 									toast.success(res?.data?.message || t('Address set as default successfully'));
@@ -166,5 +165,13 @@ onMounted(() => {
 	/**
 	 * todo
 	 */
-})
+});
+
+watch(
+    () => route.fullPath,
+    () => {
+      console.log(173, {...router})
+      refresh();
+    }
+);
 </script>

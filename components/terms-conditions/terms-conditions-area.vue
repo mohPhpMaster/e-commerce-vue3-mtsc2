@@ -32,7 +32,6 @@
 
 <script lang="ts" setup>
  import toolsService from "@/services/toolsService";
- import {$axios} from "@/plugins/00.axiosInstance";
 
  const router = useRouter();
  const {t} = useI18n();

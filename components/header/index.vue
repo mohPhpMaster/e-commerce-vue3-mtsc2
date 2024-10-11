@@ -86,7 +86,7 @@
                         <div class="tp-header-action-item-5">
                             <button class="cartmini-open-btn" type="button" @click="cartStore.handleCartOffcanvas">
                               <svg-cart-bag></svg-cart-bag>
-                              <span class="tp-header-action-badge-5">{{ cartStore?.totalPriceQuantity?.quantity }}</span>
+                              <span class="tp-header-action-badge-5">{{ products_count }}</span>
                             </button>
                         </div>
                         <div class="tp-header-action-item-5 d-none d-sm-block d-xxl-none">
@@ -125,6 +125,7 @@ import {useCompareStore} from "@/pinia/useCompareStore";
 import {useSearchStore} from "@/pinia/useSearchStore";
 import {useProductFilterStore} from "@/pinia/useProductFilterStore";
 import {api} from "@/plugins/api";
+import {computed} from "vue";
 
 const {isSticky} = useSticky();
 const router = useRouter();
@@ -146,6 +147,7 @@ const cartStore = useCartStore();
 const wishlistStore = useWishlistStore();
 const utilityStore = useUtilityStore();
 const compareStore = useCompareStore();
+const products_count = computed(() => cartStore?.cart_products?.length);
 
 const handleSubmit = () => {
 	if (searchText.value) {

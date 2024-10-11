@@ -11,8 +11,8 @@
      <div class="row">
 		  <div class="col-12">
           <nuxt-link :to="toolsService.getProductUrl(item?.differents, true)">
-		      {{ toolsService.parseProductName(item?.differents, true) }}
-		    </nuxt-link>
+            {{ toolsService.parseProductName(item?.differents, true) }}
+          </nuxt-link>
 		  </div>
 
       <div v-if="item?.accessories?.length" v-for="(accessory, index) in item?.accessories" :key="accessory.group?.id || accessory?.accessory?.id || index" class="col-12">

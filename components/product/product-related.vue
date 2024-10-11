@@ -26,7 +26,6 @@ import {Swiper, SwiperSlide} from "swiper/vue";
 import {Scrollbar} from "swiper/modules";
 import type {ICategory} from "@/types/category-d-t";
 import type {IProduct} from "@/types/product-d-t";
-import {$axios} from "@/plugins/00.axiosInstance";
 import toolsService from "@/services/toolsService";
 import {convertProductResponse} from "@/plugins/data/product-data";
 

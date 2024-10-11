@@ -168,7 +168,7 @@ export default {
         return `/invoice/${order?.id}`;
     },
     getOrderUrlByStatus(order: IUserOrder|IUserOrderResponse): string {
-        return order?.status === 'done' ? this.getOrderUrl(order) : this.getInvoiceUrl(order);
+        return order?.status !== 'done' ? this.getOrderUrl(order) : this.getInvoiceUrl(order);
     },
     getUserAddressUrl(obj: IUserAddresses|IUserAddressesResponse): string {
         return `/address/${obj?.id}`;
@@ -177,7 +177,10 @@ export default {
         return useRuntimeConfig()?.public?.noImageUrl || "";
     },
     getApiUrl(): string {
-        return useRuntimeConfig()?.public?.apiURL || "";
+        return useRuntimeConfig()?.public?.apiUrl || "";
+    },
+    getBaseUrl(): string {
+        return useRuntimeConfig()?.public?.baseUrl || "";
     },
     getSiteTitle(): string {
         return useRuntimeConfig()?.public?.siteTitle || "";

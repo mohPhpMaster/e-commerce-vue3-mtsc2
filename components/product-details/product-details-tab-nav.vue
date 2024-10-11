@@ -128,11 +128,6 @@ import toolsService from "@/services/toolsService";
 import {useUserStore} from "@/pinia/useUserStore";
 import {api} from "@/plugins/api";
 import type {IReview} from "@/types/review-d-t";
-import {$axios} from "@/plugins/00.axiosInstance";
-import {convertProductAccessoriesResponse} from "@/plugins/data/product-accessories-groups-data";
-import type {IProductAddionalsResponse} from "@/types/product-addionals-response-d-t";
-import {convertProductAddionalResponse} from "@/plugins/data/product-addionals-data";
-import type {IProductAddionals} from "@/types/product-addionals-d-t";
 
 const {isLoggedIn, user} = useUserStore();
 const props = defineProps<{product:IProduct; mainProduct?:IProduct}>();

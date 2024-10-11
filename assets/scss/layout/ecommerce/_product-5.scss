@@ -269,6 +269,12 @@
             border-radius: 0px;
             overflow: hidden;
             margin-right: 24px;
+
+            [dir=rtl] & {
+                margin-right: unset;
+                margin-left: 24px;
+            }
+
             & img{
                 width: 140px;
                 height: 140px;
@@ -277,6 +283,10 @@
                 @extend %tp-transition;
                 @media #{$xs}{
                     margin-right: 15px;
+                    [dir=rtl] & {
+                        margin-right: unset;
+                        margin-left: 15px;
+                    }
                 }
 
             }
@@ -389,6 +399,11 @@
             border-radius: 0px;
             overflow: hidden;
             margin-right: 24px;
+
+            [dir=rtl] & {
+                margin-right: unset;
+                margin-left: 24px;
+            }
             & img{
                 width: 140px;
                 height: 140px;
@@ -397,6 +412,10 @@
                 @extend %tp-transition;
                 @media #{$xs}{
                     margin-right: 15px;
+                    [dir=rtl] & {
+                        margin-right: unset;
+                        margin-left: 15px;
+                    }
                 }
 
             }

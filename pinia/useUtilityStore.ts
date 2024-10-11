@@ -1,14 +1,10 @@
 import {useCartStore} from './useCartStore';
-import {computed, ref, watch} from "vue";
+import {ref, watch} from "vue";
 import {defineStore} from "pinia";
 import {type IProduct} from '@/types/product-d-t';
 // import { useProductStore } from './useProductStore';
 import {useProductStore} from "@/pinia/useProductStore";
-import type {ISiteSettings} from "@/types/site-settings-d-t";
 import {api} from "@/plugins/api";
-import {$axios} from "@/plugins/00.axiosInstance";
-import {convertCategoryFeaturedResponse} from "@/plugins/data/category-featured-data";
-import {convertSiteSettingsResponse} from "@/plugins/data/site-settings-data";
 
 export const useUtilityStore = defineStore("utility", () => {
     const route = useRoute();
@@ -32,8 +28,7 @@ export const useUtilityStore = defineStore("utility", () => {
     const handleOpenSearchBar = () => {
         openSearchBar.value = !openSearchBar.value;
 
-        if (openSearchBar.value)
-        {
+        if (openSearchBar.value) {
             setTimeout(() => {
                 const userInput = document.querySelector('.search-bar-input-search');
                 userInput?.focus();

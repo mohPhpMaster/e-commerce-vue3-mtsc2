@@ -24,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import {$axios} from "@/plugins/00.axiosInstance";
 import {convertCategoryFeaturedResponse} from "@/plugins/data/category-featured-data";
 import toolsService from "@/services/toolsService";
 import type {ICategory} from "@/types/category-d-t";

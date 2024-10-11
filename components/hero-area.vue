@@ -15,7 +15,6 @@
 <script setup lang="ts">
 import {Carousel, Slide, Pagination, Navigation} from 'vue3-carousel/dist/carousel.es.js'
 import toolsService from "@/services/toolsService";
-import {$axios} from "@/plugins/00.axiosInstance";
 
 const route = useRoute()
 

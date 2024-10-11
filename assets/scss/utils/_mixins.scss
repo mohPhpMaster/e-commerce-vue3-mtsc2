@@ -12,6 +12,12 @@
         }
     }
 
+    @mixin ltr{
+        [dir=ltr] & {
+          @content;
+        }
+    }
+
     @mixin dark{
         [tp-theme=tp-theme-dark] & {
           @content;

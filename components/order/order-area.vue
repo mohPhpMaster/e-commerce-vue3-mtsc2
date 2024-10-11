@@ -2,9 +2,9 @@
   <section class="tp-order-area pb-160">
     <div class="container">
         <div class="tp-order-inner">
-          <div class="row gx-0">
+          <div class="row agx-0">
               <div class="col-lg-6">
-                <div class="tp-order-details" style="background-color: var(--tp-navbar-bg-color); color: var(--tp-navbar-text-color);">
+                <div class="tp-order-details h-100" style="background-color: var(--tp-navbar-bg-color); color: var(--tp-navbar-text-color);">
                     <div class="tp-order-details-top text-center mb-70">
                       <div class="tp-order-details-icon">
                           <span>
@@ -21,13 +21,13 @@
                           <div class="col-sm-6">
                             <div class="tp-order-details-item">
                                 <h4>{{ $t('Order Date:') }}</h4>
-                                <p>April 10, 2023</p>
+                                <p>{{ order?.date }}</p>
                             </div>
                           </div>
                           <div class="col-sm-6">
                             <div class="tp-order-details-item">
                                 <h4>{{ $t('Order Number:') }}</h4>
-                                <p>#9641</p>
+                                <p>{{ order?.number || order?.id }}</p>
                             </div>
                           </div>
                       </div>
@@ -40,41 +40,57 @@
 
                     <div class="tp-order-info-list">
                       <ul>
-
-                          <!-- header -->
                           <li class="tp-order-info-list-header">
-                            <h4>{{ $t('Product') }}</h4>
-                            <h4>{{ $t('Total') }}</h4>
+                            <h4 class="col-8">{{ $t('Product') }}</h4>
+                            <h4 class="col-auto">{{ $t('Total') }}</h4>
                           </li>
 
-                          <!-- item list -->
-                          <li class="tp-order-info-list-desc">
-                            <p>Xiaomi Redmi Note 9 Global V. <span> x 2</span></p>
-                            <span>$274:00</span>
+                          <li class="tp-order-info-list-desc mx-2" v-for="item in order?.items" :key="item.id">
+                            <p>
+                              <nuxt-link :to="toolsService.getProductUrl(item?.differents, true)">
+                                {{ toolsService.parseProductName(item?.differents, true) }}
+                              </nuxt-link>
+
+                              <div
+                                  v-if="item?.accessories?.length"
+                                  v-for="(accessory, index) in item?.accessories"
+                                  :key="accessory.group?.id || accessory?.accessory?.id || index"
+                                  class="col-12"
+                              >
+                                <div class="col-12 text-nowrap ms-4 tp-cart-price">
+                                  {{ accessory.group?.name }}{{ accessory?.accessory?.name ? ` - ${accessory?.accessory?.name}` : "" }}
+                                  <span class="product-price-value_">{{ accessory.accessory?.price ? currency(accessory.accessory?.price) : "" }}</span>
+                                  <span class="">{{ ` x ${(accessory?.accessory?.qty || 1)}` }}</span>
+                                </div>
+                              </div>
+                              <span v-else>{{ ` x ${(item?.qty || 1)}` }}</span>
+                            </p>
+                            <span>{{ currency(cartStore.calcCartItem(item)) }}</span>
                           </li>
 
                           <!-- subtotal -->
-                          <li class="tp-order-info-list-subtotal">
-                            <span>{{ $t('Subtotal') }}</span>
-                            <span>$507.00</span>
+                          <li class="mt-50 tp-order-info-list-subtotal">
+                            <span class="">{{ $t('Subtotal') }}</span>
+                            <span class="bold">{{ currency(order?.subtotal) }}</span>
                           </li>
 
-                          <!-- shipping -->
-                      <!-- shipping -->
-                      <li class="tp-order-info-list-shipping">
-                          <span>{{ $t('Shipping') }}</span>
-                          <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
-                            <span>
-                                <input id="shipping_info" type="checkbox">
-                                <label for="shipping_info">Flat rate: <span>$20.00</span></label>
-                            </span>
-                          </div>
-                      </li>
+                          <li v-if="shippingStore?.fees?.value?.length > 0" class="tp-order-info-list-shipping">
+                              <span>{{ $t('Shipping') }}</span>
+                              <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
+                                <span v-for="(_fee, index) in shippingStore.fees.value" :key="_fee.id">
+                                    <input :id="_fee.name" :checked="shippingStore.shouldSelectFee(_fee)" name="shipping" type="radio"
+                                           disabled>
+                                    <label :for="_fee.name" class="font-normal">
+                                      {{ _fee.name }}:
+                                      <span class="bold"> {{ currency(_fee.value) }}</span>
+                                    </label>
+                                </span>
+                              </div>
+                          </li>
 
-                          <!-- total -->
                           <li class="tp-order-info-list-total">
-                            <span>{{ $t('Total') }}</span>
-                            <span>$1,476.00</span>
+                            {{ $t('Total') }}
+                            <span class="">{{ currency(order?.total) }}</span>
                           </li>
                       </ul>
                     </div>
@@ -82,11 +98,12 @@
               </div>
           </div>
         </div>
-        <div class="invoice__print text-end mt-3">
+
+        <div class="invoice__print text-start mt-3">
           <div class="row">
             <div class="col-xl-12">
               <button type="button" class="tp-invoice-print tp-btn tp-btn-black" @click="$router.go(-1)">
-                <span class="mr-5">
+                <span class="me-2">
                   <i class="fa-regular fa-turn-up"></i>
                 </span> {{ $t('Back') }} </button>
             </div>
@@ -97,5 +114,20 @@
 </template>
 
 <script setup lang="ts">
+import type {IUserOrder} from "@/types/user-order-d-t";
+import toolsService from "@/services/toolsService";
+import {useCartStore} from "@/pinia/useCartStore";
+import currency from "@/services/currencyService";
+import type {ICartFee} from "@/types/cart-fee-d-t";
 
+const props = defineProps<{
+  order?: IUserOrder,
+}>()
+
+const shippingStore = useShipping();
+const cartStore = useCartStore();
+
+onMounted(() => {
+  console.log(107, {order: props.order})
+})
 </script>

@@ -6,7 +6,7 @@
         <nuxt-link href="/" class="tp-cart-checkout-btn mt-20">{{ $t('Continue Shopping') }}</nuxt-link>
       </div>
       <div v-else class="row">
-        <div class="col-xl-9 col-lg-8">
+        <div class="col-xl-9 col-lg-9">
             <div class="tp-cart-list mb-25 mr-30">
               <table>
                   <thead>
@@ -47,7 +47,7 @@
               </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="col-xl-3 col-lg-3 col-md-6">
             <div class="tp-cart-checkout-wrapper">
 <!--              <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between" v-if="shippingStore.fees.value.length > 0">
                   <span class="tp-cart-checkout-top-title">{{ $t('Subtotal') }}</span>

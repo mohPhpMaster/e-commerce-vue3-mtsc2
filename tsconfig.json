@@ -8,7 +8,9 @@
       "@/pinia/*": ["./pinia/*"],
       "@/stores/*": ["./pinia/*"],
       "@/services/*": ["./services/*"],
-      "@/plugins/*": ["./plugins/*"]
+      "@/plugins/*": ["./plugins/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/locales/*": ["./locales/*"]
     }
   }
 }

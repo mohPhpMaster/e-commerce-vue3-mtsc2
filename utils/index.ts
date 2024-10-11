@@ -4,6 +4,7 @@ export * from "./convertBrandFilterResponse";
 export * from "./topCategories";
 export * from "./scrollToTop";
 export * from "./devRefresh";
+export * from "./config";
 
 export const getLocaleIso = (): string => {
     return useLocaleStore().selectedLanguageIso();

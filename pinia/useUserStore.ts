@@ -1,7 +1,6 @@
 import {defineStore} from 'pinia'
 import {type IUser} from "@/types/user-d-t";
 import {api} from "@/plugins/api";
-import {$axios} from "@/plugins/00.axiosInstance";
 import type {IUserLoginFormValues} from "@/types/user-login-form-values-d-t";
 import {useCartStore} from "@/pinia/useCartStore";
 import {useWishlistStore} from "@/pinia/useWishlistStore";
@@ -52,14 +51,19 @@ export const useUserStore = defineStore('user', () => {
 
     const fetchProfile = async () => {
         if ($axios.hasToken()) {
-            const response = await $axios.get('profile', {
-                // baseURL: "http://localhost:3000/api"
-            });
-            const userData = response?.data?.data || {};
-            setUser({
-                ...userData,
-                token: userData?.token || token()
-            });
+            try {
+                const response = await $axios.get('profile', {
+                    // baseURL: "http://localhost:3000/api"
+                });
+
+                const userData = response?.data?.data || {};
+                setUser({
+                    ...userData,
+                    token: userData?.token || token()
+                });
+            } catch (error) {
+                logout();
+            }
         }
     }
 

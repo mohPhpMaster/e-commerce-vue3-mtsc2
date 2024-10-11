@@ -23,7 +23,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
         settings.value = data.value;
         settings.value.noImageUrl = settings.value?.noImageUrl || config?.public?.noImageUrl
-        settings.value.apiURL = config?.public?.apiURL
+        settings.value.apiUrl = config?.public?.apiUrl
         settings.value.baseUrl = config?.public?.baseUrl
         settings.value.perPage = Number(settings.value?.perPage || config?.public?.perPage || 9)
         settings.value.siteTitle = settings.value?.siteTitle || config?.public?.siteTitle

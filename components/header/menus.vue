@@ -25,9 +25,6 @@
 	// 		.then((d) => console.log(51,menu_data.value = d))
 // });
 
-import {$axios} from "@/plugins/00.axiosInstance";
-import toolsService from "@/services/toolsService";
-
 const router = useRouter();
 const {t} = useI18n();
 const loading = useLoading();

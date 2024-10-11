@@ -10,7 +10,7 @@
     <ul class="list" role="menubar" @click.prevent="$event.stopPropagation()">
       <li
         v-for="(item, index) in options"
-        :class="[`option`, { 'selected focus': item.value === current.value }]"
+        :class="[`option`, { 'selected focus': current && item.value === current.value }]"
         :key="`option-${index}`"
         @click.prevent="currentHandler(item, index)"
         role="menuitem"
@@ -55,5 +55,18 @@ export default defineComponent ({
       this.onClose();
     },
   },
+  mounted() {
+    // console.log(59, this.current)
+  },
+  watch: {
+    options(n,o) {
+      this.current = this.options[this.defaultCurrent];
+      // console.log(64, {
+      //   current: this.current,
+      //   defaultCurrent: this.defaultCurrent,
+      //   options: this.options
+      // })
+    }
+  }
 });
 </script>

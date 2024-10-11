@@ -1,4 +1,3 @@
-import {$axios} from "@/plugins/00.axiosInstance";
 import formDataService from "@/services/formDataService";
 import type {IContactUsFormValues} from "@/types/contact-us-form-values-d-t";
 import type {IResponse} from "@/types/response-d-t";

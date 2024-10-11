@@ -15,7 +15,7 @@
       <button class="nav-link" :class="{ active: isActiveTab('order') }" id="nav-order-tab" data-bs-toggle="tab" data-bs-target="#nav-order" type="button" role="tab" aria-controls="nav-order" aria-selected="false" @click="updateHash('order')">
         <span><i class="fa-light fa-clipboard-list-check"></i></span> {{ $t('Orders') }}
       </button>
-      <button class="nav-link" :class="{ active: isActiveTab('password') }" id="nav-password-tab" data-bs-toggle="tab" data-bs-target="#nav-password" type="button" role="tab" aria-controls="nav-password" aria-selected="false" @click="updateHash('password')">
+      <button class="nav-link" :class="{ active: isActiveTab('change-password') }" id="nav-change-password-tab" data-bs-toggle="tab" data-bs-target="#nav-change-password" type="button" role="tab" aria-controls="nav-change-password" aria-selected="false" @click="updateHash('change-password')">
         <span><i class="fa-regular fa-lock"></i></span> {{ $t('Change Password') }}
       </button>
     </div>
@@ -35,7 +35,8 @@ const router = useRouter();
 
 function updateHash(hash) {
 	const updatedHash = !hash || hash.startsWith('#') ? hash : `#${hash}`;
-	router.push({hash: updatedHash});
+	router.push({hash: updatedHash})
+      .finally(() => scrollToTop());
 }
 
 function isActiveTab(tab, alternate = undefined) {

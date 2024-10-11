@@ -1,4 +1,3 @@
-import {$axios} from "@/plugins/00.axiosInstance";
 import type {IProduct} from "@/types/product-d-t";
 import type {IProductAddionals} from "@/types/product-addionals-d-t";
 import type {IProductAddionalsResponse} from "@/types/product-addionals-response-d-t";

@@ -3,7 +3,6 @@ import {type IProduct} from "@/types/product-d-t";
 import {defineStore} from "pinia";
 import {toast} from "vue3-toastify";
 import swal from "sweetalert";
-import {$axios} from "@/plugins/00.axiosInstance";
 import formDataService from "@/services/formDataService";
 import type {IProductResponse} from "@/types/product-response-d-t";
 import {convertProductResponse} from "@/plugins/data/product-data";
@@ -75,7 +74,7 @@ export const useCompareStore = defineStore("compare_product", () => {
             const response: { data: { data: IProductResponse[] } } = await $axios.get('comparelist', {
                 baseURL: "http://127.0.0.1:3000/api"
             });
-            compare_items.value = (response?.data?.data || []).map(convertProductResponse);
+            compare_items.value = (response?.data?.data || []).map(x=>convertProductResponse(x));
         } else {
             const compareData = localStorage.getItem("compare_products");
             if (compareData) {
@@ -86,7 +85,7 @@ export const useCompareStore = defineStore("compare_product", () => {
 
     // mounted to update cart products
     onMounted(() => {
-        fetchComparelist();
+        // fetchComparelist();
     });
 
     const clearCompare = () => {

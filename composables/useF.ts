@@ -8,7 +8,7 @@ export function useF<T>(
 
     return useFetch(url, {
         method: 'GET',
-        baseURL: nuxtApp.$settings.apiURL,
+        baseURL: nuxtApp.$settings.apiUrl,
         responseType: 'json',
         parseResponse: (res) => JSON.parse(res),
         immediate: true,

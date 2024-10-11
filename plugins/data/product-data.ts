@@ -1,6 +1,5 @@
 import type {IProduct} from "@/types/product-d-t";
 import type {IProductResponse} from "@/types/product-response-d-t";
-import {$axios} from "@/plugins/00.axiosInstance";
 import toolsService from "@/services/toolsService";
 import {convertCategoryResponse} from "@/plugins/data/category-data";
 import type {ICategory} from "@/types/category-d-t";
@@ -108,10 +107,10 @@ export async function productData({
 export function convertProductResponse(product: IProductResponse, noImage?: string): IProduct {
     let images: string[] = [
         product?.imageUrl || "",
-        ...(product?.images?.data || [])
+        ...(product?.images?.data || product?.images || [])
     ].filter(x => x);
     images = images.length ? images : [
-        noImage || toolsService.getDefaultNoImageUrl() || useNuxtApp().$settings.noImageUrl || 'no-image'
+        noImage || toolsService.getDefaultNoImageUrl() || useNuxtApp()?.$settings.noImageUrl || 'no-image'
     ].filter(x => x);
 
     let discount = Number(product?.discount || product?.price_after_discount) || 0;

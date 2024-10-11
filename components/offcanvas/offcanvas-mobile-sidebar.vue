@@ -47,25 +47,8 @@
         <div
 		        class="offcanvas__footer d-flex align-items-center justify-content-between"
         >
-          <div class="offcanvas__currency-wrapper currency">
-            <span
-		            id="tp-offcanvas-currency-toggle"
-		            class="offcanvas__currency-selected-currency tp-currency-toggle"
-		            @click="handleToggleActive('currency')"
-            >Currency : USD
-            </span>
-            <ul
-		            :class="`offcanvas__currency-list tp-currency-list ${
-                isToggleActive === 'currency' ? 'tp-currency-list-open' : ''
-              }`"
-            >
-              <li>USD</li>
-              <li>ERU</li>
-              <li>BDT</li>
-              <li>INR</li>
-            </ul>
-          </div>
-	        <language-selector />
+	        <currecy-selector v-if="false" />
+	        <language-selector mobileArea />
         </div>
       </div>
     </div>
@@ -85,16 +68,6 @@ const utilsStore = useUtilityStore();
 const props = defineProps<{
 	categories: ICategory[],
 }>();
-
-let isToggleActive = ref<string>("");
-// handle active
-const handleToggleActive = (type: string) => {
-	if (type === isToggleActive.value) {
-		isToggleActive.value = "";
-	} else {
-		isToggleActive.value = type;
-	}
-};
 </script>
 
 <style lang="scss" scoped>

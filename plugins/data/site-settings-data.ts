@@ -1,4 +1,3 @@
-import {$axios} from "@/plugins/00.axiosInstance";
 import type {ISiteSettings} from "@/types/site-settings-d-t";
 import type {ISiteSettingsResponse} from "@/types/site-settings-response-d-t";
 

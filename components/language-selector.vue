@@ -1,5 +1,11 @@
 <template>
-  <div class="offcanvas__select language d-sm-block d-none my-3">
+  <div
+		  :class="{
+		'd-sm-block d-none': !mobileArea,
+		'd-sm-none d-block': mobileArea
+	}"
+		  class="offcanvas__select language my-3"
+  >
     <div class="offcanvas__lang d-flex align-items-center justify-content-as-locale">
       <div class="offcanvas__lang-img mr-15">
         <img :src="localeServices.selectedLanguageFlag" alt="language-flag" class="language-flag" />
@@ -41,7 +47,9 @@ import {useLocaleStore} from "@/pinia/useLocaleStore";
 
 const localeServices = useLocaleStore();
 const isToggleActive = ref<string>('');
-
+const props = withDefaults(defineProps<{ mobileArea?: boolean }>(), {
+	mobileArea: false,
+});
 const toggleDropdown = () => {
 	isToggleActive.value = 'lang' === isToggleActive.value ? '' : 'lang';
 };

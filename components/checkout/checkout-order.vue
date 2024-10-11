@@ -20,13 +20,12 @@
               <span>{{ currency(cartStore.totalPriceQuantity.total) }}</span>
           </li>
 
-          <!-- shipping -->
-          <li class="tp-order-info-list-shipping" v-if="shippingStore?.fees?.value?.length > 0">
+          <li v-if="shippingStore?.fees?.value?.length > 0" class="tp-order-info-list-shipping">
               <span>{{ $t('Shipping') }}</span>
               <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
                 <span v-for="(_fee, index) in shippingStore.fees.value" :key="_fee.id">
-                    <input :id="_fee.name" type="radio" name="shipping" :checked="shippingStore.shouldSelectFee(_fee)">
-                    <label @click="shippingStore.handleShippingCost(_fee.value)" :for="_fee.name">{{ _fee.name }}<span v-if="!['free',0].includes(_fee.value)">: {{ currency(_fee.value) }}</span></label>
+                    <input :id="_fee.name" :checked="shippingStore.shouldSelectFee(_fee)" name="shipping" type="radio">
+                    <label :for="_fee.name" @click="() => shippingStore.setSelectedFee(_fee)">{{ _fee.name }}<span v-if="!['free',0].includes(_fee.value)">: {{ currency(_fee.value) }}</span></label>
                 </span>
               </div>
           </li>
@@ -38,17 +37,21 @@
           </li>
         </ul>
     </div>
-    <div class="tp-checkout-payment">
+    <div v-if="false" class="tp-checkout-payment">
         <div class="tp-checkout-payment-item">
-          <input type="radio" id="back_transfer" name="payment">
-          <label @click="handlePayment('bank')" for="back_transfer" data-bs-toggle="direct-bank-transfer">{{ $t('Direct Bank Transfer') }}</label>
+          <input id="back_transfer" name="payment" type="radio">
+          <label
+              data-bs-toggle="direct-bank-transfer"
+              for="back_transfer"
+              @click="handlePayment('bank')"
+          >{{ $t('Direct Bank Transfer') }}</label>
           <div v-if="payment_name === 'bank'" class="tp-checkout-payment-desc direct-bank-transfer">
               <p>{{ $t('Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.') }}</p>
           </div>
         </div>
         <div class="tp-checkout-payment-item">
-          <input type="radio" id="cheque_payment" name="payment">
-          <label @click="handlePayment('cheque_payment')" for="cheque_payment">{{ $t('Cheque Payment') }}</label>
+          <input id="cheque_payment" name="payment" type="radio">
+          <label for="cheque_payment" @click="handlePayment('cheque_payment')">{{ $t('Cheque Payment') }}</label>
           <div v-if="payment_name === 'cheque_payment'" class="tp-checkout-payment-desc cheque-payment">
               <p>{{ $t('Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.') }}</p>
           </div>
@@ -56,32 +59,43 @@
     </div>
     <div class="tp-checkout-agree">
         <div class="tp-checkout-option">
-          <input id="read_all" type="checkbox">
-          <label for="read_all">{{ $t('I have read and agree to the terms and conditions') }}</label>
+          <input id="agreeBox" name="agreeBox" type="checkbox" v-model="agreeBox">
+          <label for="agreeBox">{{ $t('I have read and agree to the terms and conditions') }}</label>
         </div>
     </div>
     <div class="tp-checkout-btn-wrapper">
-        <button type="submit" class="tp-checkout-btn w-100">{{ $t('Place Order') }}</button>
+        <button class="tp-checkout-btn w-100" type="button" @click.prevent="handleSubmit" :disabled="!agreeBox">{{ $t('Place Order') }}</button>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {useCartStore} from '@/pinia/useCartStore';
 import toolsService from "@/services/toolsService";
-import {useUtilityStore} from "@/pinia/useUtilityStore";
 import currency from "@/services/currencyService";
+import type {ICartFee} from "@/types/cart-fee-d-t";
 
-// import {useFeesStore} from "@/pinia/useFeesStore";
+const emit = defineEmits(['submit'])
 
 const cartStore = useCartStore();
-// const feeStore = useFeesStore();
 const shippingStore = useShipping();
 let payment_name = ref<string>('');
+const agreeBox = ref<boolean>(false);
 
-// handle payment item
-const handlePayment = (value:string) => {
-    payment_name.value = value
+const handleSubmit = () => {
+  if (!agreeBox.value) {
+    return false;
+  }
+
+  emit('submit');
+}
+
+/**
+ * @deprecated
+ * @param value
+ */
+const handlePayment = (value: string) => {
+  payment_name.value = value
 }
 
 // onMounted(...feeStore.getOnMounted());

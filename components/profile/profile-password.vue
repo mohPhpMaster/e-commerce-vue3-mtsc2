@@ -52,7 +52,6 @@
 
 <script lang="ts" setup>
 import formDataService from "@/services/formDataService";
-import {$axios} from "@/plugins/00.axiosInstance";
 import {toast} from "vue3-toastify";
 import {useForm} from "vee-validate";
 import * as yup from "yup";
@@ -68,7 +67,7 @@ const {errors, handleSubmit, defineInputBinds, resetForm} = useForm<IUserChangeP
 	validationSchema: yup.object({
 		password: yup.string().required().min(6).label(t('Password')),
 		new_password: yup.string().required().min(6).label(t('New Password')),
-		new_password_confirmation: yup.string().required().min(6).label(t('Confirm New Password'))
+		new_password_confirmation: yup.string().required().min(6).oneOf([yup.ref('new_password')], t('Passwords must match')).label(t('Confirm New Password'))
 	}),
 });
 
@@ -78,7 +77,7 @@ const onSubmit = handleSubmit(values => {
 
 	loading.value = true;
 	$axios
-			.post("change-password", formDataService(values), {baseURL: "http://localhost:3000/api"})
+			.post("change-password", formDataService(values)/*, {baseURL: "http://localhost:3000/api"}*/)
 			.then((response: { data: IResponse }) => {
 				const {status, message} = response?.data;
 				if (!status || status == "success") {

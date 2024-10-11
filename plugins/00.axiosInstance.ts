@@ -1,108 +1,56 @@
-import axios from 'axios';
 import toolsService from '@/services/toolsService';
-import {useUserStore} from "@/pinia/useUserStore";
+import type {IUser} from "@/types/user-d-t";
 
-const headerLanguage = ref('en');
-
-const options = {
-    // baseURL: toolsService.getApiUrl(),
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        'language': headerLanguage,
-        'Accept-Language': headerLanguage,
-        // 'language': 'en',
-    },
-};
-
-export const axiosInstance = axios.create(options);
-
-const removeToken = () => {
-    delete axiosInstance.defaults.headers.common['Authorization'];
-    delete options.headers['Authorization'];
-};
-
-export const $axios = {
-    ...axiosInstance,
-    instance: axiosInstance,
-    options,
-    headerLanguage,
-
-    setToken: (token?: string) => {
-        if (!token) {
-            removeToken();
-            return;
-        }
-        // console.log(37, {token})
-        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        options.headers['Authorization'] = `Bearer ${token}`;
-    },
-
-    hasToken: () => {
-        const bearer = (axiosInstance.defaults.headers.common?.['Authorization'] || '').split(' ');
-        return bearer.length > 1 && String(bearer?.[1]).trim();
-    },
-
-    removeToken,
-
-    get(url: string, ...args: any[]) {
-        url = encodeURI(url);
-        // console.clear();
-        // console.log(44, {url, ...args})
-        return $axios.instance.get(url, ...args);
-    },
-};
-
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin((nuxtApp) => {
     const {start, stop} = useLoading();
-    const config = useRuntimeConfig()
-    const userStore = useUserStore();
+    const $config = useRuntimeConfig();
+    const cookies = useCookie<IUser>('user', {
+        // parseJSON: true,
+        persist: true,
+        watch: true
+    });
 
-    $axios.defaults.baseURL = $axios.instance.defaults.baseURL = $axios.options.baseURL = toolsService.getApiUrl();
-    $axios.options.headers['Access-Control-Allow-Origin'] = $axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    const apiUrl = $config?.public?.apiUrl || toolsService.getApiUrl() || "";
+    $axios.defaults.baseURL = $axios.instance.defaults.baseURL = $axios.optionsBag.baseURL = apiUrl;
+    $axios.optionsBag.headers['Access-Control-Allow-Origin'] = $axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
-    // Request interceptor
     $axios.instance.interceptors.request.use(config => {
         start();
-        return config
+        return config;
     }, error => {
         stop();
-        return Promise.reject(error)
-    })
+        return Promise.reject(error);
+    });
 
-    // Response interceptor
     $axios.instance.interceptors.response.use(response => {
         stop();
-        return response
+        return response;
     }, (error) => {
         stop();
         if (error?.response?.status === 401) {
-            return navigateTo('/login')
+            try {
+                return nuxtApp.$router.push('/login'); // Ensure using `nuxtApp` instance
+            } catch (e) {
+                console.error(e);
+            }
         }
-
-        return Promise.reject(error)
-    })
+        return Promise.reject(error);
+    });
 
     const $f = $fetch.create({
-        baseURL: config.public.apiURL || '',
+        baseURL: apiUrl,
         onRequest({request, options, error}) {
             start();
 
-            let h = {
-                ...$axios.options.headers,
-                language: headerLanguage.value,
-                'Accept-Language': headerLanguage.value,
+            options.headers = {
+                ...$axios.optionsBag.headers,
+                language: $axios.headerLanguage.value,
+                'Accept-Language': $axios.headerLanguage.value,
+                ...(options.headers || {}),
             };
 
-            options.headers = {
-                ...h,
-                ...(options.headers || {}),
-            }
-
-            if (!options.headers?.Authorization && userStore.token()) {
-                // Add Authorization header
-                options.headers.Authorization = `Bearer ${userStore.token()}`
+            if (!options.headers?.Authorization && cookies.value?.token) {
+                options.headers.Authorization = `Bearer ${cookies.value?.token}`;
             }
         },
         onResponse({response}) {
@@ -112,15 +60,19 @@ export default defineNuxtPlugin(() => {
         onResponseError({response}) {
             stop();
             if (response?.status === 401) {
-                return navigateTo('/login')
+                try {
+                    return nuxtApp.$router.push('/login'); // Ensure using `nuxtApp` instance
+                } catch (e) {
+                    console.error(e);
+                }
             }
         }
-    })
+    });
 
     return {
         provide: {
             axios: $axios,
-            f: $f
+            f: $f,
         },
     };
 });

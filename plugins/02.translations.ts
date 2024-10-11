@@ -23,12 +23,15 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         );
 
         if (translationError.value) {
-            console.error('Failed to load translations:', translationError.value);
-            return;
+            throw translationError.value;
         }
 
         nuxtApp.provide('translations', translationData);
     } catch (error) {
+        nuxtApp.provide('translations', {
+            [getDefaultLocale()]: (await import(`@/locales/${getDefaultLocale()}.json`)).default
+        });
+
         console.error('Failed to load translations:', error);
     }
 });

@@ -27,7 +27,7 @@
 <!--				                <div class="tab-pane fade" :class="{ 'active show': $route.hash === '#information' }" id="nav-information" role="tabpanel" aria-labelledby="nav-information-tab">-->
 <!--                          <profile-info/>-->
 <!--                        </div>-->
-				                <div class="tab-pane fade" :class="{ 'active show': $route.hash === '#password' }" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
+				                <div class="tab-pane fade" :class="{ 'active show': $route.hash === '#password' }" id="nav-change-password" role="tabpanel" aria-labelledby="nav-change-password-tab">
                           <profile-password/>
                         </div>
 				                <div class="tab-pane fade" :class="{ 'active show': $route.hash === '#address' }" id="nav-address" role="tabpanel" aria-labelledby="nav-address-tab">

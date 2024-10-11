@@ -84,6 +84,13 @@ const {data: product, pending, error, refresh, execute} = useLazyAsyncData(
 
 						// await refreshNuxtData([`product-${product?.id}-differents`, `product-${product?.id}-accessories`]);
 						return data;
+					})
+					.catch(e => {
+						if (e?.response?.status === 404) {
+							return [];
+						}
+
+						throw e;
 					});
 		},
 		{
@@ -92,26 +99,6 @@ const {data: product, pending, error, refresh, execute} = useLazyAsyncData(
 			immediate: false
 		}
 );
-
-await execute();
-
-if (product.value && product.value?.id) {
-	setTitle(product.value)
-}
-
-if (
-		(error?.value && error?.value?.message === 'EMPTY')
-		// || !(product?.value && product?.value?.id)
-) {
-	showError({
-		statusCode: 404,
-		statusMessage: useI18n().t('Product not found'),
-		data: 'EMPTY',
-		error: error?.value || new Error('EMPTY'),
-		url: route.href,
-		fatal: true
-	});
-}
 
 await execute();
 

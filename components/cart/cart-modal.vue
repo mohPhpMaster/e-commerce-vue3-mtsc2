@@ -88,7 +88,9 @@ const cartModalStatus = computed(() => store.cart_modal_status);
 const cartModalQty = computed(() => store.orderQuantity);
 const product = computed(() => store.cart_product);
 const parsedTitle = computed(() => store.cart_title || props.title);
-const modalElement = computed(() => window.$(`#${props.id}`));
+const modalElement = computed(function () {
+  return window.$.fn && window.$(`#${props.id}`) || window.querySelector(`#${props.id}`);
+});
 
 const loading = ref(false);
 const modalStatus = ref(false);

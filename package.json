@@ -4,11 +4,12 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "p": "nuxt dev --host",
-    "dev": "nuxt dev --open --trace-warnings",
-    "generate": "nuxt generate",
+    "p": "nuxt dev --host --clear --logLevel=debug",
+    "dev": "nuxt dev --open --trace-warnings --clear --logLevel=debug",
+    "generate": "nuxt generate --host",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
@@ -25,12 +26,14 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/i18n": "^8.3.3",
     "@pinia/nuxt": "^0.5.1",
+    "@stripe/stripe-js": "^4.7.0",
     "@vueform/slider": "^2.1.9",
     "bootstrap": "^5.3.2",
     "dayjs": "^1.11.10",
     "formidable": "^3.5.1",
     "pinia": "^2.1.7",
     "sass": "^1.69.5",
+    "stripe": "^17.1.0",
     "sweetalert": "^2.1.2",
     "swiper": "^11.0.3",
     "vee-validate": "^4.11.8",

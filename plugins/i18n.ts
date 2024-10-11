@@ -5,8 +5,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         nuxtApp.$axios.defaults.headers.language = locale || 'en';
         nuxtApp.$axios.defaults.headers['Accept-Language'] = locale || 'en';
 
-        nuxtApp.$axios.options.headers.language = locale || 'en';
-        nuxtApp.$axios.options.headers['Accept-Language'] = locale || 'en';
+        nuxtApp.$axios.optionsBag.headers.language = locale || 'en';
+        nuxtApp.$axios.optionsBag.headers['Accept-Language'] = locale || 'en';
     };
 
     setLanguageHeader(nuxtApp?.$i18n.locale.value || 'en');

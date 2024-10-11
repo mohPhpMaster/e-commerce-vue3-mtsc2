@@ -1,15 +1,20 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   runtimeConfig: {
+      stripeSecretKey: '',
+      stripeWebhookSecret: '',
+      STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+      STRIPE_WEBHOOK_SECRET_KEY: process.env.STRIPE_WEBHOOK_SECRET_KEY,
+      STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
       public: {
           noImageUrl: process.env.NUXT_ENV_NO_IMAGE_URL || "/images/no-image.png",
-          imagesUrl: process.env.NUXT_ENV_IMAGES_URL || "",
-          apiURL: process.env.NUXT_ENV_API_URL || "",
+          apiUrl: process.env.NUXT_ENV_API_URL || "",
           baseUrl: process.env.NUXT_ENV_BASE_URL || "",
           perPage: process.env.NUXT_ENV_PER_PAGE || 9,
           siteTitle: process.env.NUXT_ENV_SITE_TITLE || "Shop1",
           updateSlugOnLocale: process.env.NUXT_ENV_UPDATE_SLUG_ON_LOCALE || false,
           googleMap: process.env.NUXT_ENV_GOOGLE_MAP || "",
+          stripePublishableKey: process.env.VITE_STRIPE_PUBLISHABLE_KEY,
       }
   },
 
@@ -99,7 +104,7 @@ export default defineNuxtConfig({
                   src: "/js/bootstrap.bundle.min.js",
               },
           ],
-      }
+      },
   },
 
   css: [
@@ -126,5 +131,5 @@ export default defineNuxtConfig({
 
   ssr: true,
   sourcemap: true,
-  compatibilityDate: '2024-09-09',
+  compatibilityDate: '2024-09-09'
 })

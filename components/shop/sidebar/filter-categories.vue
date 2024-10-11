@@ -21,7 +21,6 @@
 
 <script lang="ts" setup>
 import toolsService from "@/services/toolsService";
-import {$axios} from "@/plugins/00.axiosInstance";
 import type {ICategoryFilter} from "@/types/category-filter-d-t";
 import type {TCategoryFilter} from "@/types/category-t";
 import {useProductFilterStore} from "@/pinia/useProductFilterStore";

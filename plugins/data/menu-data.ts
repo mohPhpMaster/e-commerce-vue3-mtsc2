@@ -1,6 +1,5 @@
 import type {IMenuItem} from "@/types/menu-d-t";
 import type {IMenuResponse} from "@/types/menu-response-d-t";
-import {$axios} from "@/plugins/00.axiosInstance";
 
 export async function menuData({prepend = [], append = [], page = 1, slug = ''}: {
     prepend?: IMenuItem[],

@@ -7,16 +7,10 @@ import toolsService from "@/services/toolsService";
 import swal from 'sweetalert';
 import type {ISelectedAccessories} from "@/types/selected-accessories-d-t";
 import formDataService from "@/services/formDataService";
-import {$axios} from "@/plugins/00.axiosInstance";
 import type {ICartResponse} from "@/types/cart-response-d-t";
-import {convertProductResponse} from "@/plugins/data/product-data";
 import {convertCartResponse} from "@/plugins/data/cart-data";
-import {convertProductDifferentsResponse} from "@/plugins/data/product-differents-data";
-import {
-    convertProductAccessoriesGroupsResponse,
-    convertProductAccessoriesResponse
-} from "@/plugins/data/product-accessories-groups-data";
 import type {IUser} from "@/types/user-d-t";
+import {useUserStore} from "@/pinia/useUserStore";
 
 export const useCartStore = defineStore("cart_product", () => {
     const nuxt_app = useNuxtApp();
@@ -28,6 +22,7 @@ export const useCartStore = defineStore("cart_product", () => {
     });
 
     const isLoggedIn = () => !!cookies.value?.token;
+    const isUserInitialized = () => !!useUserStore().initialized;
 
     // const {$axios} = nuxt_app;
     const route = useRoute();
@@ -38,6 +33,7 @@ export const useCartStore = defineStore("cart_product", () => {
     let cartOffcanvas = ref<boolean>(false);
     let cart_modal_status = ref<boolean>(false);
     let cart_modal_qty = ref<number>(1);
+    const fetch_status = ref<boolean>(false);
 
     const incrementCartQty = () => {
         cart_modal_qty.value = cart_modal_qty.value + 1;
@@ -101,22 +97,22 @@ export const useCartStore = defineStore("cart_product", () => {
                     fetchCart();
                     toast.success(response?.data?.message || `Product added to cart`);
                 })
-        } else {
+        } else if (isUserInitialized()) {
             const isExist = cart_products.value.some(searchForItem);
             if (!isExist) {
-                    cart_products.value.push(cart);
-                } else {
-                    cart_products.value.map((item) => {
-                        if (searchForItem(item)) {
-                            item.quantity = item.quantity + cart.quantity;
-                        }
-                        return {...item};
-                    });
-                }
-                localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
-                // debugger;
-                toast.success(`Product added to cart`);
+                cart_products.value.push(cart);
+            } else {
+                cart_products.value.map((item) => {
+                    if (searchForItem(item)) {
+                        item.quantity = item.quantity + cart.quantity;
+                    }
+                    return {...item};
+                });
             }
+            localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
+            // debugger;
+            toast.success(`Product added to cart`);
+        }
     }
 
     // quantity increment
@@ -143,10 +139,8 @@ export const useCartStore = defineStore("cart_product", () => {
                 }
 
                 accessories = accessories.filter(x => x);
-                if ((accessories.length === p?.accessories?.length) && (accessories.length === payload?.accessories?.length))
-                {
-                    if (cb)
-                    {
+                if ((accessories.length === p?.accessories?.length) && (accessories.length === payload?.accessories?.length)) {
+                    if (cb) {
                         return cb(p, index) || true;
                     }
 
@@ -176,7 +170,7 @@ export const useCartStore = defineStore("cart_product", () => {
         quantitySet(payload, (item: ICartItem) => (item.quantity || 1) + 1);
     };
 
-    const quantitySet = (payload: IProduct, quantity: number|Function) => {
+    const quantitySet = (payload: IProduct, quantity: number | Function) => {
         quantity = (typeof quantity !== "function") && isNaN(quantity) ? 1 : quantity;
         cart_products.value.forEach((cartProductByPayload(payload, (item: ICartItem) => {
             if (typeof quantity === "function") {
@@ -236,7 +230,7 @@ export const useCartStore = defineStore("cart_product", () => {
                                 fetchCart();
                                 toast.success(response?.data?.message || `${payload.name} removed from cart`);
                             })
-                    } else {
+                    } else if (isUserInitialized()) {
                         cart_products.value = cart_products.value.filter(filterCartProductByPayload(payload));
                         localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
                         toast.error(`${toolsService.parseProductName(payload, true)} removed from cart`);
@@ -244,13 +238,11 @@ export const useCartStore = defineStore("cart_product", () => {
                 }
             })
             .then(() => {
-                if (_status_modal)
-                {
+                if (_status_modal) {
                     openCart()
                 }
 
-                if (_status_offcanvas)
-                {
+                if (_status_offcanvas) {
                     handleCartOffcanvas();
                 }
             });
@@ -272,7 +264,7 @@ export const useCartStore = defineStore("cart_product", () => {
                                 fetchCart();
                                 toast.success(response?.data?.message || `Cart cleared`);
                             })
-                    } else {
+                    } else if (isUserInitialized()) {
                         cart_products.value = [];
                         localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
                     }
@@ -333,21 +325,27 @@ export const useCartStore = defineStore("cart_product", () => {
     const handleCartOffcanvas = () => cartOffcanvas.value = !cartOffcanvas.value;
 
     const fetchCart = async () => {
+        if (!!fetch_status.value) {
+            return;
+        }
+
+        fetch_status.value = true;
         if ($axios.hasToken()) {
             const response: { data: { data: ICartResponse } } = await $axios.get('cart', {
                 baseURL: "http://127.0.0.1:3000/api"
             });
             let cartData = convertCartResponse(response?.data?.data || {});
-            cartData.cartItems = cartData.cartItems.map(x=>{
-                let differents = x?.differents?.data || x?.differents || {};
-                let accessories = x?.accessories?.data || x?.accessories || [];
-                return {
-                    id: x?.id || undefined,
-                    quantity: x?.quantity || 0,
-                    accessories: accessories,
-                    differents: convertProductResponse(differents),
-                }
-            });
+            // debugger
+            // cartData.cartItems = cartData.cartItems.map(x=>{
+            //     let differents = x?.differents?.data || x?.differents || {};
+            //     let accessories = x?.accessories?.data || x?.accessories || [];
+            //     return {
+            //         id: x?.id || undefined,
+            //         quantity: x?.quantity || 0,
+            //         accessories: accessories,
+            //         differents: convertProductResponse(differents),
+            //     }
+            // });
             cart_products.value = cartData.cartItems;
         } else {
             const cartData = localStorage.getItem("cart_products");
@@ -355,11 +353,15 @@ export const useCartStore = defineStore("cart_product", () => {
                 cart_products.value = JSON.parse(cartData);
             }
         }
+
+        fetch_status.value = false;
     }
+
+    const products_count = computed(() => cart_products.value?.length);
 
     // set local storage product when project is mounted
     onMounted(() => {
-        fetchCart();
+        // fetchCart();
     });
 
     // when the router changes, the order quantity will be set to 1
@@ -370,6 +372,7 @@ export const useCartStore = defineStore("cart_product", () => {
     return {
         openCartProduct,
         cart_products,
+        products_count,
         quantityDecrement,
         quantityIncrement,
         quantitySet,

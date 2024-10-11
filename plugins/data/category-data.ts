@@ -1,6 +1,5 @@
 import type {ICategory} from "@/types/category-d-t";
 import type {ICategoryResponse} from "@/types/category-response-d-t";
-import {$axios} from "@/plugins/00.axiosInstance";
 import {convertProductResponse} from "@/plugins/data/product-data";
 
 export async function categoryData({

@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit" @keydown.enter.prevent>
       <div class="row">
         <div class="col-xxl-5 col-md-5" />
         <div class="col-xxl-7 col-md-7">
@@ -25,7 +25,9 @@
         <div class="col-xxl-6 col-md-6">
           <div class="tp-profile-input-box">
             <div class="tp-contact-input">
-              <input id="username" v-bind="username" :placeholder="$t('Username')" class="no-icon" type="text">
+              <input id="username" v-bind="username" :placeholder="$t('Username')" class="no-icon" type="text"
+                     readonly
+                     disabled>
             </div>
             <div class="tp-profile-input-title">
               <label for="username">{{ $t('Username') }}</label>
@@ -111,7 +113,7 @@
 								</div>-->
         <div class="col-xxl-12">
             <div class="profile__btn">
-              <button class="tp-btn" type="submit">{{ $t('Update Profile') }}</button>
+              <button class="tp-btn" type="submit" @keydown.enter="onSubmit">{{ $t('Update Profile') }}</button>
             </div>
         </div>
       </div>
@@ -121,11 +123,11 @@
 <script lang="ts" setup>
 import {useUserStore} from "@/pinia/useUserStore";
 import formDataService from "@/services/formDataService";
-import {$axios} from "@/plugins/00.axiosInstance";
 import {toast} from "vue3-toastify";
 import {useForm} from "vee-validate";
 import * as yup from "yup";
 import type {IResponse} from "@/types/response-d-t";
+import {objectExcept} from "@/utils/objectExcept";
 
 const {t} = useI18n()
 const userStore = useUserStore()
@@ -134,19 +136,20 @@ const _photo = ref(null);
 
 interface IUserFormValues {
 	name: string
-	username: string
+	// username: string
 	// email: string
 }
 const {errors, handleSubmit, defineInputBinds, resetForm, setFieldValue} = useForm<IUserFormValues>({
 	validationSchema: yup.object({
 		name: yup.string().required().label(t("Name")),
-		username: yup.string().required().label(t("Username")),
+		// username: yup.string().required().label(t("Username")),
 		// email: yup.string().required().email().label(t('Email')),
 	}),
 });
 
 onMounted(() => {
-	// console.log(126, {username, user}, userStore.user)
+	// console.log(126, {username}, userStore.user)
+  assignValues();
 });
 
 const onSubmit = handleSubmit((values: IUserFormValues) => {
@@ -155,8 +158,14 @@ const onSubmit = handleSubmit((values: IUserFormValues) => {
 	if (values.hasOwnProperty('email')) {
 		delete values.email;
 	}
+
+	if (values.hasOwnProperty('username')) {
+		delete values.username;
+	}
+
+  let photoIsNotChanged = _photo.value === userStore.user?.photo;
 	const formData = formDataService(
-			{...values, _photo: _photo.value},
+      objectExcept({...values, _photo: _photo.value}, photoIsNotChanged ? ['_photo'] : []),
 			{_photo: 'photo'},
 			['_photo']
 	);
@@ -167,7 +176,7 @@ const onSubmit = handleSubmit((values: IUserFormValues) => {
 				headers: {
 					'Content-Type': 'multipart/form-data',
 				},
-				baseURL: "http://localhost:3000/api"
+				// baseURL: "http://localhost:3000/api"
 			})
 			.then((response: { data: IResponse }) => {
 				// todo: complete it after api finish
@@ -198,18 +207,19 @@ const username = defineInputBinds('username');
 const email = defineInputBinds('email');
 
 const changePhotoHandler = (e: any) => {
-	if (e) {
-		_photo.value = e;
-	}
+  _photo.value = e;
+};
+
+const assignValues = () => {
+  setFieldValue('name', userStore.user?.name || '');
+  setFieldValue('username', userStore.user?.username || '');
+  setFieldValue('email', userStore.user?.email || '');
+  _photo.value = userStore.user?.photo || null;
 };
 
 watch(
 		() => userStore.user,
-		() => {
-			setFieldValue('name', userStore.user?.name || '');
-			setFieldValue('username', userStore.user?.username || '');
-			setFieldValue('email', userStore.user?.email || '');
-			_photo.value = null;
-		});
+		assignValues
+);
 </script>
 

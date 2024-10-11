@@ -37,7 +37,6 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Scrollbar,Pagination,Navigation } from "swiper/modules";
 import toolsService from "@/services/toolsService";
-import {$axios} from "@/plugins/00.axiosInstance";
 import {convertBrandResponse} from "@/plugins/data/brand-data";
 
 const {data: brand_items, pending, error, refresh} = useLazyAsyncData<string[]>('brands/featured', () =>

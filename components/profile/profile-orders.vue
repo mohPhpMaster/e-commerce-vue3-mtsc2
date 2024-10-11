@@ -3,20 +3,20 @@
   <table class="table text-center">
     <thead>
         <tr>
-          <th scope="col" class="text-center">{{ $t('Order Id') }}</th>
-          <th scope="col" class="text-center">{{ $t('Date') }}</th>
-          <th scope="col" class="text-center">{{ $t('Total') }}</th>
-          <th scope="col" class="text-center">{{ $t('Status') }}</th>
-          <th scope="col" class="text-center">{{ $t('Actions') }}</th>
+          <th class="text-center" scope="col">{{ $t('Order Id') }}</th>
+          <th class="text-center" scope="col">{{ $t('Date') }}</th>
+          <th class="text-center" scope="col">{{ $t('Total') }}</th>
+          <th class="text-center" scope="col">{{ $t('Status') }}</th>
+          <th class="text-center" scope="col">{{ $t('Actions') }}</th>
         </tr>
     </thead>
     <tbody>
-        <tr v-for="order in data" :key="order.id">
-          <th scope="row" class="text-center">{{ order.id }}</th>
+        <tr v-for="order in dataOrders" :key="order.id">
+          <th class="text-center" scope="row">{{ order.id }}</th>
           <td data-info="title">{{ order.date }}</td>
           <td data-info="title">{{ currency(order.total) }}</td>
           <td :data-info="orderStatusDataInfo?.[order.status] || ''">{{ order.status }}</td>
-          <td><a class="tp-logout-btn" :href="toolsService.getOrderUrlByStatus(order)">{{ $t('View') }}</a></td>
+          <td><button class="tp-logout-btn" @click.prevent="handleViewOrder(order)">{{ $t('View') }}</button></td>
         </tr>
     </tbody>
   </table>
@@ -27,6 +27,10 @@
 import {api} from "@/plugins/api";
 import toolsService from "@/services/toolsService";
 import currency from "@/services/currencyService";
+
+const loading = useLoading();
+const router = useRouter();
+
 /*
 status done done
 status pending pending
@@ -34,25 +38,33 @@ status reply canceled
 status hold new
 */
 const orderStatusDataInfo = {
-	pending: 'status pending',
-	done: 'status done',
-	canceled: 'status reply',
-	new: 'status hold',
+  pending: 'status pending',
+  done: 'status done',
+  canceled: 'status reply',
+  new: 'status hold',
 }
-const {data, pending, error, execute} = useLazyAsyncData(
-		'user-orders',
-		() => {
-			return api.userOrdersData();
-		}, {
-			// watch: [$route],
-			immediate: false
-		});
+const {data: dataOrders, pending, error, execute: executeOrder} = useLazyAsyncData(
+    'user-orders',
+    () => {
+      return api.userOrdersData();
+    }, {
+      // watch: [$route],
+      immediate: false
+    });
 
-await execute();
+await executeOrder();
 
 onMounted(() => {
-	/**
-	 * todo
-	 */
+  /**
+   * todo
+   */
 })
+
+const handleViewOrder = (order) => {
+  router.push(toolsService.getOrderUrl(order))
+      .finally(() => {
+        loading.stop();
+      });
+}
+
 </script>

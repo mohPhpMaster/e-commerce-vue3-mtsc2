@@ -38,8 +38,17 @@
             position: sticky;
             top: 120px;
             margin-right: 20px;
+
+            @include rtl {
+                margin-right: 0;
+                margin-left: 20px;
+            }
             & .nav-tabs{
                 margin-right: 10px;
+                @include rtl {
+                    margin-right: 0;
+                    margin-left: 10px;
+                }
                 & .nav-link{
                     width: 78px;
                     height: 100px;
@@ -47,6 +56,10 @@
                     @media #{$xs}{
                         margin-right: 10px;
                         margin-bottom: 10px;
+                        @include rtl {
+                            margin-right: 0;
+                            margin-left: 10px;
+                        }
                     }
                     &:not(:last-child){
                         margin-bottom: 10px;
@@ -61,6 +74,11 @@
                         top: 0;
                         left: 0;
                         @extend %tp-transition;
+
+                        @include rtl {
+                            left: unset;
+                            right: 0;
+                        }
                     }
                     &.active,
                     &:hover{
@@ -83,6 +101,11 @@
                         background-color: var(--tp-common-black);
                         color: var(--tp-common-white);
                         font-size: 15px;
+
+                        @include rtl {
+                            right: unset;
+                            left: 0;
+                        }
 
                         & svg{
                             @extend %tp-svg-y-2;
@@ -191,6 +214,11 @@
     }
     &-stock{
         margin-right: 12px;
+        @include rtl {
+            margin-right: unset;
+            margin-left: 12px;
+        }
+
         & span{
             display: inline-block;
             font-size: 15px;
@@ -202,6 +230,11 @@
     }
     &-rating{
         margin-right: 11px;
+        @include rtl {
+            margin-right: unset;
+            margin-left: 11px;
+        }
+
         @include flexbox();
         align-items: center;
         & span{
@@ -209,6 +242,10 @@
             color: #FFB21D;
             &:not(:last-child){
                 margin-right: 3px;
+                @include rtl {
+                    margin-right: unset;
+                    margin-left: 3px;
+                }
             }
         }
     }
@@ -493,6 +530,11 @@
                 position: relative;
                 font-size: 15px;
                 padding-left: 25px;
+
+                [dir=rtl] & {
+                    padding-left: unset;
+                    padding-right: 25px;
+                }
                 &::after{
                     position: absolute;
                     content: url("/images/product/icons/check-3.svg");
@@ -504,6 +546,11 @@
                     text-align: center;
                     color: var(--tp-common-white);
                     @include tp-transition(all, .2s, linear);
+
+                    [dir=rtl] & {
+                        left: unset;
+                        right: 0;
+                    }
                 }
             }
         }
@@ -518,12 +565,25 @@
             margin-right: 46px;
             flex: 0 0 auto;
 
+            [dir=rtl] & {
+                margin-right: unset;
+                margin-left: 46px;
+            }
+
             @media #{$lg}{
                 margin-right: 25px;
+                [dir=rtl] & {
+                    margin-right: unset;
+                    margin-left: 25px;
+                }
             }
             @media #{$xs}{
                 margin-right: 0;
                 margin-bottom: 15px;
+                [dir=rtl] & {
+                    margin-right: unset;
+                    margin-left: 0;
+                }
 
                 & br{
                     display: none;
@@ -754,6 +814,11 @@
                     margin-left: 4px;
                     font-size: 14px;
                     margin-bottom: 0;
+
+                    @include rtl {
+                        margin-left: unset;
+                        margin-right: 4px;
+                    }
                 }
             }
         }
@@ -763,6 +828,10 @@
                     color: #A0A2A4;
                     font-size: 15px;
                     margin-right: 10px;
+
+                    @include rtl {
+                        margin-right: unset;
+                    }
                 }
             }
             &-bar{
@@ -788,6 +857,9 @@
                 & span{
                     font-size: 14px;
 
+                    @include rtl {
+                        margin-right: 10px;
+                    }
                 }
             }
         }
@@ -834,6 +906,12 @@
                 padding-left: 11px;
                 margin-left: 3px;
 
+                @include rtl {
+                    padding-left: unset;
+                    margin-left: unset;
+                    padding-right: 11px;
+                    margin-right: 3px;
+                }
                 &::after{
                     position: absolute;
                     content: '';
@@ -843,6 +921,11 @@
                     height: 4px;
                     border-radius: 50%;
                     background-color: #A8ACB0;
+
+                    @include rtl {
+                        left: unset;
+                        right: 0;
+                    }
                 }
             }
             &-comment{
@@ -916,6 +999,11 @@
                     padding: 0 5px;
                     background-color: var(--tp-common-white);
                     line-height: 1;
+
+                    @include rtl {
+                        left: unset;
+                        right: 20px;
+                    }
                 }
             }
             &-eye{

@@ -19,36 +19,40 @@
         </div>
         <div v-if="cartStore.cart_products?.length > 0" class="cartmini__widget">
           <div v-for="item in cartStore.cart_products" :key="item?.differents?.id" class="cartmini__widget-item">
-            <div class="cartmini__thumb">
-              <nuxt-link
-		              :to="toolsService.getProductUrl(item?.differents,true)"
-		              @click="cartStore.handleCartOffcanvas"
-              >
-                <img :src="item?.differents.images?.[0]" alt="cart-img" height="60" width="70" />
-              </nuxt-link>
-            </div>
+				    <div class="cartmini__thumb tp-cart-sm-img col-2">
+				      <nuxt-link :to="toolsService.getProductUrl(item?.differents, true)" style="background-color: #F2F3F5;display: block;">
+				        <img :src="toolsService.getImageUrlValue(item?.differents)" :title="item?.differents?.name" alt="cart-img" height="60" width="70" />
+				      </nuxt-link>
+				    </div>
+
             <div class="cartmini__content">
-              <h5 class="cartmini__title">
-                <nuxt-link
-		                :to="toolsService.getProductUrl(item?.differents,true)"
-		                @click="cartStore.handleCartOffcanvas"
-                >
-                  {{ toolsService.parseProductName(item?.differents, true) }}
-                </nuxt-link>
-              </h5>
-              <div class="cartmini__price-wrapper">
-                <span
-		                v-if="item?.differents.discount > 0 && item.quantity"
-		                class="cartmini__price product-price-value_"
-                >
+	            <div class="row">
+								<div class="col-12 cartmini__title1 tp-cart-sm-title">
+									<nuxt-link :to="toolsService.getProductUrl(item?.differents, true)">
+								    {{ toolsService.parseProductName(item?.differents, true) }}
+								  </nuxt-link>
+								</div>
+
+					      <div v-for="(accessory, index) in item?.accessories" v-if="item?.accessories?.length" :key="accessory.group?.id || accessory?.accessory?.id || index" class="col-12">
+					        <div class="col-12 text-nowrap ms-3 tp-cart-sm-price">
+					          {{ accessory.group?.name }}{{ accessory?.accessory?.name ? ` - ${accessory?.accessory?.name}` : "" }}
+						        <span class="product-price-value_">{{ accessory.accessory?.price ? currency(accessory.accessory?.price) : "" }}</span>
+						        <span class="">{{ ` x ${(accessory?.accessory?.qty || 1)}` }}</span>
+						      </div>
+						    </div>
+					    </div>
+
+              <div class="cartmini__price-wrapper text-start">
+                <span v-if="item?.differents.discount > 0 && item.quantity" class="cartmini__sm-price product-price-value_">
                   {{ currency((Number(item?.differents.price) - (Number(item?.differents.price) * Number(item?.differents.discount)) / 100) * item.quantity) }}
                 </span>
-                <span v-else class="cartmini__price product-price-value_">
+                <span v-else class="cartmini__sm-price product-price-value_">
                   {{ currency(cartStore.calcCartItem(item)) }}
                 </span>
-                <span class="cartmini__quantity">{{ " " }}x{{ item.quantity }}</span>
+                <span class="cartmini__sm-quantity">{{ " " }}x{{ item.quantity }}</span>
               </div>
             </div>
+
             <a class="cartmini__del pointer" @click="cartStore.removeCartProduct(item)">
               <i class="fa-regular fa-xmark"></i>
             </a>
@@ -108,4 +112,8 @@ import currency from "@/services/currencyService";
 import {useUserStore} from "@/pinia/useUserStore";
 
 const cartStore = useCartStore();
+
+onMounted(() => {
+	cartStore.fetchCart();
+});
 </script>

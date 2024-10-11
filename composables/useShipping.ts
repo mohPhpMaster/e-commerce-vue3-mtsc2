@@ -28,9 +28,10 @@ export function useShipping() {
     };
 
     onMounted(() => {
-        api.cartFeesData().then((res) => {
-            fees.value = res;
-        });
+        api.cartFeesData()
+            .then((res) => {
+                fees.value = res;
+            });
     });
 
     watch(fees, (newFees) => {

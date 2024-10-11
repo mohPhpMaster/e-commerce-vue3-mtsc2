@@ -27,6 +27,12 @@
                     color: var(--tp-text-2);
                     position: relative;
                     padding-left: 10px;
+
+                    @include rtl {
+                        padding-left: unset;
+                        padding-right: 10px;
+                    }
+
                     &::after{
                         position: absolute;
                         content: '';
@@ -37,6 +43,11 @@
                         background-color: var(--tp-text-2);
                         border-radius: 50%;
                         @extend %tp-transition;
+
+                        @include rtl {
+                            left: unset;
+                            right: 0;
+                        }
                     }
 
                     &:hover{
@@ -113,6 +124,11 @@
                 color: var(--tp-common-black);
                 margin-right: 10px;
 
+                @include rtl {
+                    margin-right: unset;
+                    margin-left: 10px;
+                }
+
                 & svg{
                     @extend %tp-svg-y-3;
                 }
@@ -168,19 +184,44 @@
     &-1{
         padding-right: 95px;
 
+        @include rtl {
+            padding-right: unset;
+            //padding-left: 95px;
+        }
+
         @media #{$lg, $md, $sm,$xs}{
             padding-right: 0;
+
+            @include rtl {
+                padding-right: unset;
+                padding-left: 0;
+            }
         }
     }
     &-2{
         @media #{$md}{
             padding-left: 25px;
+
+            @include rtl {
+                padding-left: unset;
+                padding-right: 25px;
+            }
         }
     }
     &-3{
         padding-left: 35px;
+
+        @include rtl {
+            padding-left: unset;
+            padding-right: 35px;
+        }
         @media #{$sm, $xs}{
             padding-left: 0;
+
+            @include rtl {
+                padding-left: unset;
+                padding-right: 0;
+            }
         }
     }
     &-4{

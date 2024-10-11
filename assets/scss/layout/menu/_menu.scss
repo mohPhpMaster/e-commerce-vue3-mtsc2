@@ -45,6 +45,11 @@
                     position: relative;
                     &::before{
                         left: calc(50% - 7px);
+
+                        [dir=rtl] & {
+                            left: unset;
+                            right: calc(50% - 7px);
+                        }
                     }
                     &::after{
                         content: '\f107';
@@ -56,6 +61,11 @@
                         margin-left: 5px;
                         display: inline-block;
                         @extend %tp-transition;
+
+                        [dir=rtl] & {
+                            margin-left: unset;
+                            margin-right: 5px;
+                        }
                     }
                 }
 			}
@@ -74,12 +84,22 @@
                 transform-origin: top;
                 transition-duration: .1s;
                 @include transform(perspective(300px) rotateX(-18deg));
+
+                [dir=rtl] & {
+                    left: unset;
+                    right: 0;
+                }
                 & li{
                     display: block;
                     width: 100%;
 					margin: 0;
                     &:not(:last-child){
                         margin-right: 0;
+
+                        [dir=rtl] & {
+                            margin-right: unset;
+                            margin-left: 0;
+                        }
                     }
                     &.has-dropdown{
                         & > a{
@@ -95,6 +115,13 @@
                                 display: inline-block;
                                 @extend %tp-transition;
                                 @include transform(translateY(0%) rotate(-90deg));
+
+                                [dir=rtl] & {
+                                    right: unset;
+                                    left: 0;
+                                    margin-left: unset;
+                                    margin-right: 5px;
+                                }
                             }
                         }
                     }
@@ -112,6 +139,11 @@
                         top:0;
                         visibility: hidden;
                         opacity: 0;
+
+                        [dir=rtl] & {
+                            left: unset;
+                            right: 120%;
+                        }
                     }
                     &:hover{
                         & > a{
@@ -152,6 +184,10 @@
                     float: left;
                     width: 25%;
                     overflow: hidden;
+
+                    [dir=rtl] & {
+                        float: right;
+                    }
 
                     &.has-dropdown{
                         & > a{
@@ -222,9 +258,21 @@
     }
     &.menu-style-1{
         padding-left: 7px;
+
+        [dir=rtl] & {
+            padding-left: unset;
+            padding-right: 7px;
+        }
         @media #{$lg, $md, $sm, $xs}{
             padding-left: 0;
             margin-right: -40px;
+
+            [dir=rtl] & {
+                padding-left: unset;
+                padding-right: 0;
+                margin-right: unset;
+                margin-left: -40px;
+            }
         }
         & > nav > ul{
             & > li{
@@ -233,8 +281,18 @@
                 &:not(:last-child){
                     margin-right: 25px;
 
+                    [dir=rtl] & {
+                        margin-right: unset;
+                        margin-left: 25px;
+                    }
+
                     @media #{$lg}{
                         margin-right: 20px;
+
+                        [dir=rtl] & {
+                            margin-right: unset;
+                            margin-left: 20px;
+                        }
                     }
                 }
                 & > a{
@@ -257,12 +315,27 @@
 
     &.menu-style-2{
         margin-left: -30px;
+
+        [dir=rtl] & {
+            margin-left: unset;
+            margin-right: -30px;
+        }
         & > nav > ul{
             &  > li{
                 margin-right: 20px;
+
+                [dir=rtl] & {
+                    margin-right: unset;
+                    margin-left: 20px;
+                }
                 @media #{$xl}{
                     
                     margin-right: 15px;
+
+                    [dir=rtl] & {
+                        margin-right: unset;
+                        margin-left: 15px;
+                    }
                 }
                 & > a{
                     padding: 22px 0;
@@ -314,8 +387,18 @@
         & > nav > ul{
             &  > li{
                 text-align: left;
+
+                [dir=rtl] & {
+                    text-align: right;
+                }
+
                 @media #{$xl}{
                     margin-right: 20px;
+
+                    [dir=rtl] & {
+                        margin-right: unset;
+                        margin-left: 20px;
+                    }
                 }
                 & > a{
                     padding: 17px 0;
@@ -359,6 +442,10 @@
                 
                 & .tp-submenu{
                     text-align: left;
+
+                    [dir=rtl] & {
+                        text-align: right;
+                    }
                     & li{
                         &:hover{
                             & > a{
@@ -382,8 +469,17 @@
         & > nav > ul{
             &  > li{
                 text-align: left;
+
+                [dir=rtl] & {
+                    text-align: right;
+                }
                 @media #{$xl}{
                     margin-right: 20px;
+
+                    [dir=rtl] & {
+                        margin-right: unset;
+                        margin-left: 20px;
+                    }
                 }
                 & > a{
                     color: rgba($color: $white, $alpha: .8);
@@ -409,6 +505,10 @@
 
                 & .tp-submenu{
                     text-align: left;
+
+                    [dir=rtl] & {
+                        text-align: right;
+                    }
                     & li{
                         & a{
                             color: var(--tp-common-black);
@@ -484,6 +584,11 @@
             visibility: hidden;
             opacity: 0;
             @extend %tp-transition;
+
+            [dir=rtl] & {
+                left: unset;
+                right: 0;
+            }
         }
     }
     &-title{
@@ -533,6 +638,11 @@
         left: 0;
         right: 0;
         text-align: center;
+
+        [dir=rtl] & {
+            left: unset;
+            right: 0;
+        }
     }
     &-list{
         & a{

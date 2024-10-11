@@ -3,7 +3,6 @@ import {type IProduct} from "@/types/product-d-t";
 import {defineStore} from "pinia";
 import {toast} from "vue3-toastify";
 import swal from "sweetalert";
-import {$axios} from "@/plugins/00.axiosInstance";
 import type {IProductResponse} from "@/types/product-response-d-t";
 import {convertProductResponse} from "@/plugins/data/product-data";
 import formDataService from "@/services/formDataService";
@@ -74,7 +73,8 @@ export const useWishlistStore = defineStore("wishlist_product", () => {
             const response: { data: { data: IProductResponse[] } } = await $axios.get('wishlist', {
                 baseURL: "http://127.0.0.1:3000/api"
             });
-            wishlists.value = (response?.data?.data || []).map(convertProductResponse);
+
+            wishlists.value = (response?.data?.data || []).map(x => convertProductResponse(x));
         } else {
             const wishlistData = localStorage.getItem("wishlist_products");
             if (wishlistData) {
@@ -85,7 +85,7 @@ export const useWishlistStore = defineStore("wishlist_product", () => {
 
     // mounted to update cart products
     onMounted(() => {
-        fetchWishlist();
+        // fetchWishlist();
     });
 
     const clearWishlist = (payload: IProduct) => {

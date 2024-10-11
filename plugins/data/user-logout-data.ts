@@ -1,4 +1,3 @@
-import {$axios} from "@/plugins/00.axiosInstance";
 import type {IResponse} from "@/types/response-d-t";
 
 export async function userLogoutData(): Promise<string> {
