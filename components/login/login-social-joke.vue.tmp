@@ -1,0 +1,102 @@
+<template>
+  <div class="tp-login-social mb-10 d-flex flex-wrap align-items-center justify-content-center">
+  <div>
+    <p v-if="$auth.loggedIn">Welcome, {{ $auth.user.name }}</p>
+    <p v-else>Please log in</p>
+  </div>
+    <div class="tp-login-option-item has-google">
+      <button @click="login">Sign in with Google</button>
+
+      <ClientOnly>
+        <GoogleSignInButton
+            id="g_id_onload"
+            :locale="$i18n.locale"
+            :title="$t('Sign in with google')"
+            allowed-parent-origin="https://localhost:3000"
+            data-itp_support="false"
+            data-login_uri="http://127.0.0.1:3000/api/auth/google/callback"
+            adisabled="!isReady"
+            size="large"
+            @error="handleSignInError"
+            @success="handleSignInSuccess"
+        />
+      </ClientOnly>
+    </div>
+
+    <div class="tp-login-option-item">
+      <a :title="$t('Sign in with facebook')" href="#" @click.prevent="authStore.loginWithFacebook()">
+        <img alt="" src="/images/icon/login/facebook.svg" />
+      </a>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import {useAuthStore} from "@/pinia/useAuthStore";
+import {type CredentialResponse, GoogleSignInButton,} from "vue3-google-signin";
+
+const authStore = useAuthStore();
+
+const callbackMethod = (response) => {
+  // decodeCredential will retrive the JWT payload from the credential
+  debugger
+  // const userData = decodeCredential(response.credential)
+  console.log("Handle the userData", response)
+}
+
+const handleLoginSuccess = (response: CredentialResponse) => {
+  const {credential} = response;
+  console.log("Access Token", credential);
+};
+
+const handleLoginError = () => {
+  console.error("Login failed");
+};
+
+const callback = (response) => {
+  if (response.credential) {
+    console.log("Call the endpoint which validates JWT credential string")
+  } else {
+    console.log("Call the endpoint which validates authorization code")
+  }
+}
+
+const handleSignInSuccess = (response: CredentialResponse) => {
+  const {credential} = response;
+  // const decodedCredential = decodevCredential(credential);
+  console.log("User:", credential);
+  // console.log("User:", decodedCredential);
+};
+
+const handleSignInError = () => {
+  console.error("Signin Failed");
+};
+
+const login = async () => {
+  try {
+    await this.$auth.loginWith('google')
+  } catch (error) {
+    console.error('Login error:', error)
+  }
+}
+
+// import type {CredentialResponse} from "vue3-google-signin";
+// import {GoogleSignInButton, decodeCredential} from "vue3-google-signin";
+// import {GoogleLogin} from "vue3-google-login";
+// import {GoogleLogin, googleTokenLogin} from "vue3-google-login";
+// import {decodeCredential} from 'vue3-google-login'
+
+// const {login, isReady} = authStore.loginWithGoogle();
+
+// import {GoogleLogin, googleLogout} from "vue3-google-login"
+// import {
+//   useTokenClient,
+//   type AuthCodeFlowSuccessResponse,
+//   type AuthCodeFlowErrorResponse,
+// } from "vue3-google-signin";
+
+// import {
+//   GoogleSignInButton,
+//   type CredentialResponse,
+// } from "vue3-google-signin";
+</script>

@@ -1,12 +1,8 @@
 <template>
   <div>
-      <!-- breadcrumb start -->
-<!--      <breadcrumb :title="$t('Login')" :subtitle="$t('Login')" :center="true" />-->
-      <!-- breadcrumb end -->
+    <!--      <breadcrumb :title="$t('Login')" :subtitle="$t('Login')" :center="true" />-->
 
-      <!-- login area start -->
-      <login-area class="pt-100 pb-50"/>
-      <!-- login area end -->
+      <login-area class="pt-100 pb-50" />
   </div>
 </template>
 
@@ -14,5 +10,5 @@
 const {title} = useSiteSettings();
 const {t} = useI18n();
 
-useSeoMeta({ title: title(t("Login Page")) });
+useSeoMeta({title: title(t("Login Page"))});
 </script>

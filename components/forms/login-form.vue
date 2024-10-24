@@ -85,7 +85,11 @@ const onSubmit = handleSubmit((values: IUserLoginFormValues) => {
 					setTimeout(() => {
 						resetForm();
 						remeber.value.checked = false;
-						$router.push(props?.redirect || '/');
+            if ($router.currentRoute.value.query.redirect === 'checkout') {
+              $router.push('/checkout');
+            } else {
+              $router.push(props?.redirect || '/');
+            }
 					}, 500);
 				} else {
 					toast.error(t('Invalid username or password'));

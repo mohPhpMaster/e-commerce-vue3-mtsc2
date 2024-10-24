@@ -8,6 +8,7 @@
 				{{ $t("Sign in with google") }}
       </a>
     </div>
+
     <div class="tp-login-option-item">
       <a href="#" :title="$t('Sign in with facebook')" >
         <img src="/images/icon/login/facebook.svg" alt="" />

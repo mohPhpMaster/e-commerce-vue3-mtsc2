@@ -19,6 +19,11 @@
 </template>
 
 <script setup lang="ts">
+
+// const {$auth} = useNuxtApp()
+// const icon = computed(() => $auth.session.value?.email ? 'i-heroicons-lock-open' : 'i-heroicons-lock-closed')
+
+
 import {useUserStore} from '@/pinia/useUserStore'
 
 const userStore = useUserStore()

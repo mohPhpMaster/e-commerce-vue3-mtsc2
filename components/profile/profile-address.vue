@@ -169,8 +169,11 @@ onMounted(() => {
 
 watch(
     () => route.fullPath,
-    () => {
-      console.log(173, {...router})
+    (n) => {
+      if (router.currentRoute.value.fullPath !== '/profile#address') {
+        return;
+      }
+
       refresh();
     }
 );

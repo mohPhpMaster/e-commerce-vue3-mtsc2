@@ -36,7 +36,7 @@
 import toolsService from "@/services/toolsService";
 import type {ICategory} from "@/types/category-d-t";
 
-const props = defineProps<{ isActive: boolean, categories: ICategory[] }>();
+const props = defineProps<{ isActive: boolean, categories?: ICategory[] }>();
 const emit = defineEmits(['toggle']);
 
 const handleCategoryClick = (item: ICategory, e: Event) => {

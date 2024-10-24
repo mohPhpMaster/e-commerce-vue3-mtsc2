@@ -1,19 +1,18 @@
 <template>
   <div>
-      <!-- breadcrumb start -->
-      <breadcrumb title="Forgot Password" subtitle="Reset Password" :center="true" />
-      <!-- breadcrumb end -->
+<!--      <breadcrumb title="Forgot Password" subtitle="Reset Password" :center="true" />-->
 
-      <!-- forgot area start -->
-      <forgot-area/>
-      <!-- forgot area end -->
+      <forgot-area class="pt-100 pb-50" />
   </div>
 </template>
 
 <script setup lang="ts">
 import {useUserStore} from "@/pinia/useUserStore";
 
-useSeoMeta({ title: "Forgot Page" });
+const {title} = useSiteSettings();
+const {t} = useI18n();
+
+useSeoMeta({title: title(t("Reset Password"))});
 
 useUserStore().guestUser();
 </script>

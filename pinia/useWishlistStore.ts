@@ -88,7 +88,7 @@ export const useWishlistStore = defineStore("wishlist_product", () => {
         // fetchWishlist();
     });
 
-    const clearWishlist = (payload: IProduct) => {
+    const clearWishlist = () => {
         swal({
             title: t("Are you sure?"),
             text: t("You won't be able to revert this!"),

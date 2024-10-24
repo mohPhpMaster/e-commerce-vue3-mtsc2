@@ -66,10 +66,10 @@
               </div>-->
               <div class="tp-cart-checkout-total d-flex align-items-center justify-content-between">
                   <span>{{ $t('Total') }}</span>
-                  <span>{{ currency((cartStore.totalPriceQuantity.total + shippingStore.shipCost.value).toFixed(2)) }}</span>
+                  <span>{{ currency((cartStore.totalPriceQuantity.total /*+ shippingStore.shipCost.value*/).toFixed(2)) }}</span>
               </div>
               <div class="tp-cart-checkout-proceed">
-                  <nuxt-link href="/checkout" class="tp-cart-checkout-btn w-100">{{ $t('Proceed to Checkout') }}</nuxt-link>
+                  <nuxt-link :href="userStore.isLoggedIn() ? '/checkout' : '/login?redirect=checkout'" class="tp-cart-checkout-btn w-100">{{ $t('Proceed to Checkout') }}</nuxt-link>
               </div>
             </div>
         </div>
@@ -81,10 +81,12 @@
 <script setup lang="ts">
 import { useCartStore } from "@/pinia/useCartStore";
 import currency from "@/services/currencyService";
+import {useUserStore} from "@/pinia/useUserStore";
 
 const {t} = useI18n();
 const cartStore = useCartStore();
-const shippingStore = useShipping();
+const userStore = useUserStore();
+// const shippingStore = useShipping();
 
 const showCouponCodeArea = ref(false);
 let couponCode = ref<string>('');

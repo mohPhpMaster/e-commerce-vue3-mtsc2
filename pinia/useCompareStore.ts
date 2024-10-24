@@ -10,12 +10,14 @@ import type {IUser} from "@/types/user-d-t";
 
 export const useCompareStore = defineStore("compare_product", () => {
     const {t} = useI18n();
+    const {$settings} = useNuxtApp();
     let compare_items = ref<IProduct[]>([]);
     const cookies = useCookie<IUser>('user', {
         // parseJSON: true,
         persist: true,
         watch: true
     });
+    const noImageUrl = $settings.noImageUrl;
 
     const isLoggedIn = () => !!cookies.value?.token;
 
@@ -74,7 +76,7 @@ export const useCompareStore = defineStore("compare_product", () => {
             const response: { data: { data: IProductResponse[] } } = await $axios.get('comparelist', {
                 baseURL: "http://127.0.0.1:3000/api"
             });
-            compare_items.value = (response?.data?.data || []).map(x=>convertProductResponse(x));
+            compare_items.value = (response?.data?.data || []).map(x=>convertProductResponse(x, noImageUrl));
         } else {
             const compareData = localStorage.getItem("compare_products");
             if (compareData) {

@@ -68,7 +68,7 @@
 		          src="/images/product/cartmini/empty-cart.png"
           />
           <p>{{ $t('Your Cart is empty') }}</p>
-          <nuxt-link class="tp-btn" href="/">{{ $t('Shop Now') }}</nuxt-link>
+          <nuxt-link class="tp-btn" href="/" @click="cartStore.handleCartOffcanvas">{{ $t('Shop Now') }}</nuxt-link>
         </div>
       </div>
       <div v-if="cartStore.cart_products?.length > 0" class="cartmini__checkout">
@@ -114,6 +114,6 @@ import {useUserStore} from "@/pinia/useUserStore";
 const cartStore = useCartStore();
 
 onMounted(() => {
-	cartStore.fetchCart();
+	// cartStore.fetchCart();
 });
 </script>

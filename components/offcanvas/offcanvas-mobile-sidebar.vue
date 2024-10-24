@@ -66,7 +66,7 @@ import {useUtilityStore} from "@/pinia/useUtilityStore";
 
 const utilsStore = useUtilityStore();
 const props = defineProps<{
-	categories: ICategory[],
+	categories?: ICategory[],
 }>();
 </script>
 

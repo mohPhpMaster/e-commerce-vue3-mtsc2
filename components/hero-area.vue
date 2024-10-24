@@ -13,7 +13,11 @@
 </template>
 
 <script setup lang="ts">
-import {Carousel, Slide, Pagination, Navigation} from 'vue3-carousel/dist/carousel.es.js'
+// import {Carousel, Slide, Pagination, Navigation} from 'vue3-carousel/dist/carousel.es.js'
+
+import {Carousel, Slide, Pagination, Navigation} from 'vue3-carousel';
+import 'vue3-carousel/dist/carousel.css'
+
 import toolsService from "@/services/toolsService";
 
 const route = useRoute()

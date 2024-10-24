@@ -43,6 +43,12 @@ function isActiveTab(tab, alternate = undefined) {
 	return [tab && `#${tab}`, alternate && `#${alternate}`].includes(router.currentRoute.value.hash);
 }
 
+onMounted(() => {
+    let hash = router.currentRoute.value.hash;
+    if (hash) {
+      nextTick(() => window.document.querySelector(`#nav-${hash.replace('#', '')}-tab`).click())
+    }
+});
 </script>
 
 <style scoped lang="scss">

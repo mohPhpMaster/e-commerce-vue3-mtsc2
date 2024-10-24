@@ -32,7 +32,7 @@ import { type IProduct } from '@/types/product-d-t';
 import { useProductStore } from "@/pinia/useProductStore";
 import { useUtilityStore } from "@/pinia/useUtilityStore";
 // props
-const props = defineProps<{ product: IProduct }>();
+const props = defineProps<{ product?: IProduct }>();
 
 const productStore = useProductStore();
 const product_images = computed(() => props.product?.images);

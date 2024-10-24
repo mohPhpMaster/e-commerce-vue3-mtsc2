@@ -109,6 +109,10 @@ export const useUserStore = defineStore('user', () => {
         return true;
     };
 
+    const isUserNeeded = (): boolean => {
+        return initialized.value && !isLoggedIn();
+    };
+
     const needUser = (): boolean => {
         if (!initialized.value) {
             onMounted(() => needUser());
@@ -133,6 +137,7 @@ export const useUserStore = defineStore('user', () => {
         setUser,
         clearUser,
         initializeUser,
+        isUserNeeded,
         needUser,
         guestUser,
         refresh

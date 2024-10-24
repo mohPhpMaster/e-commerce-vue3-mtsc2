@@ -41,7 +41,7 @@ let isCategoryActive = ref<boolean>(false);
 let openCategory = ref<string>("");
 
 const props = defineProps<{
-	categories: ICategory[],
+	categories?: ICategory[],
 }>();
 
 const handleOpenSubMenu = (item: ICategory) => {

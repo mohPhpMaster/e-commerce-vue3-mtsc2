@@ -7,9 +7,7 @@
       </div>
       <div v-else class="row">
         <div class="col-xl-7 col-lg-7">
-          <!-- checkout verify start -->
           <checkout-verify />
-          <!-- checkout verify end -->
         </div>
 
         <Form :validation-schema="formValidationSchema.validationSchema" @submit="handleOnSubmit">
@@ -21,9 +19,7 @@
               </div>
             </div>
             <div class="col-lg-5">
-              <!-- checkout place order -->
               <checkout-order @submit="handleOnSubmit" />
-              <!-- checkout place order -->
             </div>
           </div>
         </Form>
@@ -39,7 +35,7 @@ import * as yup from 'yup';
 import {useCartStore} from '@/pinia/useCartStore';
 import {Form, useForm} from 'vee-validate';
 import {useUserStore} from "@/pinia/useUserStore";
-import {loadStripe} from '@stripe/stripe-js';
+// import {loadStripe} from '@stripe/stripe-js';
 import $axios from "@/utils/Axios";
 import formDataService from "@/services/formDataService";
 import {useLocaleStore} from "@/pinia/useLocaleStore";
@@ -53,9 +49,9 @@ const loading = useLoading();
 const {$settings} = useNuxtApp();
 const $locale = useLocaleStore()?.selectedLocale()?.code;
 const addressStore = useUserAddressesStore();
+const {t} = useI18n();
 
 useUserStore().needUser();
-const {t} = useI18n();
 const stripePublishableKey = useRuntimeConfig().public.stripePublishableKey;
 // const pending = ref(false)
 
@@ -64,22 +60,8 @@ const formValidationSchema = {
     user_address: yup.string().required().label(t("Shipping Location")),
     order_note: yup.string().optional().label(t("Order Note")),
   }),
-}
+};
 const {errors, defineInputBinds, resetForm, setFieldValue, values} = useForm(formValidationSchema);
-
-onMounted(() => {
-  loading.stop();
-  // setTimeout(() => {
-  //   const script = document.createElement('script');
-  //   script.src = '//js.stripe.com/v3/';
-  //   script.async = true;
-  //   script.defer = true;
-  //   script.onload = () => {
-  //     initialize();
-  //   };
-  //   document.head.appendChild(script);
-  // }, 100);
-});
 
 const handleOnSubmit2 = (o) => {
   setFieldValue('order_note', o?.order_note || '');
@@ -109,7 +91,7 @@ const handleOnSubmit = () => {
     }),
     ship_cost: objectOnly(shippingStore.selectedFee.value, ['value', 'name']),
     successUrl: toolsService.getBaseUrl() + '/thank-you?session_id={CHECKOUT_SESSION_ID}&order_id=:ORDER_ID',
-    cancelUrl: toolsService.getBaseUrl() + '/checkout?session_id={CHECKOUT_SESSION_ID}&status=cancelled&order_id=:ORDER_ID',
+    cancelUrl: toolsService.getBaseUrl() + '/thank-you?session_id={CHECKOUT_SESSION_ID}&status=cancelled&order_id=:ORDER_ID',
     currency: $settings.currency,
     locale: 'auto',
     ...values,
@@ -118,10 +100,11 @@ const handleOnSubmit = () => {
     user_address_id: addressStore.selectedAddress?.id,
   }))
       .then(({data}) => {
-        debugger
         if (data.sessionId) {
-          loadStripe(stripePublishableKey)
+          import('@stripe/stripe-js').then(({loadStripe}) => {
+            loadStripe(stripePublishableKey)
               .then(stripe => stripe.redirectToCheckout({sessionId: data.sessionId}));
+          })
         }
       })
       .catch(e => console.error(e.message))
@@ -142,12 +125,25 @@ const handleOnSubmit = () => {
     //   locale: 'auto',
     //   ...values,
     // }))
-
     // if (createOrderResponse.sessionId) {
     //   stripe?.redirectToCheckout({sessionId: createOrderResponse.sessionId});
     // }
-
 };
+
+onMounted(() => {
+  loading.stop();
+
+  // setTimeout(() => {
+  //   const script = document.createElement('script');
+  //   script.src = '//js.stripe.com/v3/';
+  //   script.async = true;
+  //   script.defer = true;
+  //   script.onload = () => {
+  //     initialize();
+  //   };
+  //   document.head.appendChild(script);
+  // }, 100);
+});
 
 const user_address = defineInputBinds('user_address');
 const order_note = defineInputBinds('order_note');

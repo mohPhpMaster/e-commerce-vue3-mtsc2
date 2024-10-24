@@ -1,10 +1,13 @@
 <template>
   <header>
     <div
-		    id="header-sticky"
-		    :class="`tp-header-area p-relative tp-header-sticky tp-header-height ${isSticky ? 'header-sticky' : ''}`"
+        id="header-sticky"
+        :class="`tp-header-area p-relative tp-header-sticky tp-header-height ${isSticky ? 'header-sticky' : ''}`"
     >
-      <div class="tp-header-5 pl-25 pr-25" style="background-color: var(--tp-navbar-bg-color); color: var(--tp-navbar-text-color);">
+      <div
+          class="tp-header-5 pl-25 pr-25"
+          style="background-color: var(--tp-navbar-bg-color); color: var(--tp-navbar-text-color);"
+      >
           <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="col-xxl-2 col-xl-3 col-6">
@@ -18,8 +21,8 @@
                       </div>
                       <div class="tp-header-hamburger-5 ms-15 d-lg-none">
                         <button
-		                        class="tp-hamburger-btn-2 tp-offcanvas-open-btn"
-		                        @click="utilityStore.handleOpenMobileMenu()"
+                            class="tp-hamburger-btn-2 tp-offcanvas-open-btn"
+                            @click="utilityStore.handleOpenMobileMenu()"
                         >
                             <span></span>
                             <span></span>
@@ -28,20 +31,24 @@
                       </div>
                       <div class="logo">
                         <nuxt-link href="/">
-                          <img alt="logo" :src="$settings?.logo" class="site-logo">
+                          <img :src="$settings?.logo" alt="logo" class="site-logo">
                         </nuxt-link>
                       </div>
                   </div>
-	                <!-- category start -->
-                  <header-top-categories :categories="topCategories" :is-active="isActive" @toggle="handleActive"></header-top-categories>
-	                <!-- category end -->
+                  <!-- category start -->
+                  <header-top-categories
+                      :categories="topCategories"
+                      :is-active="isActive"
+                      @toggle="handleActive"
+                  ></header-top-categories>
+                  <!-- category end -->
                 </div>
                 <div class="col-xxl-4 col-xl-6 d-none d-xl-block">
                   <div class="main-menu">
                     <nav class="tp-main-menu-content">
                       <!-- menus start -->
                       <header-menus />
-	                    <!-- menus end -->
+                      <!-- menus end -->
                     </nav>
                   </div>
                 </div>
@@ -51,9 +58,9 @@
                         <div class="tp-header-search-input-box-5">
                             <div class="tp-header-search-input-5">
                               <input
-		                              v-model="searchText"
-		                              :placeholder="$t('Search for products keywords ...')"
-		                              type="text"
+                                  v-model="searchText"
+                                  :placeholder="$t('Search for products keywords ...')"
+                                  type="text"
                               >
                               <span class="tp-header-search-icon-5">
                                   <svg-search-2></svg-search-2>
@@ -104,17 +111,17 @@
     </div>
   </header>
 
-	<!-- cart offcanvas start -->
+  <!-- cart offcanvas start -->
   <offcanvas-cart-sidebar />
-	<!-- cart offcanvas end -->
+  <!-- cart offcanvas end -->
 
-	<!-- search start -->
+  <!-- search start -->
   <header-search></header-search>
-	<!-- search end -->
+  <!-- search end -->
 
-	<!-- cart offcanvas start -->
+  <!-- cart offcanvas start -->
   <offcanvas-mobile-sidebar :categories="topCategories"></offcanvas-mobile-sidebar>
-	<!-- cart offcanvas end -->
+  <!-- cart offcanvas end -->
 </template>
 
 <script lang="ts" setup>
@@ -133,14 +140,14 @@ const route = useRoute();
 const store = useProductFilterStore();
 
 const {data: topCategories, pending, error, refresh} = useLazyAsyncData('topCategories', () => {
-	return api.topCategoryData();
+  return api.topCategoryData();
 });
 
 let isActive = ref<boolean>(false);
 let searchText = ref<string>(route?.query?.searchText);
 
 const handleActive = () => {
-	return isActive.value = !isActive.value;
+  return isActive.value = !isActive.value;
 };
 
 const cartStore = useCartStore();
@@ -150,36 +157,56 @@ const compareStore = useCompareStore();
 const products_count = computed(() => cartStore?.cart_products?.length);
 
 const handleSubmit = () => {
-	if (searchText.value) {
-		if (searchText.value === router.currentRoute.value?.query?.searchText) {
-			useSearchStore().triggerSearch();
-			return false;
-		}
+  if (searchText.value) {
+    if (searchText.value === router.currentRoute.value?.query?.searchText) {
+      useSearchStore().triggerSearch();
+      return false;
+    }
 
-		router.push({
-			path: '/search',
-			query: {
-				...router.currentRoute.value?.query,
-				searchText: searchText.value
-			}
-		});
-	} else {
-		store.handleResetFilter();
-		router.push(`/search`)
-	}
+    router.push({
+      path: '/search',
+      query: {
+        ...router.currentRoute.value?.query,
+        searchText: searchText.value
+      }
+    });
+  } else {
+    store.handleResetFilter();
+    router.push(`/search`)
+  }
 }
 
+cartStore.fetchCart();
+wishlistStore.fetchWishlist();
+compareStore.fetchComparelist();
+
+const handleClickAway = (e) => {
+  if (isActive.value) {
+    if (!e.target.closest('.tp-header-category,.tp-header-hamburger-5')) {
+      handleActive();
+    }
+  }
+};
+
+onMounted(()=>{
+  document.body.addEventListener('click', handleClickAway);
+});
+
+onUnmounted(()=>{
+  document.body.removeEventListener('click', handleClickAway);
+});
+
 watch(
-		() => route.href,
-		() => {
-			isActive.value = false;
-			searchText.value = router.currentRoute.value?.query?.searchText
-		}
+    () => route.href,
+    () => {
+      isActive.value = false;
+      searchText.value = router.currentRoute.value?.query?.searchText
+    }
 )
 </script>
 
 <style lang="scss" scoped>
 .site-logo {
-	height: 72px;
+  height: 72px;
 }
 </style>

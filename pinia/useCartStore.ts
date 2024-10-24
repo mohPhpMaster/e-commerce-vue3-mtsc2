@@ -155,34 +155,57 @@ export const useCartStore = defineStore("cart_product", () => {
     };
 
     const quantityDecrement = (payload: IProduct) => {
-        cart_products.value.forEach(cartProductByPayload(payload, (item: ICartItem) => {
-            if (typeof item.quantity !== "undefined") {
-                if (item.quantity > 1) {
-                    quantitySet(payload, (item.quantity || 1) - 1);
-                } else {
-                    removeCartProduct(item);
-                }
-            }
-        }))
+        // payload.quantity = payload.quantity - 1;
+        quantitySet(payload, payload.quantity-1)
+        // cart_products.value.forEach(cartProductByPayload(payload, (item: ICartItem) => {
+        //     if (typeof item.quantity !== "undefined") {
+        //         if (item.quantity > 1) {
+        //             quantitySet(payload, (item.quantity || 1) - 1);
+        //         } else {
+        //             removeCartProduct(item);
+        //         }
+        //     }
+        // }))
     };
 
     const quantityIncrement = (payload: IProduct) => {
-        quantitySet(payload, (item: ICartItem) => (item.quantity || 1) + 1);
+        quantitySet(payload, payload.quantity + 1)
+        // console.log(171, payload)
+        // payload.quantity = payload.quantity + 1;
+        // quantitySet(payload, (item: ICartItem) => (item.quantity || 1) + 1);
     };
 
     const quantitySet = (payload: IProduct, quantity: number | Function) => {
-        quantity = (typeof quantity !== "function") && isNaN(quantity) ? 1 : quantity;
-        cart_products.value.forEach((cartProductByPayload(payload, (item: ICartItem) => {
-            if (typeof quantity === "function") {
-                item.quantity = Number(quantity(item));
-            } else {
-                item.quantity = Number(quantity);
-            }
+        if ($axios.hasToken()) {
+            $axios.post(`cart/${payload.id}`, formDataService({
+                quantity,
+            }))
+                .then((response) => {
+                    let cartData = convertCartResponse(response?.data?.data || {});
+                    cart_products.value = cartData.cartItems;
 
-            return item;
-        })))
-        localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
-        toast.info(`Quantity For ${toolsService.parseProductName(payload, true)} updated to ${quantity} `);
+                    toast.success(response?.data?.message || `Quantity For ${toolsService.parseProductName(payload, true)} updated to ${quantity} `);
+                })
+                .catch((error) => {
+                    console.error('Error updating cart product:', error);
+                });
+        } else {
+            payload.quantity = quantity;
+            localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
+            toast.info(`Quantity For ${toolsService.parseProductName(payload, true)} updated to ${quantity} `);
+        }
+        // quantity = (typeof quantity !== "function") && isNaN(quantity) ? 1 : quantity;
+        // cart_products.value.forEach((cartProductByPayload(payload, (item: ICartItem) => {
+        //     if (typeof quantity === "function") {
+        //         item.quantity = Number(quantity(item));
+        //     } else {
+        //         item.quantity = Number(quantity);
+        //     }
+        //
+        //     return item;
+        // })))
+        // localStorage.setItem("cart_products", JSON.stringify(cart_products.value));
+        // toast.info(`Quantity For ${toolsService.parseProductName(payload, true)} updated to ${quantity} `);
     };
 
     const filterCartProductByPayload = (payload: ICartItem) => {
@@ -291,7 +314,7 @@ export const useCartStore = defineStore("cart_product", () => {
     }
 
     const calcCartItem = (item: ICartItem): number => {
-        return item?.differents?.net + calcAccessoriesPrice(item?.accessories);
+        return (item?.differents?.net || Number(item?.price || 0)) + calcAccessoriesPrice(item?.accessories);
     }
 
     // totalPriceQuantity
@@ -331,9 +354,9 @@ export const useCartStore = defineStore("cart_product", () => {
 
         fetch_status.value = true;
         if ($axios.hasToken()) {
-            const response: { data: { data: ICartResponse } } = await $axios.get('cart', {
+            const response: { data: { data: ICartResponse } } = await $axios.get('cart'/*, {
                 baseURL: "http://127.0.0.1:3000/api"
-            });
+            }*/);
             let cartData = convertCartResponse(response?.data?.data || {});
             // debugger
             // cartData.cartItems = cartData.cartItems.map(x=>{

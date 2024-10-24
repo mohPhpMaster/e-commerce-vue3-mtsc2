@@ -55,7 +55,7 @@
                 }">
                   <div class="tp-product-details-review-statics">
                       <!-- number -->
-                      <div class="tp-product-details-review-number d-inline-block mb-50">
+                      <div class="tp-product-details-review-number d-inline-block mb-50 w-100">
                         <h3 class="tp-product-details-review-number-title">{{ $t('Customer reviews') }}</h3>
                         <div class="tp-product-details-review-summery d-flex align-items-center">
                             <div class="tp-product-details-review-summery-value">
@@ -66,7 +66,7 @@
                               <p>{{ $t(':count Reviews', { count: reviews?.length || 0 }) }}</p>
                             </div>
                         </div>
-                        <div class="tp-product-details-review-rating-list">
+                        <div v-if="false" class="tp-product-details-review-rating-list">
                             <!-- rating item -->
                             <product-details-rating-item :star="5" width="82" />
                             <product-details-rating-item :star="4" width="30" />
@@ -111,7 +111,7 @@
                       <h3 class="tp-product-details-review-form-title">{{ $t('Review this product') }}</h3>
                       <p>{{ $t('All fields are Required') }}</p>
                      <!-- form start -->
-                     <forms-review-form :product="product" @added="reviews.push($event)" />
+                     <forms-review-form :product="product" @added="reviews.unshift($event)" />
                      <!-- form end -->
                   </div>
                 </div>

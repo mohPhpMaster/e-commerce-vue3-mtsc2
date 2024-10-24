@@ -1,0 +1,4 @@
+# cd ../../ecommerce-cp.local/;
+
+php ../../ecommerce-cp.local/artisan serve --port=3000
+# cd -

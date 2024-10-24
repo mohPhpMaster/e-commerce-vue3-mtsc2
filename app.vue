@@ -5,7 +5,6 @@
   </NuxtLayout>
 </template>
 
-
 <script lang="ts" setup>
 import {useProductFilterStore} from '@/pinia/useProductFilterStore';
 import {useUtilityStore} from '@/pinia/useUtilityStore';

@@ -1,0 +1,51 @@
+<template>
+  <div
+      class="tp-login-social mb-10 d-flex flex-wrap align-items-center justify-content-center"
+  >
+    <div class="tp-login-option-item has-google">
+      <a :title="$t('Sign in with google')" href="#" @click.prevent="authStore.loginWithGoogle()">
+        <img alt="" src="/images/icon/login/google.svg" />
+				{{ $t("Sign in with google") }}
+      </a>
+    </div>
+    <div class="tp-login-option-item">
+      <a :title="$t('Sign in with facebook')" href="#" @click.prevent="authStore.loginWithFacebook()">
+        <img alt="" src="/images/icon/login/facebook.svg" />
+      </a>
+    </div>
+  <button :disabled="!isReady" @click="() => login()">
+    Login with Google Custom button
+  </button>
+      <GoogleLogin :callback="callback" />
+
+  </div>
+</template>
+
+<script lang="ts" setup>
+const callback = (response) => {
+  // This callback will be triggered when the user selects or login to
+  // his Google account from the popup
+  console.log("Handle the response", response)
+}
+import {useAuthStore} from "@/pinia/useAuthStore";
+
+const authStore = useAuthStore();
+import {
+  useTokenClient,
+  type AuthCodeFlowSuccessResponse,
+  type AuthCodeFlowErrorResponse,
+} from "vue3-google-signin";
+
+const handleOnSuccess = (response: AuthCodeFlowSuccessResponse) => {
+  console.log("Access Token: ", response.access_token);
+};
+
+const handleOnError = (errorResponse: AuthCodeFlowErrorResponse) => {
+  console.log("Error: ", errorResponse);
+};
+
+const {isReady, login} = useTokenClient({
+  onSuccess: handleOnSuccess,
+  onError: handleOnError,
+});
+</script>

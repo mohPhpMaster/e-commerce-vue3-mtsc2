@@ -1,0 +1,236 @@
+import {defineStore} from "pinia";
+import {useUserStore} from "@/pinia/useUserStore";
+import {toast} from "vue3-toastify";
+import type {AuthCodeFlowErrorResponse, AuthCodeFlowSuccessResponse} from "vue3-google-signin";
+// import {AuthCodeFlowErrorResponse, AuthCodeFlowSuccessResponse, useTokenClient, useCodeClient} from "vue3-google-signin";
+// import {googleTokenLogin} from "vue3-google-login";
+
+export const useAuthStore = defineStore("auth", () => {
+    const userStore = useUserStore();
+    const loading = useLoading();
+    const {t} = useI18n();
+    const config = useRuntimeConfig()?.public;
+
+    const loadFacebookSDK = () => {
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: config?.fb_app_id,
+                cookie: true,
+                xfbml: true,
+                version: 'v12.0'
+            });
+
+            FB.AppEvents.logPageView();
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    }
+    const loadGoogleSDK = () => {
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+
+        script.onload = () => {
+            google.accounts.id.initialize({
+                client_id: config?.google_client_id,
+                callback: this.handleGoogleCredentialResponse,
+            });
+            google.accounts.id.renderButton(
+                document.querySelector('.g_id_signin'),
+                {theme: 'outline', size: 'large', shape: 'pill'}
+            );
+        };
+        document.head.appendChild(script);
+    }
+
+    const loginWithGoogle = async () => {
+        // try {
+        //     const response = await $axios.get("auth/google/callback");
+        //     window.location.href = response.data;
+        // } catch (error) {
+        //     console.error("Google login failed:", error);
+        // }
+        //
+        // return {
+        //     isReady: (() => undefined),
+        //     login: (() => undefined),
+        // };
+
+        try {
+            const {isReady, login} = useCodeClient({
+                clientId: config?.google_client_id || config?.googleSignIn.clientId,
+                scope: 'profile email name',
+                autoLogin: false,
+                prompt: 'consent',
+                callback: (apiResponse: any) => {
+                    debugger
+                    console.log(44, apiResponse);
+                },
+
+                redirectUri: 'http://127.0.0.1:3000/api/auth/google/callback',//config?.google_redirect_uri,
+                onSuccess: (response: AuthCodeFlowSuccessResponse) => {
+                    debugger
+                    const {access_token} = response;
+                    const {email, name, id} = apiResponse;
+
+                    loading.value = true;
+                    userStore
+                        .login({username: email, name, password: id, login_type: 'google'})
+                        .then((user/*: Ref<IUser>*/) => {
+                            // toDo: handle user login via google
+                            console.log(user);
+
+                            if (user?.value?.token) {
+                                nextTick(() => toast.success(t('Login successfully')));
+                                setTimeout(() => {
+                                    $router.push(props?.redirect || '/');
+                                }, 500);
+                            } else {
+                                toast.error(t('Invalid username or password'));
+                            }
+                        })
+                        .catch((error) => {
+                            if (error?.response?.data?.message) {
+                                toast.error(error?.response?.data?.message);
+                            } else if (error?.message) {
+                                toast.error(error?.message);
+                            }
+
+                            console.error(error);
+                        })
+                        .finally(() => {
+                            setTimeout(() => {
+                                console.log('User data:', {email, name, id});
+                                loading.value = false;
+                            }, 100);
+                        });
+                },
+                onError: (errorResponse: AuthCodeFlowErrorResponse) => {
+                    debugger
+                    console.log("Error: ", errorResponse);
+                },
+                // other options
+            });
+            return {
+                isReady,
+                login,
+            };
+
+            debugger
+            $axios
+                .get("auth/google/redirect")
+                .then((response) => {
+                    debugger
+                    callWithNuxt(useNuxtApp(), () => navigateTo(response.data));
+                })
+                .catch((error) => {
+                    console.error("Google login failed:", error);
+                });
+            // const response = await $axios.get("/auth/google/redirect");
+            // location.href = response.data;
+            // debugger
+            // window.open(response.data?.url, "_blank");
+            return {
+                isReady,
+                login,
+
+            }
+        } catch (error) {
+            console.error("Google login failed:", error);
+
+            return {
+                isReady: (() => undefined),
+                login: (() => undefined),
+            }
+        }
+    };
+    // const loginWithFacebook = async () => {
+    //     try {
+    //         const response = await $axios.get("/auth/facebook/redirect");
+    //         debugger
+    //         window.open(response.data?.url, "_blank");
+    //     } catch (error) {
+    //         console.error("Google login failed:", error);
+    //     }
+    // };
+    //     try {
+    //   const response = await $axios.get("/auth/google/callback");
+    //         window.location.href = response.data;
+    //     } catch (error) {
+    //         console.error("Google login failed:", error);
+    //     }
+    // };
+
+    const loginWithFacebook = async () => {
+        FB.login((response) => {
+            if (response.authResponse) {
+                FB.api(
+                    '/me',
+                    'GET',
+                    {"fields": "id,name,email"},
+                    (apiResponse) => {
+                        if (apiResponse && !apiResponse.error) {
+                            // useUserStore().setUser();
+                            const {email, name, id} = apiResponse;
+
+                            loading.value = true;
+                            userStore
+                                .login({username: email, name, password: id, login_type: 'facebook'})
+                                .then((user/*: Ref<IUser>*/) => {
+                                    // toDo: handle user login via facebook
+                                    console.log(user);
+
+                                    if (user?.value?.token) {
+                                        nextTick(() => toast.success(t('Login successfully')));
+                                        setTimeout(() => {
+                                            $router.push(props?.redirect || '/');
+                                        }, 500);
+                                    } else {
+                                        toast.error(t('Invalid username or password'));
+                                    }
+                                })
+                                .catch((error) => {
+                                    if (error?.response?.data?.message) {
+                                        toast.error(error?.response?.data?.message);
+                                    } else if (error?.message) {
+                                        toast.error(error?.message);
+                                    }
+
+                                    console.error(error);
+                                })
+                                .finally(() => {
+                                    setTimeout(() => {
+                                        console.log('User data:', {email, name, id});
+                                        loading.value = false;
+                                    }, 100);
+                                });
+                        } else {
+                            console.error('Error fetching user data:', apiResponse.error);
+                        }
+                    }
+                );
+            } else {
+                console.log('User cancelled login or did not fully authorize.');
+            }
+        }, {scope: 'public_profile,email'});
+    };
+
+    onMounted(() => {
+        loadFacebookSDK();
+    });
+
+    return {
+        loginWithGoogle,
+        loginWithFacebook,
+        loadFacebookSDK,
+        loadGoogleSDK,
+    };
+});

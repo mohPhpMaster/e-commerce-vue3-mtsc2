@@ -1,14 +1,17 @@
 <template>
   <div>
-      <!-- breadcrumb start -->
-      <breadcrumb :bg_clr="true" subtitle="Checkout" title="Checkout" />
+    <!-- breadcrumb start -->
+    <breadcrumb :bg_clr="true" subtitle="Checkout" title="Checkout" />
     <!-- breadcrumb end -->
 
 	  <section class="tp-checkout-area pb-120" style="background-color: #EFF1F5;">
 	    <div class="container">
 	      <div class="text-center pt-50">
-	        <h3 class="py-2" v-html="$statusText + $icon" :style="{fill: $iconColor}"/>
-	        <nuxt-link class="tp-checkout-btn" href="/">{{ $t('Continue Shopping') }}</nuxt-link>
+	        <h3 :style="{fill: $iconColor}" class="py-2" v-html="$statusText" />
+          <nuxt-link v-if="orderLink && $statusText !== '...'" :href="orderLink" class="tp-checkout-btn">
+            <i class="fa-regular fa-file"></i>
+            {{ $t('Your Order') }}
+          </nuxt-link>
 	      </div>
 	    </div>
 	  </section>
@@ -17,12 +20,16 @@
 
 <script lang="ts" setup>
 import $axios from "@/utils/Axios";
+import {toast} from "vue3-toastify";
+import {useCartStore} from "@/pinia/useCartStore";
 
 useSeoMeta({title: "Checkout Page"});
 const {t} = useI18n();
+const router = useRouter();
 const $icon = ref("");
 const $iconColor = ref("white");
-const $statusText = ref(t('Thank you Your order have been received !'));
+const $statusText = ref('...');
+const orderLink = ref('');
 
 // ------- UI Resources -------
 const SuccessIcon =
@@ -78,7 +85,7 @@ function setPaymentDetails(data) {
 
   $icon.value = icon;
   $iconColor.value = iconColor;
-  $statusText.value = statusText;
+  $statusText.value = statusText + icon;
   return {
     statusText,
     iconColor,
@@ -94,6 +101,7 @@ function setPaymentDetails(data) {
 }
 
 onMounted(() => {
+  orderLink.value = `/order/${(new URLSearchParams(window?.location?.search)).get('order_id')}`;
   checkStatus();
 })
 
@@ -102,7 +110,7 @@ async function checkStatus() {
   const params = new URLSearchParams(window.location.search);
   const session_id = params.get("session_id");
   const order_id = params.get("order_id");
-
+  const status = params.get("status");
   if (!session_id) {
     return;
   }
@@ -110,12 +118,28 @@ async function checkStatus() {
   $axios.get('checkout-session', {params: {session_id, order_id}})
       .then(({data: {data}}) => {
 
-        console.log(120,{data}, setPaymentDetails(data));
+        useCartStore().fetchCart();
+        $statusText.value = t('Thank you Your order have been received !');
+        toast.success($statusText.value);
 
         return data;
       })
+      .catch((error) => {
+        console.error(error);
+        let message = error?.response?.data?.message;
+        if (message) {
+          $statusText.value = message;
+          toast.error(message);
+        }
+      })
+      .finally(() => {
+        if (status === 'cancelled') {
+          setTimeout(() => {
+            router.push('/checkout');
+          }, 1000);
+        }
+      });
 }
-
 </script>
 
 
