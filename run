@@ -1,3 +1,8 @@
 nvm use 18
 alias run="nrd"
+
+# start bash -c ./run-server &
+# start nrd &
+
 nrd
+# & . ./run-server

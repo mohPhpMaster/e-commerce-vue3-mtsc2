@@ -29,7 +29,10 @@ export default defineNuxtPlugin((nuxtApp) => {
         stop();
         if (error?.response?.status === 401) {
             try {
-                return nuxtApp.$router.push('/login'); // Ensure using `nuxtApp` instance
+                if (nuxtApp.$router.currentRoute.value.path !== '/login')
+                {
+                    return nuxtApp.$router.push('/login');
+                }
             } catch (e) {
                 console.error(e);
             }
@@ -61,7 +64,9 @@ export default defineNuxtPlugin((nuxtApp) => {
             stop();
             if (response?.status === 401) {
                 try {
-                    return nuxtApp.$router.push('/login'); // Ensure using `nuxtApp` instance
+                    if (nuxtApp.$router.currentRoute.value.path !== '/login') {
+                        return nuxtApp.$router.push('/login');
+                    }
                 } catch (e) {
                     console.error(e);
                 }

@@ -1,6 +1,9 @@
 export default defineNuxtPlugin(async (nuxtApp) => {
     const getDefaultLocale = () => nuxtApp?.$i18n?.getLocaleCookie() || nuxtApp?.$i18n?.locale?.value || nuxtApp?.$settings?.locale || nuxtApp?.$i18n.defaultLocale || nuxtApp.$axios.headerLanguage.value;
 
+    const localTranslations = ref({
+        [getDefaultLocale()]: (await import(`@/locales/${getDefaultLocale()}.json`)).default
+    });
     try {
         const {
             data: translationData,
@@ -9,7 +12,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
             nuxtApp
                 .$axios
                 .get('translations', {
-                    baseURL: "http://localhost:3000/api",
+                    // baseURL: "http://localhost:3000/api",
                     headers: {
                         'Accept-Language': getDefaultLocale(),
                         'language': getDefaultLocale(),
@@ -17,7 +20,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
                 })
                 .then(res => {
                     return {
-                        [getDefaultLocale()]: (res?.data?.data || {})
+                        [getDefaultLocale()]: ({
+                            ...localTranslations.value[getDefaultLocale()],
+                            ...(res?.data?.data || {})
+                        })
                     };
                 })
         );
@@ -25,13 +31,13 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         if (translationError.value) {
             throw translationError.value;
         }
-
-        nuxtApp.provide('translations', translationData);
+        localTranslations.value = {
+            ...localTranslations.value,
+            ...translationData.value
+        };
+        // nuxtApp.provide('translations', localTranslations);
     } catch (error) {
-        nuxtApp.provide('translations', {
-            [getDefaultLocale()]: (await import(`@/locales/${getDefaultLocale()}.json`)).default
-        });
-
-        console.error('Failed to load translations:', error);
     }
+
+    nuxtApp.provide('translations', localTranslations);
 });
